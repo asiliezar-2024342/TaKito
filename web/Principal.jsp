@@ -18,29 +18,84 @@
 </head>
 <body>
     <!-- HEADER -->
-    <div class="barra-container position-relative">
-  
-        <div class="barra-naranja d-flex justify-content-end align-items-center">
-            <div class="iconos-derecha d-flex align-items-center">
-              <i class="fas fa-user-circle"></i>
-              <div class="position-relative ml-3">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="badge">0</span>
-              </div>
+    <header>
+        <section>
+            <div class="header-buttons">
+                <button class="header-buttons__btn" title="Usuario">
+                    <img class="header-buttons__icon" src="./img/usuario.png" alt="Usuario" />
+                    <span class="header-buttons__user">juan@example.com</span>
+                </button>
+                <button class="header-buttons__btn header-buttons__btn--cart" title="Carrito">
+                    <img class="header-buttons__icon" src="./img/carrito.png" alt="Carrito" />
+                    <span class="header-buttons__badge">1</span>
+                </button>
             </div>
-        </div>
 
-        <img src="img/Imagen.png" alt="Logo Ta'Kabrón" class="logo-flotante" />
-
-        <div class="barra-clara">
-            <nav class="nav-right ml-auto d-flex">
-              <a href="#"><i class="fas fa-home"></i> Inicio</a>
-              <a href="#"><i class="fas fa-pepper-hot"></i> Ta'Kabrón</a>
-              <a href="#"><i class="fas fa-utensils"></i> Ordenar</a>
-              <a href="#"><i class="fas fa-gift"></i> Promociones</a>
-            </nav>
-        </div>
-    </div>
+            <div class="menu">
+                <input class="menu__toggle" type="checkbox" id="menu-toggle" />
+                <label class="menu__btn" for="menu-toggle">
+                    <span class="menu__btn-icon"></span>
+                </label>
+                
+                <div class="main-title">
+                    <h1 class="main-title__text">Ta'Kabrón</h1>
+                </div>
+                
+                <ul class="menu__box">
+                    <li><img class="menu__logo" src="./img/Logo.png" alt="Logo" /></li>
+                    <li>
+                        <a class="menu__item" href="#">
+                            <img class="icono" src="./img/Inicio.png" alt="Inicio"/>
+                            Inicio
+                        </a>
+                    </li>
+                    <li class="menu__item--dropdown">
+                        <a class="menu__item" href="#">
+                            <img class="icono" src="./img/Gestionar.png" alt="Gestionar">
+                            Gestionar
+                        </a>
+                        <div class="dropdown__content">
+                            <a href="#">Sucursal</a>
+                            <a href="#">Cliente</a>
+                            <a href="#">Empleado</a>
+                            <a href="#">Usuario</a>
+                            <a href="#">Combo</a>
+                            <a href="#">Producto</a>
+                            <a href="#">Pedido</a>
+                            <a href="#">Factura</a>
+                            <a href="#">Promoción</a>
+                            <a href="#">Reseña</a>
+                            <a href="#">Bitácora</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="menu__item" href="#">
+                            <img class="icono" src="./img/Menu.png" alt="Inicio"/>
+                            Menú
+                        </a>
+                    </li>
+                    <li>
+                        <a class="menu__item" href="#">
+                            <img class="icono" src="./img/Promociones.png" alt="Inicio"/>
+                            Promociones
+                        </a>
+                    </li>
+                    <li>
+                        <a class="menu__item" href="#">
+                            <img class="icono" src="./img/Ubicacion.png" alt="Inicio"/>
+                            Ubicaciones
+                        </a>
+                    </li>
+                    <li>
+                        <a class="menu__item" href="#">
+                            <img class="icono" src="./img/Pedido.png" alt="Inicio"/>
+                            Hacer Pedido
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </header>
     
      <!-- CARRUSEL -->
     <section>
