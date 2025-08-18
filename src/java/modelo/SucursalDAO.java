@@ -9,102 +9,120 @@ import java.util.List;
 
 public class SucursalDAO {
 
-    Connection cn = Conexion.getInstance().getConexion();
+    Conexion cn = Conexion.getInstance();
+    Connection con;
     PreparedStatement ps;
     ResultSet rs;
+    int resp;
 
-    private void createSucursal(Sucursal sucursal) throws Exception {
-        sucursal.setCodigoSucursal(rs.getInt("codigoSucursal"));
-        sucursal.setUbicacionSucursal(rs.getString("ubicacionSucursal"));
-        sucursal.setTelefonoSucursal(rs.getString("telefonoSucursal"));
-        sucursal.setNombreSucursal(rs.getString("nombreSucursal"));
-        sucursal.setFuncionamiento(Sucursal.Funcionamiento.valueOf(rs.getString("funcionamiento")));
-        sucursal.setEstado(Sucursal.Estado.valueOf(rs.getString("estado")));
+    // Metodos del crud 
+    /*Lista Sucursal*/
+    public List Listar() {
+        String sql = "SELECT * FROM Sucursal WHERE estado = 'Activo'";
+        List<Sucursal> listaSucursal = new ArrayList<>();
+        try {
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Sucursal su = new Sucursal();
+                su.setCodigoSucursal(rs.getInt(1));
+                su.setUbicacionSucursal(rs.getString(2));
+                su.setTelefonoSucursal(rs.getString(3));
+                su.setNombreSucursal(rs.getString(4));
+                su.setFuncionamiento(Sucursal.Funcionamiento.valueOf(rs.getString(5)));
+                su.setEstado(Sucursal.Estado.valueOf(rs.getString(6)));
+                listaSucursal.add(su);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listaSucursal;
+
     }
 
-    private void preparedSQL(Sucursal sucursal, String sql) throws Exception {
-        ps = cn.prepareStatement(sql);
-        ps.setString(1, sucursal.getUbicacionSucursal());
-        ps.setString(2, sucursal.getTelefonoSucursal());
-        ps.setString(3, sucursal.getNombreSucursal());
-        ps.setString(4, sucursal.getFuncionamiento().name());
-        ps.setString(5, sucursal.getEstado().name());
-    }
-
-     
-    public int agregar(Sucursal sucursal) {
-        int resultado = 0;
+    /*Listar Sucursal*/
+    public int Agregar(Sucursal su) {
         String sql = "INSERT INTO Sucursal (ubicacionSucursal, telefonoSucursal, nombreSucursal, funcionamiento, estado) "
                 + "VALUES (?, ?, ?, ?, ?)";
-
         try {
-            preparedSQL(sucursal, sql);
-            resultado = ps.executeUpdate();
+
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, su.getUbicacionSucursal());
+            ps.setString(2, su.getTelefonoSucursal());
+            ps.setString(3, su.getNombreSucursal());
+            ps.setString(4, su.getFuncionamiento().name());
+            ps.setString(5, su.getEstado().name());
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-        }
 
-        return resultado;
+        }
+        return resp;
     }
 
-
-    public List<Sucursal> listar() {
-        String sql = "SELECT * FROM Sucursal WHERE estado = 'Activo'";
-        List<Sucursal> lista = new ArrayList<>();
-
+    //  BUSCAR SUCRUSAL 
+    public int listarCodigoSucursal(int id) {
+        String sql = "SELECT * FROM Sucursal WHERE codigoSucursal = ? AND estado = 'Activo'";
         try {
-            ps = cn.prepareStatement(sql);
-            rs = ps.executeQuery();
+            Sucursal su = new Sucursal();
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
 
             while (rs.next()) {
-                Sucursal sucursal = new Sucursal();
-                createSucursal(sucursal);
-                lista.add(sucursal);
+                su.setUbicacionSucursal(rs.getString(2));
+                su.setTelefonoSucursal(rs.getString(3));
+                su.setNombreSucursal(rs.getString(4));
+                su.setFuncionamiento(Sucursal.Funcionamiento.valueOf(rs.getString(5)));
+                su.setEstado(Sucursal.Estado.valueOf(rs.getString(6)));
+
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return resp;
 
-        return lista;
     }
 
-    
-    public Sucursal buscar(int codigoSucursal) {
-        Sucursal sucursal = null;
-        String sql = "SELECT * FROM Sucursal WHERE codigoSucursal = ? AND estado = 'Activo'";
+    // EDITAR
+    public int Actualizar(Sucursal su) {
+        String sql = "update Sucursal set ubicacionSucursal = ?,"
+                + "telefonoSucursal = ?, nombreSucursal = ?,"
+                + "funcionamiento = ?, estado = ? where codigoSucursal = ?";
 
         try {
-            ps = cn.prepareStatement(sql);
-            ps.setInt(1, codigoSucursal);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                sucursal = new Sucursal();
-                createSucursal(sucursal);
-            }
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, su.getUbicacionSucursal());
+            ps.setString(2, su.getTelefonoSucursal());
+            ps.setString(3, su.getNombreSucursal());
+            ps.setString(4, su.getFuncionamiento().name());
+            ps.setString(5, su.getEstado().name());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return sucursal;
+        return resp;
     }
 
-   
-    public int eliminar(int codigoSucursal) {
-        int resultado = 0;
+    public int Eliminar(int id) {
         String sql = "UPDATE Sucursal SET estado = 'Inactivo' WHERE codigoSucursal = ? AND estado = 'Activo'";
 
         try {
-            ps = cn.prepareStatement(sql);
-            ps.setInt(1, codigoSucursal);
-            resultado = ps.executeUpdate();
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return resultado;
+        return resp;
     }
-}
+
+} 
