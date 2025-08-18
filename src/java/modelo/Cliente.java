@@ -1,9 +1,5 @@
 package modelo;
 
-/**
- *
- * @author Oscar Sicajau
- */
 public class Cliente {
 
     public enum SexoCliente {

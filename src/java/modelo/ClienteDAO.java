@@ -12,7 +12,8 @@ public class ClienteDAO {
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
-
+    int resp;
+        
     /*  Listar Clientes Activos */
     public List<Cliente> listar() {
         String sql = "SELECT * FROM cliente WHERE estado = 'Activo'";
