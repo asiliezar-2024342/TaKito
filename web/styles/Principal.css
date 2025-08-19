@@ -542,4 +542,12 @@ body {
     height: 100dvh;
     width: 100dvw;
 }
+
+.carrusel{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100dvh;
+    width: 100dvw;
+}
 /* -*-*-*-*-*-*-*-*-*- FRAME FINAL SECTION -*-*-*-*-*-*-*-*-*-  */
