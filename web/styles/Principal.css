@@ -1,3 +1,4 @@
+/**-*-*-*-*-*-*-*  PRINCIPAL SECTION  -*-*-*-*-*-*-*-*-*-*-*-*-**/
 * {
     margin: 0;
     padding: 0;
@@ -530,3 +531,15 @@ body {
         font-size: 1.5rem;
     }
 }
+/**-*-*-*-*-*-*-*  PRINCIPAL SECTION END -*-*-*-*-*-*-*-*-*-*-*-*-**/
+/* -*-*-*-*-*-*-*-*-*- FRAME SECTION -*-*-*-*-*-*-*-*-*-  */
+.frame{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    top: 0;
+    position: absolute;
+    height: 100dvh;
+    width: 100dvw;
+}
+/* -*-*-*-*-*-*-*-*-*- FRAME FINAL SECTION -*-*-*-*-*-*-*-*-*-  */
