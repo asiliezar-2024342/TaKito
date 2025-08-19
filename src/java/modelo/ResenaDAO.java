@@ -18,8 +18,8 @@ public class ResenaDAO {
     // Método para crear una reseña a partir de datos
     private void createResena(Resena resena) throws Exception {
         resena.setCodigoResena(rs.getInt("codigoResena"));
-        resena.setTipoResena(Resena.TipoResena.valueOf(
-                rs.getString("tipoResena")));
+        resena.setTipo(Resena.Tipo.valueOf(
+                rs.getString("tipo")));
         resena.setTituloResena(rs.getString("tituloResena"));
         resena.setComentarioResena(rs.getString(
                 "comentarioResena"));
@@ -35,7 +35,7 @@ public class ResenaDAO {
     // Método para preparar la consulta SQL
     private void preparedSQL(Resena resena, String sql) throws Exception {
         ps = cn.prepareStatement(sql);
-        ps.setString(1, resena.getTipoResena().name());
+        ps.setString(1, resena.getTipo().name());
         ps.setString(2, resena.getTituloResena());
         ps.setString(3, resena.getComentarioResena());
         ps.setInt(4, resena.getCalificacionResena());
@@ -47,7 +47,7 @@ public class ResenaDAO {
 
     // Método para agregar una reseña
     public int agregar(Resena resena) {
-        String sql = "Insert into Resena (tipoResena, tituloResena, "
+        String sql = "Insert into Resena (tipo, tituloResena, "
                 + "comentarioResena, calificacionResena, estado,"
                 + " codigoSucursal, codigoUsuario) values (?, ?, ?, ?, ?, ?, ?)";
 
@@ -63,7 +63,7 @@ public class ResenaDAO {
 
     // Método para listar todas las reseñas
     public List listar() {
-        String sql = "Select * from Resena and estado = 'Activo'";
+        String sql = "Select * from Resena where estado = 'Activo'";
         List<Resena> listaResena = new ArrayList<>();
         try {
             ps = cn.prepareStatement(sql);
@@ -104,7 +104,7 @@ public class ResenaDAO {
 
     // Método para actulizar una reseña
     public int actualizar(Resena resena) {
-        String sql = "Update Resena set tipoResena = ?, tituloResena = ?, "
+        String sql = "Update Resena set tipo = ?, tituloResena = ?, "
                 + "comentarioResena = ?," +
                 " calificacionResena = ?, estado = ?," + " codigoSucursal = ?," +
                 " codigoUsuario = ? where codigoResena = ?";

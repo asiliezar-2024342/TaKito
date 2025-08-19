@@ -1,5 +1,6 @@
 package modelo;
 
+import java.io.InputStream;
 import java.sql.Date;
 
 public class Usuario {
@@ -7,14 +8,14 @@ public class Usuario {
     private String correoUsuario;
     private String contrasenaUsuario;
     private Date fechaRegistro;
-    private byte[] foto;
+    private InputStream foto;
     private String cargo;
     private String estado;
 
     public Usuario() {
     }
 
-    public Usuario(int codigoUsuario, String correoUsuario, String contrasenaUsuario, Date fechaRegistro, byte[] foto, String cargo, String estado) {
+    public Usuario(int codigoUsuario, String correoUsuario, String contrasenaUsuario, Date fechaRegistro, InputStream foto, String cargo, String estado) {
         this.codigoUsuario = codigoUsuario;
         this.correoUsuario = correoUsuario;
         this.contrasenaUsuario = contrasenaUsuario;
@@ -56,11 +57,11 @@ public class Usuario {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public byte[] getFoto() {
+    public InputStream getFoto() {
         return foto;
     }
 
-    public void setFoto(byte[] foto) {
+    public void setFoto(InputStream foto) {
         this.foto = foto;
     }
 

@@ -2,12 +2,12 @@ package modelo;
 
 public class Resena {
 
-    public enum TipoResena {Sucursal, Empleado, Producto}
+    public enum Tipo {Sucursal, Empleado, Producto}
 
     public enum Estado {Activo, Inactivo}
 
     private int codigoResena;
-    private TipoResena tipoResena;
+    private Tipo tipo;
     private String tituloResena;
     private String comentarioResena;
     private int calificacionResena;
@@ -18,10 +18,10 @@ public class Resena {
     public Resena() {
     }
 
-    public Resena(int codigoResena, TipoResena tipoResena, String tituloResena, String comentarioResena,
+    public Resena(int codigoResena, Tipo tipoResena, String tituloResena, String comentarioResena,
                   int calificacionResena, Estado estado, int codigoSucursal, int codigoUsuario) {
         this.codigoResena = codigoResena;
-        this.tipoResena = tipoResena;
+        this.tipo = tipoResena;
         this.tituloResena = tituloResena;
         this.comentarioResena = comentarioResena;
         this.calificacionResena = calificacionResena;
@@ -38,12 +38,12 @@ public class Resena {
         this.codigoResena = codigoResena;
     }
 
-    public TipoResena getTipoResena() {
-        return tipoResena;
+    public Tipo getTipo() {
+        return tipo;
     }
 
-    public void setTipoResena(TipoResena tipoResena) {
-        this.tipoResena = tipoResena;
+    public void setTipo(Tipo tipoResena) {
+        this.tipo = tipoResena;
     }
 
     public String getTituloResena() {
