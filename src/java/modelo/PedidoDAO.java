@@ -114,9 +114,9 @@ public class PedidoDAO {
             ps.setTime(4, pe.getHoraProgramado());
             ps.setString(5, pe.getUbicacionPedido());
             ps.setString(6, pe.getTipoPedido().name());
-            ps.setString(6, pe.getEstado().name());
-            ps.setInt(6, pe.getCodigoSucursal());
-            ps.setInt(6, pe.getCodigoCliente());
+            ps.setString(7, pe.getEstado().name());
+            ps.setInt(8, pe.getCodigoSucursal());
+            ps.setInt(9, pe.getCodigoCliente());
             ps.executeUpdate();
             
         }catch(Exception e){
