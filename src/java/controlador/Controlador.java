@@ -104,7 +104,7 @@ public class Controlador extends HttpServlet {
                     Resena.Tipo tipoA = Resena.Tipo.valueOf(request.getParameter("txtTipo"));
                     String tituloA = request.getParameter("txtTitulo");
                     String comentarioA = request.getParameter("txtComentario");
-                    
+
                     int calificacionA = Integer.parseInt(request.getParameter("txtCalificacion"));
                     Resena.Estado estadoA = Resena.Estado.valueOf(request.getParameter("txtEstado"));
                     int sucursalA = Integer.parseInt(request.getParameter("txtSucursal"));
@@ -137,57 +137,93 @@ public class Controlador extends HttpServlet {
 
         } else if (menu.equals("Producto")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Producto.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Producto&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Producto.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Bitacora")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Bitacora.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Bitacora&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Bitacora.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Cliente")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Cliente.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Cliente&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Cliente.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Pedido")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Pedido.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Pedido&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Pedido.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Empleado")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Empleado.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Empleado&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Empleado.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Sucursal")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Sucursal.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Sucursal&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Sucursal.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Factura")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Factura.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Factura&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Factura.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Combo")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Combo.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Combo&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Combo.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Promocion")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Promocion.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Promocion&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Promocion.jsp").forward(request, response);
+            }
 
         }
     }

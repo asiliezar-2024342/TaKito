@@ -52,17 +52,17 @@
                                 Gestionar
                             </a>
                             <div class="dropdown__content">
-                                <a href="Controlador?menu=Sucursal&accion=Listar" target="myFrame" >Sucursal</a>
-                                <a href="Controlador?menu=Cliente&accion=Listar" target="myFrame" >Cliente</a>
-                                <a href="Controlador?menu=Empleado&accion=Listar" target="myFrame" >Empleado</a>
-                                <a href="Controlador?menu=Usuario&accion=Listar" target="myFrame" >Usuario</a>
-                                <a href="Controlador?menu=Combo&accion=Listar" target="myFrame" >Combo</a>
-                                <a href="Controlador?menu=Producto&accion=Listar" target="myFrame" >Producto</a>
-                                <a href="Controlador?menu=Pedido&accion=Listar" target="myFrame" >Pedido</a>
-                                <a href="Controlador?menu=Factura&accion=Listar" target="myFrame" >Factura</a>
-                                <a href="Controlador?menu=Promocion&accion=Listar" target="myFrame" >Promoción</a>
+                                <a href="Controlador?menu=Sucursal&accion=Mover" target="myFrame" >Sucursal</a>
+                                <a href="Controlador?menu=Cliente&accion=Mover" target="myFrame" >Cliente</a>
+                                <a href="Controlador?menu=Empleado&accion=Mover" target="myFrame" >Empleado</a>
+                                <a href="Controlador?menu=Usuario&accion=Mover" target="myFrame" >Usuario</a>
+                                <a href="Controlador?menu=Combo&accion=Mover" target="myFrame" >Combo</a>
+                                <a href="Controlador?menu=Producto&accion=Mover" target="myFrame" >Producto</a>
+                                <a href="Controlador?menu=Pedido&accion=Mover" target="myFrame" >Pedido</a>
+                                <a href="Controlador?menu=Factura&accion=Mover" target="myFrame" >Factura</a>
+                                <a href="Controlador?menu=Promocion&accion=Mover" target="myFrame" >Promoción</a>
                                 <a href="Controlador?menu=Resena&accion=Mover" target="myFrame">Reseña</a>
-                                <a href="Controlador?menu=Bitacora&accion=Listar" target="myFrame">Bitácora</a>
+                                <a href="Controlador?menu=Bitacora&accion=Mover" target="myFrame">Bitácora</a>
                             </div>
                         </li>
                         <li>
