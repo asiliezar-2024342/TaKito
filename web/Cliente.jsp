@@ -116,12 +116,14 @@
                                     <img src="img/usuario.png" alt="Usuario">
                                     <label><strong>Usuario </strong></label>
                                     <input type="number" value="${cliente.getCodigoUsuario()}" name="txtcodigoUsuario">
-                                    <a href="../src/java/modelo/Cliente.java"></a>
                                 </div>
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Estado">
                                     <label><strong>Estado: </strong></label>
-                                    <input type="text" value="${cliente.getEstado()}" name="txtEstadoCliente">
+                                    <select name="txtEstadoCliente" class="select">
+                                        <option value="Activo" ${cliente.getEstado() == 'Activo' ? 'selected' : ''}>Activo</option>
+                                        <option value="Inactivo" ${cliente.getEstado() == 'Inactivo' ? 'selected' : ''}>Inactivo</option>
+                                    </select>
                                 </div>
                             </div>
                                 <a href="../src/java/modelo/Resena.java"></a>
