@@ -76,7 +76,10 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Estado">
                                     <label><strong>Estado: </strong></label>
-                                    <input type="text" value="${producto.getEstado()}" name="txtEstado">
+                                    <select name="txtEstado" class="select">
+                                        <option value="Activo" ${producto.getEstado == 'Activo' ? 'selected' : ''}>Activo</option>
+                                        <option value="Inactivo" ${producto.getEstado == 'Inactivo' ? 'selected' : ''}>Inactivo</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="flex-column">
