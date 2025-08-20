@@ -4,6 +4,7 @@
     Author     : angel
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -46,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="empleado" items="${empleados}">
+                    <c:forEach var="empleado" items="${empleados}">
                             <tr>
                                 <td>${empleado.getCodigoEmpleado()}</td>
                                 <td>${empleado.getPrimerNombreEmpleado()}</td>
