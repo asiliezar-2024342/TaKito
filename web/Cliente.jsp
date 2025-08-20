@@ -121,7 +121,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Estado">
                                     <label><strong>Estado: </strong></label>
-                                    <input type="text" value="${cliente.getEstado()}" name="txtestado">
+                                    <input type="text" value="${cliente.getEstado()}" name="txtEstadoCliente">
                                 </div>
                             </div>
                                 <a href="../src/java/modelo/Resena.java"></a>
