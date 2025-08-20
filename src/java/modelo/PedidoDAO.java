@@ -17,7 +17,7 @@ public class PedidoDAO {
     //MÉTODOS DEL CRUD
     //MÉTODO LISTAR
     public List listar(){
-        String sql="select * from pedido";
+        String sql="select * from Pedido where estado = 'Activo'";
         List<Pedido> listaPedido = new ArrayList<>();
         try{
             con = cn.getConexion();
@@ -75,7 +75,7 @@ public class PedidoDAO {
         try{
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
-            rs = ps.executeQuery(sql);
+            rs = ps.executeQuery();
             while(rs.next()){
                 pe.setFechaCreacion(rs.getDate(2));
                 pe.setHoraCreacion(rs.getTime(3));
@@ -96,15 +96,13 @@ public class PedidoDAO {
     
     //MÉTODO EDITAR
     public int actualizar(Pedido pe){
-        String sql = "update pedido set fechaCreacion = ?," 
-                                    +"horaCreacion = ?,"
-                                    +"fechaProgramado = ?,"
-                                    +"horaProgramado = ?,"
-                                    +"ubicacionPedido = ?,"
+        String sql = "update Pedido set fechaCreacion = ?," 
+                                    + "horaCreacion = ?,"
+                                    + "fechaProgramado = ?,"
+                                    + "horaProgramado = ?,"
+                                    + "ubicacionPedido = ?,"
                                     + "tipoPedido = ?,"
-                                    + "estado = ?,"
-                                    + "codigoSucursal = ?,"
-                                    + "codigoCliente = ? where codigoEmpleado = ?";
+                                    + "estado = ? where codigoPedido = ?";
         try{
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
@@ -115,8 +113,7 @@ public class PedidoDAO {
             ps.setString(5, pe.getUbicacionPedido());
             ps.setString(6, pe.getTipoPedido().name());
             ps.setString(7, pe.getEstado().name());
-            ps.setInt(8, pe.getCodigoSucursal());
-            ps.setInt(9, pe.getCodigoCliente());
+            ps.setInt(8, pe.getCodigoPedido());
             ps.executeUpdate();
             
         }catch(Exception e){
@@ -127,7 +124,7 @@ public class PedidoDAO {
     
     //MÉTODO ELIMINAR
     public void eliminar(int id){
-        String sql = "delete from pedido where codigoPedido="+id;
+        String sql = "update Pedido set estado = 'Inactivo' where codigoPedido="+id;
         try{
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
