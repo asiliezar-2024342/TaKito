@@ -50,7 +50,7 @@ public class ClienteDAO {
             String sql = "Insert Into cliente (primerNombreCliente, segundoNombreCliente, "
                     + "primerApellidoCliente, segundoApellidoCliente, telefonoCliente, "
                     + "direccionCliente, sexoCliente, nitCliente, estado, "
-                    + "codigoUsuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "codigoUsuario) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try{
                 preparedSQL(cliente,sql);
                 ps.executeUpdate();
@@ -101,7 +101,9 @@ public class ClienteDAO {
         
     /* Actualizar Cliente */
     public int actualizar(Cliente cliente){
-        String sql = "update cliente set primerNombreCliente=?,segundoNombreCliente = ?,primerApellidoCliente = ?,segundoApellidoCliente = ?,telefonoCliente = ?,direccionCliente = ?,sexoCliente = ?,nitCliente = ?,estado = ?,codigoUsuario = ? where codigoCliente = ?";
+        String sql = "update cliente set primerNombreCliente=?,segundoNombreCliente = ?,"
+                + "primerApellidoCliente = ?,segundoApellidoCliente = ?,telefonoCliente = ?,"
+                + "direccionCliente = ?,sexoCliente = ?,nitCliente = ?,estado = ?,codigoUsuario =? where codigoCliente = ?";
         
         try{
             preparedSQL(cliente, sql);
