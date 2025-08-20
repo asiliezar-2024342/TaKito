@@ -9,31 +9,56 @@ import java.util.List;
 
 public class SucursalDAO {
 
-    Conexion cn = Conexion.getInstance();
-    Connection con;
+    Connection cn = Conexion.getInstance().getConexion();
     PreparedStatement ps;
     ResultSet rs;
     int resp;
 
-    // Metodos del crud 
-    /*Lista Sucursal*/
-    public List Listar() {
+    private void createSucursal(Sucursal sucursal) throws Exception {
+        sucursal.setCodigoSucursal(rs.getInt("codigoSucursal"));
+        sucursal.setUbicacionSucursal(rs.getString("ubicacionSucursal"));
+        sucursal.setTelefonoSucursal(rs.getString("telefonoSucursal"));
+        sucursal.setNombreSucursal(rs.getString("nombreSucursal"));
+        sucursal.setFuncionamiento(Sucursal.Funcionamiento.valueOf(rs.getString("funcionamiento")));
+        sucursal.setEstado(Sucursal.Estado.valueOf(rs.getString("estado")));
+    }
+
+    private void preparedSQL(Sucursal sucursal, String sql) throws Exception {
+        ps = cn.prepareStatement(sql);
+        ps.setString(1, sucursal.getUbicacionSucursal());
+        ps.setString(2, sucursal.getTelefonoSucursal());
+        ps.setString(3, sucursal.getNombreSucursal());
+        ps.setString(4, sucursal.getFuncionamiento().name());
+        ps.setString(5, sucursal.getEstado().name());
+    }
+
+    public int Agregar(Sucursal sucursal) {
+        int resultado = 0;
+        String sql = "INSERT INTO Sucursal (ubicacionSucursal, telefonoSucursal, nombreSucursal, funcionamiento, estado) "
+                + "VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            preparedSQL(sucursal, sql);
+            resultado = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return resultado;
+    }
+
+    public List<Sucursal> listar() {
         String sql = "SELECT * FROM Sucursal WHERE estado = 'Activo'";
         List<Sucursal> listaSucursal = new ArrayList<>();
-        try {
-            con = cn.getConexion();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Sucursal su = new Sucursal();
-                su.setCodigoSucursal(rs.getInt(1));
-                su.setUbicacionSucursal(rs.getString(2));
-                su.setTelefonoSucursal(rs.getString(3));
-                su.setNombreSucursal(rs.getString(4));
-                su.setFuncionamiento(Sucursal.Funcionamiento.valueOf(rs.getString(5)));
-                su.setEstado(Sucursal.Estado.valueOf(rs.getString(6)));
-                listaSucursal.add(su);
 
+        try {
+            ps = cn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Sucursal sucursal = new Sucursal();
+                createSucursal(sucursal);
+                listaSucursal.add(sucursal);
             }
 
         } catch (Exception e) {
@@ -41,88 +66,55 @@ public class SucursalDAO {
         }
 
         return listaSucursal;
-
     }
 
-    /*Listar Sucursal*/
-    public int Agregar(Sucursal su) {
-        String sql = "INSERT INTO Sucursal (ubicacionSucursal, telefonoSucursal, nombreSucursal, funcionamiento, estado) "
-                + "VALUES (?, ?, ?, ?, ?)";
-        try {
-
-            con = cn.getConexion();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, su.getUbicacionSucursal());
-            ps.setString(2, su.getTelefonoSucursal());
-            ps.setString(3, su.getNombreSucursal());
-            ps.setString(4, su.getFuncionamiento().name());
-            ps.setString(5, su.getEstado().name());
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return resp;
-    }
-
-    //  BUSCAR SUCRUSAL 
-    public int listarCodigoSucursal(int id) {
+    public Sucursal Buscar(int codigoSucursal) {
+        Sucursal sucursal = new Sucursal();
         String sql = "SELECT * FROM Sucursal WHERE codigoSucursal = ? AND estado = 'Activo'";
+
         try {
-            Sucursal su = new Sucursal();
-            con = cn.getConexion();
-            ps = con.prepareStatement(sql);
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, codigoSucursal);
+            rs = ps.executeQuery();
 
-            while (rs.next()) {
-                su.setUbicacionSucursal(rs.getString(2));
-                su.setTelefonoSucursal(rs.getString(3));
-                su.setNombreSucursal(rs.getString(4));
-                su.setFuncionamiento(Sucursal.Funcionamiento.valueOf(rs.getString(5)));
-                su.setEstado(Sucursal.Estado.valueOf(rs.getString(6)));
-
+            if (rs.next()) {
+                sucursal = new Sucursal();
+                createSucursal(sucursal);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return resp;
 
+        return sucursal;
     }
 
-    // EDITAR
-    public int Actualizar(Sucursal su) {
+    public int Actualizar(Sucursal sucursal) {
         String sql = "update Sucursal set ubicacionSucursal = ?,"
                 + "telefonoSucursal = ?, nombreSucursal = ?,"
                 + "funcionamiento = ?, estado = ? where codigoSucursal = ?";
 
         try {
-            con = cn.getConexion();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, su.getUbicacionSucursal());
-            ps.setString(2, su.getTelefonoSucursal());
-            ps.setString(3, su.getNombreSucursal());
-            ps.setString(4, su.getFuncionamiento().name());
-            ps.setString(5, su.getEstado().name());
-
+            preparedSQL(sucursal, sql);
+            ps.setInt(6, sucursal.getCodigoSucursal());
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return resp;
     }
 
-    public int Eliminar(int id) {
-        String sql = "UPDATE Sucursal SET estado = 'Inactivo' WHERE codigoSucursal = ? AND estado = 'Activo'";
+    public void Eliminar(int codigoSucursal) {
+        String sql = "UPDATE Sucursal SET estado = 'Inactivo' WHERE codigoSucursal = ?";
 
         try {
-            con = cn.getConexion();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, codigoSucursal);
             ps.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return resp;
+ 
     }
-
-} 
+}
