@@ -77,8 +77,8 @@
                                     <img src="img/icon-estado.jpg" alt="Estado">
                                     <label><strong>Estado: </strong></label>
                                     <select name="txtEstado" class="select">
-                                        <option value="Activo" ${producto.getEstado == 'Activo' ? 'selected' : ''}>Activo</option>
-                                        <option value="Inactivo" ${producto.getEstado == 'Inactivo' ? 'selected' : ''}>Inactivo</option>
+                                        <option value="Activo" ${producto.estado == 'Activo' ? 'selected' : ''}>Activo</option>
+                                        <option value="Inactivo" ${producto.estado == 'Inactivo' ? 'selected' : ''}>Inactivo</option>
                                     </select>
                                 </div>
                             </div>
