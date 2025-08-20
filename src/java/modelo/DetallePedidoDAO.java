@@ -65,11 +65,11 @@ public class DetallePedidoDAO {
     //BUSCAR POR CÓDIGO
     public DetallePedido listarCodigoDetallePedido(int id){
         DetallePedido depe = new DetallePedido();
-        String sql = "Select * from DetallePedido where codigoDetallePedido= "+id;
+        String sql = "Select * from DetallePedido where codigoDetallePedido="+id;
         try{
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
-            rs = ps.executeQuery(sql);
+            rs = ps.executeQuery();
             while(rs.next()){
                 depe.setInstrucciones(rs.getString(2));
                 depe.setCantidad(rs.getInt(3));
@@ -89,19 +89,14 @@ public class DetallePedidoDAO {
     public int actualizar(DetallePedido depe){
         String sql = "update detallePedido set instrucciones = ?," 
                                     +"cantidad = ?,"
-                                    +"subtotal = ?,"
-                                    +"codigoPedido = ?,"
-                                    +"codigoCombo = ?,"
-                                    +"codigoPromocion = ? where codigoEmpleado = ?";
+                                    +"subtotal = ? where codigoDetallePedido= ?";
         try{
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
             ps.setString(1, depe.getInstrucciones());
             ps.setInt(2, depe.getCantidad());
             ps.setDouble(3, depe.getSubTotal());
-            ps.setInt(4, depe.getCodigoPedido());
-            ps.setInt(5, depe.getCodigoCombo());
-            ps.setInt(6, depe.getCodigoPromocion());
+            ps.setInt(4, depe.getCodigoDetallePedido());
             ps.executeUpdate();
             
         }catch(Exception e){
