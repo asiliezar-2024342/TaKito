@@ -35,10 +35,10 @@
                                 <td>${producto.getExistencias()}</td>
                                 <td>${producto.getEstado()}</td>
                                 <td>
-                                    <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Resena&accion=Editar&codigoResena=${resena.getCodigoResena()}">
+                                    <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Producto&accion=Editar&codigoProducto=${producto.getCodigoProducto()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Resena&accion=Eliminar&codigoResena=${resena.getCodigoResena()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Producto&accion=Eliminar&codigoProducto=${producto.getCodigoProducto()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -51,7 +51,7 @@
             <div class="form-section">
                 <div class="form-layout">
                     <div class="form-container">
-                        <form class="flex-column" style="flex-direction: row;" action="Controlador?menu=Resena" method="POST">
+                        <form class="flex-column" style="flex-direction: row;" action="Controlador?menu=Producto" method="POST">
                             <div>
                                 <div class="form-row">
                                     <img src="img/titulo.png" alt="Nombre">
