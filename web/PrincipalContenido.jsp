@@ -61,7 +61,7 @@
                     <div class="contact__horario">
                         <h3>Horarios de atención</h3>
                         <p>Lunes - Domingo</p>
-                        <p>Atendemos de 8am - 8p. ¡Que esperas para disfrutar!</p>
+                        <p>Atendemos las 24hrs. ¡Que esperas para disfrutar!</p>
                     </div>
                     <div class="contact__direccion">
                         <h3>Dirección</h3>
