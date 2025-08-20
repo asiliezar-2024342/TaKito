@@ -15,8 +15,8 @@
     <body>
 
         <!-- CARRUSEL -->
-        <div class="carusel" style="height: 55dvh; width: 100dvw; ">
-            <iframe style="height: 100%; width: 100%; box-sizing: border-box; border:none; " src="Carrusel.jsp" name="myFrame"></iframe>
+        <div class="carusel" style="height: 75dvh; width: 100dvw;">
+            <iframe style="height: 100%; width: 100%; box-sizing: border-box; border:none;" src="Carrusel.jsp" name="myFrame"></iframe>
         </div>
 
         <!-- QUIENES SOMOS -->

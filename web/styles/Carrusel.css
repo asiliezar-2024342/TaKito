@@ -1,7 +1,7 @@
 .carrusel {
-    width: 100%;          /* Ocupa todo el ancho de la pantalla */
+    width: 85%;          /* Ocupa todo el ancho de la pantalla */
     height: 400px;        /* Altura fija */
-    margin: 0;
+    margin-left: 85px;
     overflow: hidden;
     position: relative;
     border: 3px solid #ff6600;

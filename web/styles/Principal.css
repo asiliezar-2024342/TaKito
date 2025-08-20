@@ -544,10 +544,10 @@ body {
 }
 
 .carrusel{
-    margin: 0;
+    margin-left: 85px;
     padding: 0;
     box-sizing: border-box;
     height: 100dvh;
-    width: 100dvw;
+    width: 85dvw;
 }
 /* -*-*-*-*-*-*-*-*-*- FRAME FINAL SECTION -*-*-*-*-*-*-*-*-*-  */
