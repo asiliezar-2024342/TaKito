@@ -76,7 +76,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Estado">
                                     <label><strong>Estado: </strong></label>
-                                    <input type="text" value="${resena.getEstado()}" name="txtEstado">
+                                    <input type="text" value="${producto.getEstado()}" name="txtEstado">
                                 </div>
                             </div>
                             <div class="flex-column">
