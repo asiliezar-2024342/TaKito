@@ -14,7 +14,7 @@
         <section class="crud">
             <div class="crud__table">
                 <table>
-                    <thead>
+                    <thead> 
                         <tr>
                             <th>Código</th>
                             <th>Ubicacion</th>
