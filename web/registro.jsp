@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index
-    Created on : 14 jul 2025, 10:40:58
+    Document   : registro.jsp
+    Created on : 18 ago 2025, 00:01:32
     Author     : Javier Paredes
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Iniciar Sesión</title>
+        <title>Registrate</title>
         
         <link rel="stylesheet" href="./styles/index.css">
     </head>
@@ -30,21 +30,21 @@
         <div class="container">
             <div class="form-container">
                 <div class="form-header">
-                    <h2>Iniciar Sesión</h2>
+                    <h2>Registro</h2>
                 </div>
-                <form class="form" action="Validar" method="POST">
+                <form class="form" action="Controlador?menu=Usuario" method="POST">
                     <div class="input-group">
                         <label>Correo</label>
-                        <input type="text" name="txtUser" required>
+                        <input type="email" value="" name="txtCorreoUsuario" required>
                     </div>
                     <div class="input-group">
                         <label>Contraseña</label>
-                        <input type="password" name="txtPass" required>
+                        <input type="password" value="" name="txtContrasenaUsuario" required>
                     </div>
-                    <button type="submit" class="btn-primary" value="Ingresar" name="accion">Iniciar Sesión</button>
+                    <button type="submit" name="accion" value="Agregar" class="btn-primary">Registrarse</button>
                 </form>
                 <div class="form-footer">
-                    <p>¿No tienes cuenta? <a href="registro.jsp">Registrarse</a></p>
+                    <p>¿Ya tienes cuenta? <a href="index.jsp">Iniciar Sesión</a></p>
                 </div>
             </div>
         </div>
