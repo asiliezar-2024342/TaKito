@@ -1,11 +1,16 @@
 package controlador;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Bitacora;
+import modelo.BitacoraDAO;
 import modelo.Resena;
 import modelo.ResenaDAO;
 import modelo.Usuario;
@@ -17,7 +22,10 @@ public class Controlador extends HttpServlet {
     UsuarioDAO usuarioDao = new UsuarioDAO();
     Resena resena = new Resena();
     ResenaDAO resenaDao = new ResenaDAO();
+    Bitacora bitacora = new Bitacora();
+    BitacoraDAO bitacoraDao = new BitacoraDAO();
     int codResena;
+    int codBitacora;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -146,7 +154,66 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Bitacora")) {
-
+            switch (accion) {
+                case "Listar":
+                    List listaBitacora = bitacoraDao.listar();
+                    request.setAttribute("bitacoras", listaBitacora);
+                    break;
+                case "Agregar":
+                    String mensaje = request.getParameter("txtMensaje");
+                    String tablaModificada = request.getParameter("txtTablaModificada");
+                    Date fecha = Date.valueOf(request.getParameter("txtFecha"));
+                    String hora = request.getParameter("txtHora");
+                    LocalTime localTime = LocalTime.parse(hora);
+                    Time horaSql = Time.valueOf(localTime);
+                    String datoAnterior = request.getParameter("txtDatoAnterior");
+                    String datoNuevo = request.getParameter("txtDatoNuevo");
+                    String accionBitacora = request.getParameter("txtAccion");
+                    int codigoUsuario = Integer.parseInt(request.getParameter("txtCodigoUsuario"));
+                    bitacora.setMensaje(mensaje);
+                    bitacora.setTablaModificada(tablaModificada);
+                    bitacora.setFecha(fecha);
+                    bitacora.setHora(horaSql);
+                    bitacora.setDatoAnterior(datoAnterior);
+                    bitacora.setDatoNuevo(datoNuevo);
+                    bitacora.setAccion(accionBitacora);
+                    bitacora.setCodigoUsuario(codigoUsuario);
+                    bitacoraDao.agregar(bitacora);
+                    request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    codBitacora = Integer.parseInt(request.getParameter("codigoBitacora"));
+                    Bitacora bi = bitacoraDao.listarCodigoBitacora(codBitacora);
+                    request.setAttribute("bitacora", bi);
+                    request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    String mensajeBi = request.getParameter("txtMensaje");
+                    String tablaModificadaBi = request.getParameter("txtTablaModificada");
+                    Date fechaBi = Date.valueOf(request.getParameter("txtFecha"));
+                    String horaBi = request.getParameter("txtHora");
+                    LocalTime localTimeBI = LocalTime.parse(horaBi);
+                    Time horaSqlBi = Time.valueOf(localTimeBI);
+                    String datoAnteriorBi = request.getParameter("txtDatoAnterior");
+                    String datoNuevoBi = request.getParameter("txtDatoNuevo");
+                    String accionBi = request.getParameter("txtAccion");
+                    bitacora.setMensaje(mensajeBi);
+                    bitacora.setTablaModificada(tablaModificadaBi);
+                    bitacora.setFecha(fechaBi);
+                    bitacora.setHora(horaSqlBi);
+                    bitacora.setDatoAnterior(datoAnteriorBi);
+                    bitacora.setDatoNuevo(datoNuevoBi);
+                    bitacora.setAccion(accionBi);
+                    bitacora.setCodigoBitacora(codBitacora);
+                    bitacoraDao.actualizar(bitacora);
+                    request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codBitacora = Integer.parseInt(request.getParameter("codigoBitacora"));
+                    bitacoraDao.eliminar(codBitacora);
+                    request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
+                    break;
+            }
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
                 request.setAttribute("jspFinal", "Controlador?menu=Bitacora&accion=Listar");
