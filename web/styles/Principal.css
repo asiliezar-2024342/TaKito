@@ -1,3 +1,4 @@
+/**-*-*-*-*-*-*-*  PRINCIPAL SECTION  -*-*-*-*-*-*-*-*-*-*-*-*-**/
 * {
     margin: 0;
     padding: 0;
@@ -381,6 +382,64 @@ body {
     left: 19%;
 }
 
+/* Css Del Footer */
+.site-footer {
+  background-color: #c1121f ;
+  color: white;
+  padding: 40px 20px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.footer-logo img {
+  height: 100px;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.site-name {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #0077b6 ;
+}
+
+.footer-bottom {
+  border-top: 1px solid white;
+  padding-top: 15px;
+  font-size: 1.0em;
+  color: white;
+}
+
 @media (max-width: 1366px) and (min-width: 768px) {
     .menu__box {
         width: 15%;
@@ -420,6 +479,7 @@ body {
 }
 
 @media (max-height: 768px) {
+    
     body {
         padding-top: 70px;
     }
@@ -529,4 +589,16 @@ body {
     .main-title__text {
         font-size: 1.5rem;
     }
+    
+/**-*-*-*-*-*-*-*  PRINCIPAL SECTION END -*-*-*-*-*-*-*-*-*-*-*-*-**/
+/* -*-*-*-*-*-*-*-*-*- FRAME SECTION -*-*-*-*-*-*-*-*-*-  */
+.frame{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    top: 0;
+    display: block;
+    height: 100dvh;
+    width: 100dvw;
 }
+/* -*-*-*-*-*-*-*-*-*- FRAME FINAL SECTION -*-*-*-*-*-*-*-*-*-  */
