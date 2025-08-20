@@ -1,11 +1,20 @@
 package controlador;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.DetallePedido;
+import modelo.DetallePedidoDAO;
+import modelo.Pedido;
+import modelo.PedidoDAO;
 import modelo.Resena;
 import modelo.ResenaDAO;
 import modelo.Usuario;
@@ -18,6 +27,14 @@ public class Controlador extends HttpServlet {
     Resena resena = new Resena();
     ResenaDAO resenaDao = new ResenaDAO();
     int codResena;
+    
+    Pedido pedido = new Pedido();
+    PedidoDAO pedidoDao = new PedidoDAO();
+    int codPedido;
+    DetallePedido detallePedido = new DetallePedido();
+    DetallePedidoDAO detallePedidoDao = new DetallePedidoDAO();
+    int codDetallePedido;
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -166,7 +183,109 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Pedido")) {
+            
+            switch (accion) {
+                case "Listar":
+                    request.setAttribute("pedidos", pedidoDao.listar());
+                    request.setAttribute("DetallesPedidos", detallePedidoDao.listar());
+                    break;
+                case "Agregar":
+                    Date fechaCreacion = Date.valueOf(request.getParameter("txtFechaCreacion"));
+                    Time horaCreacion = Time.valueOf(request.getParameter("txtHoraCreacion"));
+                    Date fechaProgramado = Date.valueOf(request.getParameter("txtFechaProgramado"));
+                    Time horaProgramado = Time.valueOf(request.getParameter("txtHoraProgramado"));
+                    String ubicacion = request.getParameter("txtUbicacionPedido");
+                    Pedido.TipoPedido tipoPedido = Pedido.TipoPedido.valueOf(request.getParameter("txtTipoPedido"));
+                    Pedido.Estado estado = Pedido.Estado.valueOf(request.getParameter("txtEstado"));
+                    int sucursal = Integer.parseInt(request.getParameter("txtCodigoSucursal"));
+                    int cliente = Integer.parseInt(request.getParameter("txtCodigoCliente"));
+                    
+                    pedido.setFechaCreacion(fechaCreacion); 
+                    pedido.setHoraCreacion(horaCreacion);
+                    pedido.setFechaProgramado(fechaProgramado);
+                    pedido.setHoraProgramado(horaProgramado);
+                    pedido.setUbicacionPedido(ubicacion);
+                    pedido.setTipoPedido(tipoPedido);
+                    pedido.setEstado(estado);
+                    pedido.setCodigoSucursal(sucursal);
+                    pedido.setCodigoCliente(cliente);
+                    pedidoDao.agregar(pedido);
+                    request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
+                    break;
 
+                case "Editar":
+                    codPedido = Integer.parseInt(request.getParameter("codigoPedido"));
+                    Pedido pe = pedidoDao.listarCodigoPedido(codPedido);
+                    request.setAttribute("pedido", pe);
+                    request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    Date fechaCreacion2 = Date.valueOf(request.getParameter("txtFechaCreacion"));
+                    Time horaCreacion2 = Time.valueOf(request.getParameter("txtHoraCreacion"));
+                    Date fechaProgramado2 = Date.valueOf(request.getParameter("txtFechaProgramado"));
+                    Time horaProgramado2 = Time.valueOf(request.getParameter("txtHoraProgramado"));
+                    String ubicacion2 = request.getParameter("txtUbicacionPedido");
+                    Pedido.TipoPedido tipoPedido2 = Pedido.TipoPedido.valueOf(request.getParameter("txtTipoPedido"));
+                    Pedido.Estado estado2 = Pedido.Estado.valueOf(request.getParameter("txtEstado"));
+
+                    pedido.setFechaCreacion(fechaCreacion2); 
+                    pedido.setHoraCreacion(horaCreacion2);
+                    pedido.setFechaProgramado(fechaProgramado2);
+                    pedido.setHoraProgramado(horaProgramado2);
+                    pedido.setUbicacionPedido(ubicacion2);
+                    pedido.setTipoPedido(tipoPedido2);
+                    pedido.setEstado(estado2);
+                    pedido.setCodigoPedido(codPedido);
+                    pedidoDao.actualizar(pedido);
+                    request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codPedido = Integer.parseInt(request.getParameter("codigoPedido"));
+                    pedidoDao.eliminar(codPedido);
+                    request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
+                    break;
+                case "Agregar2":
+                    String instrucciones = request.getParameter("txtInstrucciones");
+                    int cantidad = Integer.parseInt(request.getParameter("txtCantidad"));
+                    Double subTotal = Double.parseDouble(request.getParameter("txtSubTotal"));
+                    int codigoPedido = Integer.parseInt(request.getParameter("txtCodigoPedido"));
+                    int codigoCombo = Integer.parseInt(request.getParameter("txtCodigoCombo"));
+                    int codigoPromocion = Integer.parseInt(request.getParameter("txtCodigoPromocion"));
+                    
+                    detallePedido.setInstrucciones(instrucciones);
+                    detallePedido.setCantidad(cantidad);
+                    detallePedido.setSubTotal(subTotal);
+                    detallePedido.setCodigoPedido(codigoPedido);
+                    detallePedido.setCodigoCombo(codigoCombo);
+                    detallePedido.setCodigoPromocion(codigoPromocion);
+                    detallePedidoDao.agregar(detallePedido);
+                    
+                    request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
+                    break;
+                case "Editar2":
+                    codDetallePedido = Integer.parseInt(request.getParameter("codigoDetallePedido"));
+                    DetallePedido depe = detallePedidoDao.listarCodigoDetallePedido(codDetallePedido);
+                    request.setAttribute("DetallePedido", depe);
+                    request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar2":
+                    String instrucciones2 = request.getParameter("txtInstrucciones");
+                    int cantidad2 = Integer.parseInt(request.getParameter("txtCantidad"));
+                    Double subTotal2 = Double.parseDouble(request.getParameter("txtSubTotal"));
+                    
+                    detallePedido.setInstrucciones(instrucciones2);
+                    detallePedido.setCantidad(cantidad2);
+                    detallePedido.setSubTotal(subTotal2);
+                    detallePedido.setCodigoDetallePedido(codDetallePedido);
+                    detallePedidoDao.actualizar(detallePedido);
+                    request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar2":
+                    codDetallePedido = Integer.parseInt(request.getParameter("codigoDetallePedido"));
+                    detallePedidoDao.eliminar(codDetallePedido);
+                    request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
+                    break;
+            }
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
                 request.setAttribute("jspFinal", "Controlador?menu=Pedido&accion=Listar");
