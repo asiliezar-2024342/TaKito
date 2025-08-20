@@ -10,6 +10,8 @@ import modelo.Resena;
 import modelo.ResenaDAO;
 import modelo.Usuario;
 import modelo.UsuarioDAO;
+import modelo.Cliente;
+import modelo.ClienteDAO;
 
 public class Controlador extends HttpServlet {
 
@@ -17,7 +19,10 @@ public class Controlador extends HttpServlet {
     UsuarioDAO usuarioDao = new UsuarioDAO();
     Resena resena = new Resena();
     ResenaDAO resenaDao = new ResenaDAO();
+    Cliente cliente = new Cliente();
+    ClienteDAO clienteDao = new ClienteDAO();
     int codResena;
+    int codCliente;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -156,6 +161,86 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Cliente")) {
+
+            switch (accion) {
+
+                // Listar Cliente
+                case "Listar":
+                    List listaClientes = clienteDao.listar();
+                    request.setAttribute("clientes", listaClientes);
+                    break;
+
+                // Agregar Cliente 
+                case "Agregar":
+                    String primerNombre = request.getParameter("txtprimerNombreCliente");
+                    String segundoNombre = request.getParameter("txtsegundoNombreCliente");
+                    String primerApellido = request.getParameter("txtprimerApellidoCliente");
+                    String segundoApellido = request.getParameter("txtsegundoApellidoCliente");
+                    String telefono = request.getParameter("txttelefonoCliente");
+                    String direccion = request.getParameter("txtdireccionCliente");
+                    Cliente.SexoCliente sexoCliente = Cliente.SexoCliente.valueOf(request.getParameter("txtSexoCliente"));
+                    String nitCliente = request.getParameter("txtnitCliente");
+                    Cliente.EstadoCliente estadoCliente = Cliente.EstadoCliente.valueOf(request.getParameter("txtEstadoCliente"));
+                    int usuario = Integer.parseInt(request.getParameter("txtcodigoUsuario"));
+
+                    cliente.setPrimerNombreCliente(primerNombre);
+                    cliente.setSegundoNombreCliente(segundoNombre);
+                    cliente.setPrimerApellidoCliente(primerApellido);
+                    cliente.setSegundoApellidoCliente(segundoApellido);
+                    cliente.setTelefonoCliente(telefono);
+                    cliente.setDireccionCliente(direccion);
+                    cliente.setSexoCliente(sexoCliente);
+                    cliente.setNitCliente(nitCliente);
+                    cliente.setEstado(estadoCliente);
+                    cliente.setCodigoUsuario(usuario);
+                    clienteDao.Agregar(cliente);
+                    request.getRequestDispatcher("Controlador?menu=Cliente&accion=Listar").forward(request, response);
+
+                    break;
+
+                //Editar Cliente
+                case "Editar":
+                    codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
+                    Cliente c = clienteDao.buscar(codCliente);
+                    request.setAttribute("cliente", c);
+                    request.getRequestDispatcher("Controlador?menu=Cliente&accion=Listar").forward(request, response);
+                    break;
+
+                // Actualizar Cliente
+                case "Actualizar":
+                    String primerNombreA = request.getParameter("txtprimerNombreCliente");
+                    String segundoNombreA = request.getParameter("txtsegundoNombreCliente");
+                    String primerApellidoA = request.getParameter("txtprimerApellidoCliente");
+                    String segundoApellidoA = request.getParameter("txtsegundoApellidoCliente");
+                    String telefonoA = request.getParameter("txttelefonoCliente");
+                    String direccionA = request.getParameter("txtdireccionCliente");
+                    Cliente.SexoCliente sexoClienteA = Cliente.SexoCliente.valueOf(request.getParameter("txtSexoCliente"));
+                    String nitClienteA = request.getParameter("txtnitCliente");
+                    Cliente.EstadoCliente estadoClienteA = Cliente.EstadoCliente.valueOf(request.getParameter("txtEstadoCliente"));
+                    int usuarioA = Integer.parseInt(request.getParameter("txtcodigoUsuario"));
+
+                    cliente.setPrimerNombreCliente(primerNombreA);
+                    cliente.setSegundoNombreCliente(segundoNombreA);
+                    cliente.setPrimerApellidoCliente(primerApellidoA);
+                    cliente.setSegundoApellidoCliente(segundoApellidoA);
+                    cliente.setTelefonoCliente(telefonoA);
+                    cliente.setDireccionCliente(direccionA);
+                    cliente.setSexoCliente(sexoClienteA);
+                    cliente.setNitCliente(nitClienteA);
+                    cliente.setEstado(estadoClienteA);
+                    cliente.setCodigoUsuario(usuarioA);
+                    cliente.setCodigoCliente(codCliente);
+                    clienteDao.actualizar(cliente);
+                    request.getRequestDispatcher("Controlador?menu=Cliente&accion=Listar").forward(request, response);
+
+                    break;
+                case "Eliminar":
+                    codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
+                    clienteDao.eleminar(codCliente);
+                    request.getRequestDispatcher("Controlador?menu=Cliente&accion=Listar").forward(request, response);
+                    break;
+
+            }
 
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
