@@ -100,7 +100,7 @@ public class ProductoDAO {
     }
     
     public void eliminar(int id){
-        String sql = "delete from Producto where estado = 'Inactivo' and codigoProducto = ?"+id;
+        String sql = "delete from Producto where codigoProducto ="+id;
         try{
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
