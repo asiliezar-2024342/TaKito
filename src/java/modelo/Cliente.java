@@ -2,15 +2,10 @@ package modelo;
 
 public class Cliente {
 
-    public enum SexoCliente {
-        Hombre,Mujer
-}
+    public enum SexoCliente {Hombre,Mujer}
 
-    public enum EstadoCliente {
-        Activo,Inactivo
-}
+    public enum EstadoCliente {Activo,Inactivo}
 
-    
     private int codigoCliente;
     private String primerNombreCliente;
     private String segundoNombreCliente;
@@ -28,10 +23,12 @@ public class Cliente {
     public Cliente() {
     }
     
-    
     /* Contrustor lleno */
 
-    public Cliente(int codigoCliente, String primerNombreCliente, String segundoNombreCliente, String primerApellidoCliente, String segundoApellidoCliente, String telefonoCliente, String direccionCliente, SexoCliente sexoCliente, String nitCliente, EstadoCliente estado, int codigoUsuario) {
+    public Cliente(int codigoCliente, String primerNombreCliente, String segundoNombreCliente,
+                   String primerApellidoCliente, String segundoApellidoCliente, String telefonoCliente,
+                   String direccionCliente, SexoCliente sexoCliente, String nitCliente, EstadoCliente estado,
+                   int codigoUsuario) {
         this.codigoCliente = codigoCliente;
         this.primerNombreCliente = primerNombreCliente;
         this.segundoNombreCliente = segundoNombreCliente;
