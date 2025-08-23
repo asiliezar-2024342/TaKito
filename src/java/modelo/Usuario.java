@@ -4,18 +4,20 @@ import java.io.InputStream;
 import java.sql.Date;
 
 public class Usuario {
+    public enum Cargo{Consumidor, Administrativo, Empleado}
+    
     private int codigoUsuario;
     private String correoUsuario;
     private String contrasenaUsuario;
     private Date fechaRegistro;
     private InputStream foto;
-    private String cargo;
+    private Cargo cargo;
     private String estado;
 
     public Usuario() {
     }
 
-    public Usuario(int codigoUsuario, String correoUsuario, String contrasenaUsuario, Date fechaRegistro, InputStream foto, String cargo, String estado) {
+    public Usuario(int codigoUsuario, String correoUsuario, String contrasenaUsuario, Date fechaRegistro, InputStream foto, Cargo cargo, String estado) {
         this.codigoUsuario = codigoUsuario;
         this.correoUsuario = correoUsuario;
         this.contrasenaUsuario = contrasenaUsuario;
@@ -65,11 +67,11 @@ public class Usuario {
         this.foto = foto;
     }
 
-    public String getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 
