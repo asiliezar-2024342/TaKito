@@ -193,6 +193,15 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("empleados", empleadosS);
                     request.getRequestDispatcher("Empleado.jsp").forward(request, response);
                     break;
+                    
+                case "BuscarFactura":
+                   int codigoSucur = Integer.parseInt(request.getParameter("txtCodigoSucursalBuscar"));
+                   List empleadoFac = empleadoDao.facturacionEmpleadoPorSucursal(codigoSucur);
+                   request.setAttribute("empleadosFacturacion", empleadoFac);
+                   request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
+                   request.getRequestDispatcher("Empleado.jsp").forward(request, response);
+                   break;
+                    
                 case "Agregar":
                     String priNombre = request.getParameter("txtPrimerNombreEmpleado");
                     String segNombre = request.getParameter("txtSegundoNombreEmpleado");
