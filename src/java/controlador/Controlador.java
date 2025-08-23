@@ -252,6 +252,13 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("menu", "Promocion");
                     request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
                     break;
+                case "ConfirmarEliminar2":
+                    codDetallePromocion = Integer.parseInt(request.getParameter("codigoDetallePromocion"));
+                    request.setAttribute("accionReal", "Eliminar");
+                    request.setAttribute("codigoDetallePromocion", codDetallePromocion);
+                    request.setAttribute("menu", "Promocion");
+                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
+                    break;
                 case "Agregar":
                     String nombre = request.getParameter("txtNombrePromocion");
                     String descripcion = request.getParameter("txtDescripcionPromocion");
