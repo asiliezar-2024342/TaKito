@@ -15,6 +15,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Ta'Kabron</title>
         <link rel="stylesheet" href="styles/CRUD.css">
+        <link rel="stylesheet" href="styles/EmpleadoHU.css">
     </head>
     <body>
         <form class="form-row2" style="flex-direction: row;" action="Controlador?menu=Empleado" method="POST">
