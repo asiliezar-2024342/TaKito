@@ -134,6 +134,30 @@ public class EmpleadoDAO {
         return empleados;
     }
     
+    public List<Empleado.Facturacion> facturacionEmpleadoPorSucursal(int codigoS){
+        List<Empleado.Facturacion> empleadoFacturacion = new ArrayList<>();
+        String sql = "select e.codigoEmpleado, concat(e.primerNombreEmpleado, ' ', e.primerApellidoEmpleado)"
+        + " as nombreCompleto, sum(f.totalFactura) as totalFacturado from Empleado e"
+        + " left join Factura f on e.codigoEmpleado = f.codigoEmpleado where"
+        + " e.codigoSucursal = ? group by e.codigoEmpleado order by totalFacturado desc";
+        try {
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, codigoS);
+            rs = ps.executeQuery();
+            while(rs.next()){
+            Empleado.Facturacion fac = new Empleado.Facturacion();
+            fac.setCodigoEmpleado(rs.getInt("codigoEmpleado"));
+            fac.setNombreCompleto(rs.getString("nombreCompleto"));
+            fac.setTotalFacturado(rs.getDouble("totalFacturado"));
+            empleadoFacturacion.add(fac);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return empleadoFacturacion;
+    }
+    
     public int actualizar(Empleado emp){
         String sql = "update empleado set primerNombreEmpleado = ?, segundoNombreEmpleado = ?, primerApellidoEmpleado = ?, "
         + "segundoApellidoEmpleado = ?, telefonoEmpleado = ?, correoEmpleado = ?, direccionEmpleado = ?, "
