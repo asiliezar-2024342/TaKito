@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -14,6 +15,8 @@
         <link rel="stylesheet" href="styles/Principal.css"/> 
     </head>
     <body>
+        <input class="cart__toggle" type="checkbox" id="cart-toggle" />
+        
         <!-- HEADER -->
         <header>
             <section>
@@ -22,10 +25,22 @@
                         <img class="header-buttons__icon" src="./img/usuario.png" alt="Usuario" />
                         <span class="header-buttons__user">juan@example.com</span>
                     </button>
-                    <button class="header-buttons__btn header-buttons__btn--cart" title="Carrito">
+
+                    <label for="cart-toggle" class="header-buttons__btn header-buttons__btn--cart" title="Carrito">
                         <img class="header-buttons__icon" src="./img/carrito.png" alt="Carrito" />
-                        <span class="header-buttons__badge">1</span>
-                    </button>
+                        <span class="header-buttons__badge">
+                            <c:choose>
+                                <c:when test="${sessionScope.carrito != null}">
+                                    <c:set var="totalItems" value="0" />
+                                    <c:forEach var="item" items="${sessionScope.carrito}">
+                                        <c:set var="totalItems" value="${totalItems + item.value.cantidad}" />
+                                    </c:forEach>
+                                    ${totalItems}
+                                </c:when>
+                                <c:otherwise>0</c:otherwise>
+                            </c:choose>
+                        </span>
+                    </label>
                 </div>
 
                 <div class="menu">
@@ -84,12 +99,91 @@
                             </a>
                         </li>
                         <li>
-                            <a class="menu__item" href="#">
+                            <a class="menu__item" href="Controlador?menu=HacerPedido&accion=Mover" target="myFrame">
                                 <img class="icono" src="./img/Pedido.png" alt="Inicio"/>
                                 Hacer Pedido
                             </a>
                         </li>
                     </ul>
+                </div>
+
+                <div class="cart__box">
+                    <div class="cart__header">
+                        <img src="img/carrito.png" alt="Carrito" style="width: 30px; height: 30px; padding-right:5px;">Mi Carrito
+                    </div>
+
+                    <div id="cart-content">
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.carrito}">
+                                <c:set var="total" value="0" />
+                                <c:set var="totalItems" value="0" />
+
+                                <c:forEach var="item" items="${sessionScope.carrito}">
+                                    <c:set var="detalle" value="${item.value}" />
+                                    <c:set var="total" value="${total + detalle.subTotal}" />
+                                    <c:set var="totalItems" value="${totalItems + detalle.cantidad}" />
+
+                                    <div class="cart-item" data-combo="${item.key}">
+                                        <div class="cart-item-name">
+                                            <c:choose>
+                                                <c:when test="${not empty sessionScope.combosInfo[item.key]}">
+                                                    ${sessionScope.combosInfo[item.key].nombreCombo}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Combo #${item.key}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+
+                                        <div class="cart-item-details">
+                                            Cantidad: <strong>${detalle.cantidad}</strong><br>
+                                            Subtotal: <strong>Q${detalle.subTotal}</strong>
+                                        </div>
+
+                                        <div class="cart-item-controls">
+                                            <form method="post" action="Controlador" target="_top">
+                                                <input type="hidden" name="menu" value="Carrito"/>
+                                                <input type="hidden" name="accion" value="Eliminar"/>
+                                                <input type="hidden" name="codigoCombo" value="${item.key}"/>
+                                                <button type="submit" class="cart-btn cart-btn-remove" onclick="return confirm('¿Eliminar este producto?')">
+                                                    <img src="./img/eliminarCarrito.png" alt="Eliminar" style="width: 20px; height: 20px;"/>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+
+                                <div class="cart-total">
+                                    <strong>Total (${totalItems} productos): Q${total}</strong>
+                                </div>
+
+                                <div class="cart-actions">
+                                    <form method="post" action="Controlador">
+                                        <input type="hidden" name="menu" value="Carrito"/>
+                                        <input type="hidden" name="accion" value="Vaciar"/>
+                                        <button type="submit" class="cart-action-btn btn-clear" onclick="return confirm('¿Vaciar todo el carrito?')">
+                                            Vaciar Carrito
+                                        </button>
+                                    </form>
+
+                                    <form method="post" action="Controlador" style="display:inline;">
+                                        <input type="hidden" name="menu" value="Carrito"/>
+                                        <input type="hidden" name="accion" value="HacerPedido"/>
+                                        <button type="submit" class="cart-action-btn btn-checkout">
+                                            Hacer Pedido
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </c:when>
+                            <c:otherwise>
+                                <div class="cart-empty">
+                                    <h3>Tu carrito está vacío</h3>
+                                    <p>¡Agrega algunos deliciosos combos desde el menú!</p>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                 </div>
             </section>
         </header>
@@ -97,8 +191,5 @@
         <div class="frame">
             <iframe style="height: 100%; width: 100%; box-sizing: border-box;" src="PrincipalContenido.jsp" class="frame__iframe" name="myFrame"></iframe>
         </div>
-
-
-
     </body>
 </html>
