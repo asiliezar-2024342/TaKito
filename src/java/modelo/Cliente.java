@@ -17,18 +17,16 @@ public class Cliente {
     private String nitCliente;
     private EstadoCliente estado;
     private int codigoUsuario;
+    private int totalPedidos;
 
-    /* Contrusctor vacio */
+    // Constructor Vacio
 
     public Cliente() {
     }
     
-    /* Contrustor lleno */
+    // Constructor Lleno
 
-    public Cliente(int codigoCliente, String primerNombreCliente, String segundoNombreCliente,
-                   String primerApellidoCliente, String segundoApellidoCliente, String telefonoCliente,
-                   String direccionCliente, SexoCliente sexoCliente, String nitCliente, EstadoCliente estado,
-                   int codigoUsuario) {
+    public Cliente(int codigoCliente, String primerNombreCliente, String segundoNombreCliente, String primerApellidoCliente, String segundoApellidoCliente, String telefonoCliente, String direccionCliente, SexoCliente sexoCliente, String nitCliente, EstadoCliente estado, int codigoUsuario, int totalPedidos) {
         this.codigoCliente = codigoCliente;
         this.primerNombreCliente = primerNombreCliente;
         this.segundoNombreCliente = segundoNombreCliente;
@@ -40,9 +38,10 @@ public class Cliente {
         this.nitCliente = nitCliente;
         this.estado = estado;
         this.codigoUsuario = codigoUsuario;
+        this.totalPedidos = totalPedidos;
     }
     
-    /* Getter y Setter*/
+    // Getter y Setter
 
     public int getCodigoCliente() {
         return codigoCliente;
@@ -131,6 +130,13 @@ public class Cliente {
     public void setCodigoUsuario(int codigoUsuario) {
         this.codigoUsuario = codigoUsuario;
     }
+
+    public int getTotalPedidos() {
+        return totalPedidos;
+    }
+
+    public void setTotalPedidos(int totalPedidos) {
+        this.totalPedidos = totalPedidos;
+    }
     
-    
-}
+}  
