@@ -234,6 +234,24 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("DetallesPromociones", detallePromocionDao.listar());
                     request.getRequestDispatcher("Promocion.jsp").forward(request, response);
                     break;
+                //Solo tienen que añadir estas tres acciones al controlador con los datos que les corresponde a cada uno: Solamente cambian "Promocion" por su entidad.            
+                case "ConfirmarAgregar":
+                    request.setAttribute("accionReal", "Agregar");
+                    request.setAttribute("menu", "Promocion");
+                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
+                    break;
+                case "ConfirmarActualizar":
+                    request.setAttribute("accionReal", "Actualizar");
+                    request.setAttribute("menu", "Promocion");
+                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
+                    break;
+                case "ConfirmarEliminar":
+                    codPromocion = Integer.parseInt(request.getParameter("codigoPromocion"));
+                    request.setAttribute("accionReal", "Eliminar");
+                    request.setAttribute("codigoPromocion", codPromocion);
+                    request.setAttribute("menu", "Promocion");
+                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
+                    break;
                 case "Agregar":
                     String nombre = request.getParameter("txtNombrePromocion");
                     String descripcion = request.getParameter("txtDescripcionPromocion");
