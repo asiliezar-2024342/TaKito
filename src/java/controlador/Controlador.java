@@ -1,11 +1,16 @@
 package controlador;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Combo;
+import modelo.ComboDAO;
+import modelo.DetalleCombo;
+import modelo.DetalleComboDAO;
 import modelo.Resena;
 import modelo.ResenaDAO;
 import modelo.Usuario;
@@ -18,6 +23,12 @@ public class Controlador extends HttpServlet {
     Resena resena = new Resena();
     ResenaDAO resenaDao = new ResenaDAO();
     int codResena;
+    DetalleCombo detalleCombo = new DetalleCombo();
+    DetalleComboDAO detalleComboDao = new DetalleComboDAO();
+    int codDetalleCombo;
+    Combo combo = new Combo();
+    ComboDAO comboDao = new ComboDAO();
+    int codCombo;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -204,9 +215,105 @@ public class Controlador extends HttpServlet {
             } else if (accion.equals("Listar")) {
                 request.getRequestDispatcher("Factura.jsp").forward(request, response);
             }
+            
+        }else if (menu.equals("DetalleCombo")){
+            
+            switch (accion){
+                case "Listar":
+                    List listaDetalleCombos = detalleComboDao.listar();
+                    request.setAttribute("detalleCombos", listaDetalleCombos);
+                    break;
+                case "Agregar":
+                    int cantidad = Integer.parseInt(request.getParameter("txtCantidad"));
+                    int combo = Integer.parseInt(request.getParameter("txtCombo"));
+                    int producto = Integer.parseInt(request.getParameter("txtProducto"));
+                    
+                    detalleCombo.setCantidad(cantidad);
+                    detalleCombo.setCodigoCombo(combo);
+                    detalleCombo.setCodigoProducto(producto);
+                    request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    codDetalleCombo = Integer.parseInt(request.getParameter("codigoDetalleCombo"));
+                    DetalleCombo dc = detalleComboDao.listarCodigoDetalleCombo(codDetalleCombo);
+                    request.setAttribute("detalleCombo", dc);
+                    request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    int cantidadA = Integer.parseInt(request.getParameter("txtCantidad"));
+                    detalleCombo.setCantidad(cantidadA);
+                    detalleCombo.setCodigoDetalleCombo(codDetalleCombo);
+                    detalleComboDao.actualizar(detalleCombo);
+                    request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codDetalleCombo = Integer.parseInt(request.getParameter("codigoDetalleCombo"));
+                    detalleComboDao.eliminar(codDetalleCombo);
+                    request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
+                    break;
+            }
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Resena&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Resena.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Combo")) {
-
+            
+            switch (accion){
+                case "Listar":
+                    List listaCombos = comboDao.listar();
+                    request.setAttribute("combos", listaCombos);
+                    break;
+                case "Agregar":
+                    String nombreCombo = request.getParameter("txtNombreCombo");
+                    String descripcionCombo = request.getParameter("txtDescripcion");
+                    Float precioCombo = Float.valueOf(request.getParameter("txtPrecioCombo"));
+                    Combo.Categoria categoria = Combo.Categoria.valueOf(request.getParameter("txtCategoria"));
+                    Combo.Estado estado = Combo.Estado.valueOf(request.getParameter("txtEstado"));
+                    InputStream foto = (InputStream) request.getPart("foto");
+                    
+                    combo.setNombreCombo(nombreCombo);
+                    combo.setDescripcionCombo(descripcionCombo);
+                    combo.setPrecioCombo(precioCombo);
+                    combo.setCategoria(categoria);
+                    combo.setEstado(estado);
+                    combo.setFoto(foto);
+                    comboDao.agregar(combo);
+                    request.getRequestDispatcher("Controlador?menu=Combo&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    codCombo = Integer.parseInt(request.getParameter("codigoCombo"));
+                    Combo c = comboDao.buscar(codCombo);
+                    request.setAttribute("combo", c);
+                    request.getRequestDispatcher("Controlador?menu=Combo&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    String nombreA = request.getParameter("txtNombreCombo");
+                    String descripcionA = request.getParameter("txtDescripcion");
+                    Float precioA = Float.valueOf(request.getParameter("txtPrecioCombo"));
+                    Combo.Categoria categoriaA = Combo.Categoria.valueOf(request.getParameter("txtCategoria"));
+                    Combo.Estado estadoA = Combo.Estado.valueOf(request.getParameter("txtEstado"));
+                    InputStream fotoA = (InputStream) request.getPart("foto");
+                    
+                    combo.setNombreCombo(nombreA);
+                    combo.setDescripcionCombo(descripcionA);
+                    combo.setPrecioCombo(precioA);
+                    combo.setCategoria(categoriaA);
+                    combo.setEstado(estadoA);
+                    combo.setFoto(fotoA);
+                    combo.setCodigoCombo(codCombo);
+                    comboDao.actualizar(combo);
+                    request.getRequestDispatcher("Controlador?menu=Combo&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codCombo = Integer.parseInt(request.getParameter("codigoCombo"));
+                    comboDao.eliminar(codCombo);
+                    request.getRequestDispatcher("Controlador?menu&accion=Listar").forward(request, response);
+                    break;
+            }
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
                 request.setAttribute("jspFinal", "Controlador?menu=Combo&accion=Listar");

@@ -1,12 +1,14 @@
 package modelo;
 
 import config.Conexion;
+import java.io.InputStream;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 
 public class ComboDAO {
     
@@ -22,7 +24,7 @@ public class ComboDAO {
         combo.setPrecioCombo(rs.getFloat("precioCombo"));
         combo.setCategoria(Combo.Categoria.valueOf(rs.getString("categoria")));
         combo.setEstado(Combo.Estado.valueOf(rs.getString("estado")));
-        combo.setFoto(rs.getBinaryStream("foto"));
+        combo.setFoto((InputStream) rs.getBlob("foto"));
     }
     
     private void preparedSQL(Combo combo, String sql)throws Exception{
@@ -64,6 +66,22 @@ public class ComboDAO {
             e.printStackTrace();
         }
         return listaCombo;
+    }
+    
+    public void listarUsImg(int id, HttpServletResponse response){
+        String sql = "select * from Combo where codigoCombo = ?";
+        try{
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                byte[] fotoByte = rs.getBytes("foto");
+                response.setContentType("image/*");
+                response.getOutputStream().write(fotoByte);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     public Combo buscar(int codigoCombo){
