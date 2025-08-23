@@ -13,6 +13,7 @@ import modelo.UsuarioDAO;
 import modelo.Cliente;
 import modelo.ClienteDAO;
 
+
 public class Controlador extends HttpServlet {
 
     Usuario usuario = new Usuario();
@@ -238,6 +239,18 @@ public class Controlador extends HttpServlet {
                     codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
                     clienteDao.eleminar(codCliente);
                     request.getRequestDispatcher("Controlador?menu=Cliente&accion=Listar").forward(request, response);
+                    break;
+
+                case "MostrarRanking":
+                    List<Cliente> clientes = clienteDao.listar();
+                    request.setAttribute("clientes", clientes);
+
+                    List<Cliente> rankingClientes = clienteDao.obtenerRankingClientesUltimoMes();
+                    request.setAttribute("rankingClientes", rankingClientes);
+
+                    request.setAttribute("mostrarRanking", true);
+
+                    request.getRequestDispatcher("RankingClientes.jsp").forward(request, response);
                     break;
 
             }
