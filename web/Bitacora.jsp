@@ -132,6 +132,43 @@
                             </div>
                         </form>
                     </div>
+                    <div class="form-container">
+                        <form class="flex-row" action="Controlador?menu=Bitacora" method="POST">
+                            <div class="form-row">
+                                <img src="img/icon-accion.png" alt="Acción">
+                                <label><strong>Acción: </strong></label>
+                                <select name="txtAccion" class="select">
+                                    <option value="">Seleccione</option>
+                                    <option value="Crear">Crear</option>
+                                    <option value="Actualizar">Actualizar</option>
+                                    <option value="Eliminar">Eliminar</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <img src="img/icon-Tabla.png" alt="Tabla">
+                                <label><strong>Tabla Modificada: </strong></label>
+                                <select name="txtTablaModificada" class="select">
+                                    <option value="">Seleccione</option>
+                                    <option value="Sucursal">Sucursal</option>
+                                    <option value="Usuario">Usuario</option>
+                                    <option value="Combo">Combo</option>
+                                    <option value="Producto">Producto</option>
+                                    <option value="Promocion">Promocion</option>
+                                    <option value="Resena">Resena</option>
+                                    <option value="DetalleCombo">DetalleCombo</option>
+                                    <option value="DetallePromocion">DetallePromocion</option>
+                                    <option value="Cliente">Cliente</option>
+                                    <option value="Empleado">Empleado</option>
+                                    <option value="Pedido">Pedido</option>
+                                    <option value="DetallePedido">DetallePedido</option>
+                                    <option value="Factura">Factura</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-icon Filtrar" name="accion" value="Filtrar" title="Filtrar">
+                                <img src="img/icon-filtrarBitacora.png" alt="Filtrar">
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
