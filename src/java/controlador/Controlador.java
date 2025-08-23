@@ -213,7 +213,7 @@ public class Controlador extends HttpServlet {
                     bitacoraDao.eliminar(codBitacora);
                     request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
                     break;
-                 case "Filtrar":
+                case "Filtrar":
                     String accionFiltro = request.getParameter("txtAccion");
                     String tablaFiltro = request.getParameter("txtTablaModificada");
                     List<Bitacora> listaFiltrada;
