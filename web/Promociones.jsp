@@ -16,6 +16,19 @@
         <title>Ta'Kabron</title>
     </head>
     <body class="body">
+        <h1>Populares</h1>
+
+        <div class="contenedor-promociones">
+            <c:forEach var="Promocion" items="${PromocionesMasUsadas}">
+                <div class="tarjeta-promocion">
+                    <h2>${Promocion.getNombrePromocion()}</h2>
+                    <p><strong>Descripción:</strong> ${Promocion.getDescripcionPromocion()}</p>
+                    <p><strong>Descuento:</strong> ${Promocion.getDescuentoPromocion()}%</p>
+                    <p><strong>Vigencia:</strong> ${Promocion.getFechaInicio()} al ${Promocion.getFechaFin()}</p>
+                </div>
+            </c:forEach>
+        </div>
+        
         <h1>Promociones Activas</h1>
 
         <div class="contenedor-promociones">
@@ -33,19 +46,6 @@
 
         <div class="contenedor-promociones">
             <c:forEach var="Promocion" items="${PromocionesFuturas}">
-                <div class="tarjeta-promocion">
-                    <h2>${Promocion.getNombrePromocion()}</h2>
-                    <p><strong>Descripción:</strong> ${Promocion.getDescripcionPromocion()}</p>
-                    <p><strong>Descuento:</strong> ${Promocion.getDescuentoPromocion()}%</p>
-                    <p><strong>Vigencia:</strong> ${Promocion.getFechaInicio()} al ${Promocion.getFechaFin()}</p>
-                </div>
-            </c:forEach>
-        </div>
-
-        <h1>Populares</h1>
-
-        <div class="contenedor-promociones">
-            <c:forEach var="Promocion" items="${PromocionesMasUsadas}">
                 <div class="tarjeta-promocion">
                     <h2>${Promocion.getNombrePromocion()}</h2>
                     <p><strong>Descripción:</strong> ${Promocion.getDescripcionPromocion()}</p>
