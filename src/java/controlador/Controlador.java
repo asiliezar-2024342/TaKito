@@ -5,12 +5,16 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import modelo.Combo;
+import modelo.ComboDAO;
 import modelo.DetallePedido;
 import modelo.DetallePedidoDAO;
 import modelo.Pedido;
@@ -27,14 +31,17 @@ public class Controlador extends HttpServlet {
     Resena resena = new Resena();
     ResenaDAO resenaDao = new ResenaDAO();
     int codResena;
-    
+
     Pedido pedido = new Pedido();
     PedidoDAO pedidoDao = new PedidoDAO();
     int codPedido;
     DetallePedido detallePedido = new DetallePedido();
     DetallePedidoDAO detallePedidoDao = new DetallePedidoDAO();
     int codDetallePedido;
-    
+
+    Combo combo = new Combo();
+    ComboDAO comboDao = new ComboDAO();
+    int codCombo;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,6 +56,13 @@ public class Controlador extends HttpServlet {
             throws ServletException, IOException {
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
+        HttpSession session = request.getSession();
+
+        HashMap<Integer, DetallePedido> carrito = (HashMap<Integer, DetallePedido>) session.getAttribute("carrito");
+        if (carrito == null) {
+            carrito = new HashMap<>();
+            session.setAttribute("carrito", carrito);
+        }
 
         if (menu.equals("Principal")) {
 
@@ -344,7 +358,162 @@ public class Controlador extends HttpServlet {
                 request.getRequestDispatcher("Promocion.jsp").forward(request, response);
             }
 
+        } else if (menu.equals("HacerPedido")) {
+            List listaCombos = comboDao.listar();
+            request.setAttribute("combos", listaCombos);
+
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=HacerPedido&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("HacerPedido.jsp").forward(request, response);
+            }
+        } else if (menu.equals("Carrito")) {
+            switch (accion) {
+                case "Agregar":
+                    int codigoCombo = Integer.parseInt(request.getParameter("codigoCombo"));
+                    int cantidad = Integer.parseInt(request.getParameter("cantidad"));
+
+                    Combo comboSeleccionado = null;
+                    try {
+                        comboSeleccionado = comboDao.buscar(codigoCombo);
+                        System.out.println("Combo encontrado: " + comboSeleccionado.getNombreCombo());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if (comboSeleccionado != null && comboSeleccionado.getPrecioCombo() != null) {
+
+                        if (carrito == null) {
+                            carrito = new HashMap<>();
+                            session.setAttribute("carrito", carrito);
+                        }
+                        HashMap<Integer, Combo> combosInfo = (HashMap<Integer, Combo>) session.getAttribute("combosInfo");
+                        if (combosInfo == null) {
+                            combosInfo = new HashMap<>();
+                            session.setAttribute("combosInfo", combosInfo);
+                        }
+
+                        if (carrito.containsKey(codigoCombo)) {
+                            DetallePedido detalleExistente = carrito.get(codigoCombo);
+                            int nuevaCantidad = detalleExistente.getCantidad() + cantidad;
+                            double nuevoSubtotal = Math.round((comboSeleccionado.getPrecioCombo().doubleValue() * nuevaCantidad) * 100.0) / 100.0;
+                            detalleExistente.setCantidad(nuevaCantidad);
+                            detalleExistente.setSubTotal(nuevoSubtotal);
+                        } else {
+                            DetallePedido nuevoDetalle = new DetallePedido();
+                            nuevoDetalle.setCodigoCombo(codigoCombo);
+                            nuevoDetalle.setCantidad(cantidad);
+                            double subtotal = Math.round((comboSeleccionado.getPrecioCombo().doubleValue() * cantidad) * 100.0) / 100.0;
+                            nuevoDetalle.setSubTotal(subtotal);
+                            nuevoDetalle.setInstrucciones("");
+                            carrito.put(codigoCombo, nuevoDetalle);
+                        }
+
+                        combosInfo.put(codigoCombo, comboSeleccionado);
+                        session.setAttribute("carrito", carrito);
+                        session.setAttribute("combosInfo", combosInfo);
+
+                        int totalItemsCarrito = 0;
+                        double totalPrecioCarrito = 0.0;
+                        for (DetallePedido detalle : carrito.values()) {
+                            totalItemsCarrito += detalle.getCantidad();
+                            totalPrecioCarrito += detalle.getSubTotal();
+
+                            session.setAttribute("subtotalFormateado_" + detalle.getCodigoCombo(),
+                                    String.format("%.2f", detalle.getSubTotal()));
+                        }
+
+                        session.setAttribute("totalItemsCarrito", totalItemsCarrito);
+                        session.setAttribute("totalPrecioFormateado", String.format("%.2f", totalPrecioCarrito));
+
+                        session.setAttribute("productoAgregadoExito", true);
+                        session.setAttribute("nombreComboAgregado", comboSeleccionado.getNombreCombo());
+                    }
+
+                    response.sendRedirect("Controlador?menu=HacerPedido&accion=Listar");
+                    return;
+
+                case "Eliminar":
+                    int comboEliminar = Integer.parseInt(request.getParameter("codigoCombo"));
+                    if (carrito != null) {
+                        carrito.remove(comboEliminar);
+                    }
+                    HashMap<Integer, Combo> combosInfoElim = (HashMap<Integer, Combo>) session.getAttribute("combosInfo");
+                    if (combosInfoElim != null) {
+                        combosInfoElim.remove(comboEliminar);
+                        session.setAttribute("combosInfo", combosInfoElim);
+                    }
+                    session.setAttribute("carrito", carrito);
+                    response.sendRedirect("Principal.jsp");
+                    return;
+
+                case "Vaciar":
+                    if (carrito != null) {
+                        carrito.clear();
+                    }
+                    session.removeAttribute("combosInfo");
+                    session.setAttribute("carrito", carrito);
+                    response.sendRedirect("Principal.jsp");
+                    return;
+
+                case "HacerPedido":
+                    try {
+                        if (carrito == null || carrito.isEmpty()) {
+                            session.setAttribute("mensajeError", "El carrito está vacío. Agrega productos antes de hacer un pedido.");
+                            response.sendRedirect("Principal.jsp");
+                            return;
+                        }
+
+                        Pedido pedido = new Pedido();
+                        pedido.setFechaCreacion(Date.valueOf(LocalDate.now()));
+                        pedido.setHoraCreacion(Time.valueOf(LocalTime.now()));
+                        pedido.setEstado(Pedido.Estado.Activo);
+                        pedido.setTipoPedido(Pedido.TipoPedido.Recoger);
+                        pedido.setUbicacionPedido("Sucursal Central");
+                        pedido.setCodigoSucursal(1);
+                        pedido.setCodigoCliente(1);
+
+                        pedidoDao.agregar(pedido);
+
+                        List<Pedido> pedidos = pedidoDao.listar();
+                        int idPedido = pedidos.get(pedidos.size() - 1).getCodigoPedido();
+
+                        double totalPedido = 0.0;
+                        for (DetallePedido detalle : carrito.values()) {
+                            DetallePedido nuevoDetalle = new DetallePedido();
+                            nuevoDetalle.setCodigoPedido(idPedido);
+                            nuevoDetalle.setCodigoCombo(detalle.getCodigoCombo());
+                            nuevoDetalle.setCantidad(detalle.getCantidad());
+                            nuevoDetalle.setSubTotal(detalle.getSubTotal());
+                            nuevoDetalle.setCodigoPromocion(1);
+                            nuevoDetalle.setInstrucciones(detalle.getInstrucciones());
+
+                            detallePedidoDao.agregar(nuevoDetalle);
+                            totalPedido += detalle.getSubTotal();
+                        }
+
+                        carrito.clear();
+                        session.removeAttribute("combosInfo");
+                        session.setAttribute("carrito", carrito);
+
+                        session.setAttribute("pedidoExitoso", true);
+                        session.setAttribute("numeroPedido", idPedido);
+                        session.setAttribute("totalPedido", String.format("%.2f", totalPedido));
+
+                        response.sendRedirect("Principal.jsp");
+                        return;
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        session.setAttribute("mensajeError", "Error al procesar el pedido. Inténtalo nuevamente.");
+                        response.sendRedirect("Principal.jsp");
+                        return;
+                    }
+            }
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
