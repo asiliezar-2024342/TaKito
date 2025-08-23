@@ -18,10 +18,33 @@
         <header>
             <section>
                 <div class="header-buttons">
-                    <button class="header-buttons__btn" title="Usuario">
-                        <img class="header-buttons__icon" src="./img/usuario.png" alt="Usuario" />
-                        <span class="header-buttons__user">juan@example.com</span>
-                    </button>
+                    <div class="header-buttons__dropuser">
+                        <button class="header-buttons__btn" title="Usuario">
+                            <img class="header-buttons__icon" src="Validar?codigoUsuario=${usuarioActual.getCodigoUsuario()}" width="200" height="200" alt="Foto de usuario" />
+                            <span class="header-buttons__user">${nombreCliente} ${apellidoCliente}</span>
+                        </button>
+
+                        <div class="header-buttons__dropuser-content">
+                            <a class="" href="#">
+                                <img src="Validar?codigoUsuario=${usuarioActual.getCodigoUsuario()}" alt="100" width="100">
+                            </a>
+
+                            <a class="" href="#">
+                                Correo: ${usuarioActual.getCorreoUsuario()}
+                            </a>
+
+                            <a class="" href="#">
+                                ${usuarioActual.getCargo()}
+                            </a>
+
+
+                            <form action="Validar" method="POST">
+                                <button name="accion" name="Salir" class="header-buttons__exitbtn">Salir</button>
+                            </form>
+                            <a href="#"></a>
+                        </div>
+                    </div>
+                    
                     <button class="header-buttons__btn header-buttons__btn--cart" title="Carrito">
                         <img class="header-buttons__icon" src="./img/carrito.png" alt="Carrito" />
                         <span class="header-buttons__badge">1</span>
