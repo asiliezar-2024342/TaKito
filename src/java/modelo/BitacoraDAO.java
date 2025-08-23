@@ -105,8 +105,8 @@ public class BitacoraDAO {
 
         return bi;
     }
-    public Bitacora listarPorAccion(String accion) {
-        Bitacora bi = new Bitacora();
+    public List listarPorAccion(String accion) {
+        List<Bitacora> listaBitacoraPorAccion = new ArrayList<>();
         String sql = "SELECT * FROM Bitacora WHERE accion = ?";
 
         try {
@@ -116,6 +116,7 @@ public class BitacoraDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
+                Bitacora bi = new Bitacora();
                 bi.setCodigoBitacora(rs.getInt(1));
                 bi.setMensaje(rs.getString(2));
                 bi.setTablaModificada(rs.getString(3));
@@ -130,7 +131,7 @@ public class BitacoraDAO {
             e.printStackTrace();
         }
 
-        return bi;
+        return listaBitacoraPorAccion;
     }
     
     public List listarPorTabla(String tablaModificada) {
