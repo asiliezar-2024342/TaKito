@@ -41,10 +41,11 @@
                                 <td>${Promocion.getFechaFin()}</td>
                                 <td>${Promocion.getEstado()}</td>
                                 <td>
+                                    <%-- Aqui solo cambian la accion por la misma pero con el confirmar antes.--%>
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Promocion&accion=Editar&codigoPromocion=${Promocion.getCodigoPromocion()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Promocion&accion=Eliminar&codigoPromocion=${Promocion.getCodigoPromocion()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Promocion&accion=ConfirmarEliminar&codigoPromocion=${Promocion.getCodigoPromocion()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -92,11 +93,12 @@
                                     </select>
                                 </div>
                             </div>
+                                <%-- Aqui tambien.--%>
                             <div class="flex-column">
-                                <button type="submit" class="btn-icon Actualizar" name="accion" value="Actualizar" title="Actualizar">
+                                <button type="submit" class="btn-icon Actualizar" name="accion" value="ConfirmarActualizar" title="Actualizar">
                                     <img src="img/Actualizar.png" alt="Actualizar">
                                 </button>
-                                <button type="submit"class="btn-icon Agregar" name="accion" value="Agregar" title="Agregar">
+                                <button type="submit"class="btn-icon Agregar" name="accion" value="ConfirmarAgregar" title="Agregar">
                                     <img src="img/Agregar.png" alt="Agregar">
                                 </button>
                             </div>
@@ -128,7 +130,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Promocion&accion=Editar2&codigoDetallePromocion=${DetallePromocion.getCodigoDetallePromocion()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Promocion&accion=Eliminar2&codigoDetallePromocion=${DetallePromocion.getCodigoDetallePromocion()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Promocion&accion=ConfirmarEliminar2&codigoDetallePromocion=${DetallePromocion.getCodigoDetallePromocion()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -159,10 +161,10 @@
                                 </div>
                             </div>
                             <div class="flex-column">
-                                <button type="submit" class="btn-icon Actualizar" name="accion" value="Actualizar2" title="Actualizar">
+                                <button type="submit" class="btn-icon Actualizar" name="accion" value="ConfirmarActualizar" title="Actualizar">
                                     <img src="img/Actualizar.png" alt="Actualizar">
                                 </button>
-                                <button type="submit"class="btn-icon Agregar" name="accion" value="Agregar2" title="Agregar">
+                                <button type="submit"class="btn-icon Agregar" name="accion" value="ConfirmarAgregar" title="Agregar">
                                     <img src="img/Agregar.png" alt="Agregar">
                                 </button>
                             </div>
