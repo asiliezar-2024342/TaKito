@@ -20,7 +20,7 @@ public class Conexion {
      public Connection getConexion() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBTaKabron?useSSL=false", "quintom", "admin");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBTaKabron?useSSL=false", "root", "admin");
         } catch (Exception e) {
             e.printStackTrace();
         }

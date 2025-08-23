@@ -13,7 +13,6 @@ import modelo.SucursalDAO;
 import modelo.Usuario;
 import modelo.UsuarioDAO;
 
-
 public class Controlador extends HttpServlet {
 
     Usuario usuario = new Usuario();
@@ -193,50 +192,50 @@ public class Controlador extends HttpServlet {
 
         } else if (menu.equals("Sucursal")) {
             switch (accion) {
-                    case "Listar":
-                        List listaSucursal = sucursalDao.listar();
-                        request.setAttribute("sucursales", listaSucursal);
-                        break;
-                    case "Agregar":
-                        String ubicacion = request.getParameter("txtUbicacionSucursal");
-                        String telefono = request.getParameter("txtTelefonoSucursal");
-                        String nombre = request.getParameter("txtNombreSucursal");
-                        Sucursal.Funcionamiento funcionamiento = Sucursal.Funcionamiento.valueOf(request.getParameter("txtFuncionamiento"));
-                        Sucursal.Estado estado = Sucursal.Estado.valueOf(request.getParameter("txtEstado"));
-                        sucursal.setUbicacionSucursal(ubicacion);
-                        sucursal.setTelefonoSucursal(telefono);
-                        sucursal.setNombreSucursal(nombre);
-                        sucursal.setFuncionamiento(funcionamiento);
-                        sucursal.setEstado(estado);
-                        sucursalDao.Agregar(sucursal);
-                        request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
-                        break;
-                    case "Editar":
-                        codSucursal = Integer.parseInt(request.getParameter("codigoSucursal"));
-                        Sucursal s = sucursalDao.Buscar(codSucursal);
-                        request.setAttribute("sucursal", s);
-                        request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
-                        break;
-                    case "Actualizar":
-                        String ubicacionSu = request.getParameter("txtUbicacionSucursal");
-                        String telefonoSu = request.getParameter("txtTelefonoSucursal");
-                        String nombreSu = request.getParameter("txtNombreSucursal");
-                        Sucursal.Funcionamiento funcionamientoSu = Sucursal.Funcionamiento.valueOf(request.getParameter("txtFuncionamiento"));
-                        Sucursal.Estado estadoSu = Sucursal.Estado.valueOf(request.getParameter("txtEstado"));
-                        sucursal.setCodigoSucursal(codSucursal); 
-                        sucursal.setUbicacionSucursal(ubicacionSu);
-                        sucursal.setTelefonoSucursal(telefonoSu);
-                        sucursal.setNombreSucursal(nombreSu);
-                        sucursal.setFuncionamiento(funcionamientoSu);
-                        sucursal.setEstado(estadoSu);
-                        sucursalDao.Actualizar(sucursal);
-                        request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
-                        break;
-                    case "Eliminar":
-                        codSucursal = Integer.parseInt(request.getParameter("codigoSucursal"));
-                        sucursalDao.Eliminar(codSucursal);
-                        request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
-                       break;
+                case "Listar":
+                    List listaSucursal = sucursalDao.listar();
+                    request.setAttribute("sucursales", listaSucursal);
+                    break;
+                case "Agregar":
+                    String ubicacion = request.getParameter("txtUbicacionSucursal");
+                    String telefono = request.getParameter("txtTelefonoSucursal");
+                    String nombre = request.getParameter("txtNombreSucursal");
+                    Sucursal.Funcionamiento funcionamiento = Sucursal.Funcionamiento.valueOf(request.getParameter("txtFuncionamiento"));
+                    Sucursal.Estado estado = Sucursal.Estado.valueOf(request.getParameter("txtEstado"));
+                    sucursal.setUbicacionSucursal(ubicacion);
+                    sucursal.setTelefonoSucursal(telefono);
+                    sucursal.setNombreSucursal(nombre);
+                    sucursal.setFuncionamiento(funcionamiento);
+                    sucursal.setEstado(estado);
+                    sucursalDao.Agregar(sucursal);
+                    request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    codSucursal = Integer.parseInt(request.getParameter("codigoSucursal"));
+                    Sucursal s = sucursalDao.Buscar(codSucursal);
+                    request.setAttribute("sucursal", s);
+                    request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    String ubicacionSu = request.getParameter("txtUbicacionSucursal");
+                    String telefonoSu = request.getParameter("txtTelefonoSucursal");
+                    String nombreSu = request.getParameter("txtNombreSucursal");
+                    Sucursal.Funcionamiento funcionamientoSu = Sucursal.Funcionamiento.valueOf(request.getParameter("txtFuncionamiento"));
+                    Sucursal.Estado estadoSu = Sucursal.Estado.valueOf(request.getParameter("txtEstado"));
+                    sucursal.setCodigoSucursal(codSucursal);
+                    sucursal.setUbicacionSucursal(ubicacionSu);
+                    sucursal.setTelefonoSucursal(telefonoSu);
+                    sucursal.setNombreSucursal(nombreSu);
+                    sucursal.setFuncionamiento(funcionamientoSu);
+                    sucursal.setEstado(estadoSu);
+                    sucursalDao.Actualizar(sucursal);
+                    request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codSucursal = Integer.parseInt(request.getParameter("codigoSucursal"));
+                    sucursalDao.Eliminar(codSucursal);
+                    request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
+                    break;
             }
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
@@ -244,6 +243,20 @@ public class Controlador extends HttpServlet {
                 request.getRequestDispatcher("Transicion.jsp").forward(request, response);
             } else if (accion.equals("Listar")) {
                 request.getRequestDispatcher("Sucursal.jsp").forward(request, response);
+            }
+
+        } else if (menu.equals("Ubicacion")) {
+            switch (accion) {
+                case "Listar":
+                    List listaSucursal = sucursalDao.listar();
+                    request.setAttribute("sucursales", listaSucursal);
+                    break;
+            }if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Ubicacion&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Ubicacion.jsp").forward(request, response);
             }
 
         } else if (menu.equals("Factura")) {
