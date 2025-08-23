@@ -139,4 +139,42 @@ public class Empleado {
         this.codigoUsuario = codigoUsuario;
     }
     
+    public static class Facturacion{
+        private int codigoEmpleado;
+        private String nombreCompleto;
+        private double totalFacturado;
+
+        public Facturacion() {
+        }
+
+        public Facturacion(int codigoEmpleado, String nombreCompleto, double totalFacturado) {
+            this.codigoEmpleado = codigoEmpleado;
+            this.nombreCompleto = nombreCompleto;
+            this.totalFacturado = totalFacturado;
+        }
+
+        public int getCodigoEmpleado() {
+            return codigoEmpleado;
+        }
+
+        public void setCodigoEmpleado(int codigoEmpleado) {
+            this.codigoEmpleado = codigoEmpleado;
+        }
+
+        public String getNombreCompleto() {
+            return nombreCompleto;
+        }
+
+        public void setNombreCompleto(String nombreCompleto) {
+            this.nombreCompleto = nombreCompleto;
+        }
+
+        public double getTotalFacturado() {
+            return totalFacturado;
+        }
+
+        public void setTotalFacturado(double totalFacturado) {
+            this.totalFacturado = totalFacturado;
+        }
+    }
 }
