@@ -126,7 +126,7 @@
                                     </select>
                                 </div>
                             </div>
-                                <a href="../src/java/modelo/Resena.java"></a>
+                            <a href="../src/java/modelo/Cliente.java"></a>
                             <div class="flex-column">
                                 <button type="submit" class="btn-icon Actualizar" name="accion" value="Actualizar" title="Actualizar">
                                     <img src="img/Actualizar.png" alt="Actualizar">
@@ -139,6 +139,11 @@
                     </div>
                 </div>
             </div>
+            <a href="Controlador?menu=Cliente&accion=MostrarRanking" 
+               title="Mostrar Ranking de Clientes"
+               style="position: fixed; bottom: 20px; right: 20px; display: block; width: 80px; height: 80px; z-index: 1000;">
+                <img src="img/Ranking.png" alt="Ranking Clientes" style="width:100%; height:100%;">
+            </a>
         </section>
     </body>
 </html>
