@@ -242,4 +242,34 @@ public class BitacoraDAO {
         }
         return bi;
     }
+    public List filtrarPorAccionYTabla(String accion, String tablaModificada) {
+        List<Bitacora> listaBitacora = new ArrayList<>();
+        String sql = "SELECT * FROM Bitacora WHERE accion = ? AND tablaModificada = ?";
+
+        try {
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, accion);
+            ps.setString(2, tablaModificada);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Bitacora bi = new Bitacora();
+                bi.setCodigoBitacora(rs.getInt(1));
+                bi.setMensaje(rs.getString(2));
+                bi.setTablaModificada(rs.getString(3));
+                bi.setFecha(rs.getDate(4));
+                bi.setHora(rs.getTime(5));
+                bi.setDatoAnterior(rs.getString(6));
+                bi.setDatoNuevo(rs.getString(7));
+                bi.setAccion(rs.getString(8));
+                bi.setCodigoUsuario(rs.getInt(9));
+                listaBitacora.add(bi);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listaBitacora;
+    }
 }
