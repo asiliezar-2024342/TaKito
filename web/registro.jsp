@@ -32,7 +32,7 @@
                 <div class="form-header">
                     <h2>Registro</h2>
                 </div>
-                <form class="form" action="Controlador?menu=Usuario" method="POST">
+                <form class="form" action="Controlador?menu=Usuario" method="POST" enctype="multipart/form-data">
                     <div class="input-group">
                         <label>Correo</label>
                         <input type="email" value="" name="txtCorreoUsuario" required>
