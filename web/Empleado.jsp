@@ -17,6 +17,20 @@
         <link rel="stylesheet" href="styles/CRUD.css">
     </head>
     <body>
+        <form class="form-row2" style="flex-direction: row;" action="Controlador?menu=Empleado" method="POST">
+            <img src="img/tienda.png" alt="Sucursal"/>   
+            <label><strong>Sucursal a filtrar para ver los empleados: </strong></label>
+            <input type="text" name="txtCodigoSucursalBuscar" value="${empleado.getCodigoSucursal()}">
+            <div class="form__emp">
+            <button type="submit" class="btn-Buscar" name="accion" value="Buscar" title="Buscar">
+                <img src="img/Buscar.png" alt="Buscar">
+            </button>
+            </div>
+            <label class="label-1"><strong>Listar tabla:  </strong></label>
+            <button type="submit" class="btn-Listar" name="accion" value="Listar" title="Listar">
+                <img src="img/Actualizar.png" alt="Listar">
+            </button>
+        </form>
         <section class="crud">
             <div class="crud__table">
                 <form class="form-row" action="Controlador?menu=Empleado&accion=Buscar" method="POST">
@@ -151,6 +165,36 @@
                                 </button>
                             </div>
                         </form>
+                    </div>
+                    <div class="form-2">
+                        <form class="form-row" style="flex-direction: row;" action="Controlador?menu=Empleado&accion=BuscarFactura" method="POST">
+                            <img src="img/tienda.png" alt="Sucursal"/>
+                            <label><strong>Sucursal a filtrar para ver empleados con mayor facturación: </strong></label>
+                            <div class="form__suc">
+                            <input type="text" name="txtCodigoSucursalBuscar" value="${empleado.getCodigoSucursal()}">
+                            <button type="submit" class="btn-Buscar" name="accion" value="BuscarFactura" title="BuscarFactura"> 
+                                <img src="img/Buscar.png" alt="BuscarFactura">
+                            </button>
+                            </div>
+                        </form>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>CódigoEmpleado</th>
+                                    <th>Nombre Completo</th>
+                                    <th>TotalFacturado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="empleadoFactura" items="${empleadosFacturacion}">
+                                    <tr>
+                                        <td>${empleadoFactura.getCodigoEmpleado()}</td>
+                                        <td>${empleadoFactura.getNombreCompleto()}</td>
+                                        <td>${empleadoFactura.getTotalFacturado()}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>                 
                     </div>
                 </div>
             </div>
