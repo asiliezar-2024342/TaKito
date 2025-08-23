@@ -133,8 +133,8 @@ public class BitacoraDAO {
         return bi;
     }
     
-    public Bitacora listarPorTabla(String tablaModificada) {
-        Bitacora bi = new Bitacora();
+    public List listarPorTabla(String tablaModificada) {
+        List<Bitacora> listaBitacoraPorTabla = new ArrayList<>();
         String sql = "SELECT * FROM Bitacora WHERE tablaModificada = ?";
 
         try {
@@ -144,6 +144,7 @@ public class BitacoraDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
+                Bitacora bi = new Bitacora();
                 bi.setCodigoBitacora(rs.getInt(1));
                 bi.setMensaje(rs.getString(2));
                 bi.setTablaModificada(rs.getString(3));
@@ -153,12 +154,13 @@ public class BitacoraDAO {
                 bi.setDatoNuevo(rs.getString(7));
                 bi.setAccion(rs.getString(8));
                 bi.setCodigoUsuario(rs.getInt(9));
+                listaBitacoraPorTabla.add(bi);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return bi;
+        return listaBitacoraPorTabla;
     }
     public int agregar(Bitacora bi){
         String sql = "insert into Bitacora (mensaje,tablaModificada ,fecha,hora"
