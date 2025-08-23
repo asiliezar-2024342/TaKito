@@ -213,6 +213,33 @@ public class Controlador extends HttpServlet {
                     bitacoraDao.eliminar(codBitacora);
                     request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
                     break;
+                 case "Filtrar":
+                    String accionFiltro = request.getParameter("txtAccion");
+                    String tablaFiltro = request.getParameter("txtTablaModificada");
+                    List<Bitacora> listaFiltrada;
+
+                    // Si ambos filtros están seleccionados
+                    if ((accionFiltro != null && !accionFiltro.isEmpty()) && 
+                        (tablaFiltro != null && !tablaFiltro.isEmpty())) {
+                        listaFiltrada = bitacoraDao.filtrarPorAccionYTabla(accionFiltro, tablaFiltro);
+                    }
+                    // Si solo acción está seleccionada
+                    else if (accionFiltro != null && !accionFiltro.isEmpty()) {
+                        listaFiltrada = bitacoraDao.listarPorAccion(accionFiltro);
+                        // Removed duplicate line
+                    } 
+                    // Si solo tabla está seleccionada
+                    else if (tablaFiltro != null && !tablaFiltro.isEmpty()) {
+                        listaFiltrada = bitacoraDao.listarPorTabla(tablaFiltro);
+                    } 
+                    // Si ningún filtro está seleccionado, mostrar todos
+                    else {
+                        listaFiltrada = bitacoraDao.listar();
+                    }
+
+                    request.setAttribute("bitacoras", listaFiltrada);
+                    request.getRequestDispatcher("Bitacora.jsp").forward(request, response);
+                    break;
             }
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
