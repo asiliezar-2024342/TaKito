@@ -45,7 +45,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Factura&accion=Editar&codigoFactura=${factura.getCodigoFactura()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar" href="Controlador?menu=Factura&accion=Eliminar&codigoFactura=${factura.getCodigoFactura()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar" href="Controlador?menu=Factura&accion=ConfirmarEliminar&codigoFactura=${factura.getCodigoFactura()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -92,7 +92,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Nombre">
                                     <label><strong>Estado:</strong></label>
-                                    <select name="txtEstado" class="select">
+                                    <select name="txtEstado" class="select" disabled>
                                         <option value="Activo" ${factura.estado == 'Activo' ? 'selected' : ''}>Activo</option>
                                         <option value="Inactivo" ${factura.estado == 'Inactivo' ? 'selected' : ''}>Inactivo</option>
                                     </select>

@@ -44,7 +44,6 @@ public class ResenaDAO {
         ps.setInt(7, resena.getCodigoUsuario());
     }
 
-
     // Método para agregar una reseña
     public int agregar(Resena resena) {
         String sql = "Insert into Resena (tipo, tituloResena, "
@@ -95,7 +94,7 @@ public class ResenaDAO {
             if (rs.next()) {
                 createResena(resena);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,9 +104,9 @@ public class ResenaDAO {
     // Método para actulizar una reseña
     public int actualizar(Resena resena) {
         String sql = "Update Resena set tipo = ?, tituloResena = ?, "
-                + "comentarioResena = ?," +
-                " calificacionResena = ?, estado = ?," + " codigoSucursal = ?," +
-                " codigoUsuario = ? where codigoResena = ?";
+                + "comentarioResena = ?,"
+                + " calificacionResena = ?, estado = ?," + " codigoSucursal = ?,"
+                + " codigoUsuario = ? where codigoResena = ?";
 
         try {
             preparedSQL(resena, sql);
@@ -132,5 +131,47 @@ public class ResenaDAO {
             e.printStackTrace();
 
         }
+    }
+
+    // Método para poder listar historial de reseñas del usuario
+    public List listarHistorial(int usuario) {
+        String sql = "Select * from Resena where estado = 'Activo' and codigoUsuario = ?";
+        List<Resena> listaResena = new ArrayList<>();
+        try {
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, usuario);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Resena resena = new Resena();
+                createResena(resena);
+
+                listaResena.add(resena);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listaResena;
+    }
+
+    // Método para poder listar historial de reseñas del usuario
+    public List listarHistorialOtros(int usuario) {
+        String sql = "Select * from Resena where estado = 'Activo' and codigoUsuario != ?";
+        List<Resena> listaResena = new ArrayList<>();
+        try {
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, usuario);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Resena resena = new Resena();
+                createResena(resena);
+
+                listaResena.add(resena);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listaResena;
     }
 }

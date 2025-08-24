@@ -19,7 +19,7 @@
     <body>
         <section class="menu-container">
             <h1 class="menu-title">Nuestro Menú</h1>
-            
+
             <c:if test="${sessionScope.productoAgregadoExito}">
                 <div class="mensaje-exito">
                     ¡${sessionScope.nombreComboAgregado} agregado al carrito exitosamente! 
@@ -52,12 +52,29 @@
                     </c:otherwise>
                 </c:choose>
             </div>
+            <form action="Controlador?accion=SeleccionarS"  method="POST">
+                <div class="resena__input-container">
+                    <label>Sucursal</label>
+                    <select name="txtSucursal" required>
+                        <c:forEach var="sucursal" items="${sucursales}">
+                            <option value="${sucursal.getCodigoSucursal()}"
+                                    <c:if test="${sucursal.getCodigoSucursal() == sucursalP}">selected</c:if>>
+                                ${sucursal.getNombreSucursal()}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
 
+                <input type="submit" value="Seleccionar Sucursal">
+            </form>
             <div class="menu-grid">
+
                 <c:forEach var="combo" items="${combos}">
                     <div class="combo-card">
-                        <img class="combo-image" src="./img/Combo.png" alt="Combo" />
-                        <div class="combo-code">Código: ${combo.getCodigoCombo()}</div>
+                        <div style="display: flex; flex-direction: column;">
+                            <div class="combo-code">Código: ${combo.getCodigoCombo()}</div>
+                            <img src="Validar?codigoCombo=${combo.getCodigoCombo()}" width="110" height="150" loading="lazy" alt="Foto de combo"/>
+                        </div>
                         <div class="combo-name">${combo.getNombreCombo()}</div>
                         <div class="combo-price">Q${combo.getPrecioCombo()}</div>                        
                         <form method="post" action="Controlador" style="margin-top: 10px;">

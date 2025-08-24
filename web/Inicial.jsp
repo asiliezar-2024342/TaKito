@@ -24,7 +24,7 @@
                 </div>
 
                 <div>
-                    <h1>¡Te lo juro, Ta'Kabron!</h1>
+                    <h1>Tus deseos, nuestras órdenes.</h1>
                 </div>
 
                 <style>

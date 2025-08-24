@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.ComboDAO;
 import modelo.Usuario;
 import modelo.UsuarioDAO;
 
@@ -16,6 +17,7 @@ public class Validar extends HttpServlet {
 
     Usuario usuario = new Usuario();
     UsuarioDAO usuarioDao = new UsuarioDAO();
+    ComboDAO comboDao = new ComboDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,8 +57,17 @@ public class Validar extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int codigo = Integer.parseInt(request.getParameter("codigoUsuario"));
-        usuarioDao.listarUsImg(codigo, response);
+
+        String codigoUsuarioS = request.getParameter("codigoUsuario");
+        String codigoComboS = request.getParameter("codigoCombo");
+
+        if (codigoUsuarioS != null && !codigoUsuarioS.isEmpty()) {
+            int codigo = Integer.parseInt(codigoUsuarioS);
+            usuarioDao.listarUsImg(codigo, response);
+        } else if (codigoComboS != null && !codigoComboS.isEmpty()) {
+            int codigoComb = Integer.parseInt(codigoComboS);
+            comboDao.listarUsImg(codigoComb, response);
+        }
     }
 
     /**
@@ -70,6 +81,9 @@ public class Validar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        
         String accion = request.getParameter("accion");
 
         if (accion.equalsIgnoreCase("Ingresar")) {

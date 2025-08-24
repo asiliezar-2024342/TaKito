@@ -2,9 +2,13 @@ package modelo;
 
 public class Resena {
 
-    public enum Tipo {Sucursal, Empleado, Producto}
+    public enum Tipo {
+        Sucursal, Empleado, Producto
+    }
 
-    public enum Estado {Activo, Inactivo}
+    public enum Estado {
+        Activo, Inactivo
+    }
 
     private int codigoResena;
     private Tipo tipo;
@@ -19,7 +23,7 @@ public class Resena {
     }
 
     public Resena(int codigoResena, Tipo tipoResena, String tituloResena, String comentarioResena,
-                  int calificacionResena, Estado estado, int codigoSucursal, int codigoUsuario) {
+            int calificacionResena, Estado estado, int codigoSucursal, int codigoUsuario) {
         this.codigoResena = codigoResena;
         this.tipo = tipoResena;
         this.tituloResena = tituloResena;
@@ -92,5 +96,36 @@ public class Resena {
 
     public void setCodigoUsuario(int codigoUsuario) {
         this.codigoUsuario = codigoUsuario;
+    }
+
+    public class PromedioSucursal {
+
+        private Sucursal sucursal;
+        private double promedio;
+
+        public PromedioSucursal() {
+        }
+
+        public PromedioSucursal(Sucursal sucursal, double promedio) {
+            this.sucursal = sucursal;
+            this.promedio = promedio;
+        }
+
+        public Sucursal getSucursal() {
+            return sucursal;
+        }
+
+        public void setSucursal(Sucursal sucursal) {
+            this.sucursal = sucursal;
+        }
+
+        public double getPromedio() {
+            return promedio;
+        }
+
+        public void setPromedio(double promedio) {
+            this.promedio = promedio;
+        }
+
     }
 }

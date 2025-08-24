@@ -47,7 +47,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Bitacora&accion=Editar&codigoBitacora=${bitacora.getCodigoBitacora()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Bitacora&accion=Eliminar&codigoBitacora=${bitacora.getCodigoBitacora()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Bitacora&accion=ConfirmarEliminar&codigoBitacora=${bitacora.getCodigoBitacora()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>

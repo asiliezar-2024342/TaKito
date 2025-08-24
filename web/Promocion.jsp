@@ -87,7 +87,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Nombre">
                                     <label><strong>Estado: </strong></label>
-                                    <select name="txtEstado" class="select">
+                                    <select name="txtEstado" class="select" disabled>
                                         <option value="Activo">Activo</option>
                                         <option value="Inactivo">Inactivo</option>
                                     </select>
@@ -95,10 +95,10 @@
                             </div>
                                 <%-- Aqui tambien.--%>
                             <div class="flex-column">
-                                <button type="submit" class="btn-icon Actualizar" name="accion" value="ConfirmarActualizar" title="Actualizar">
+                                <button type="submit" class="btn-icon Actualizar" name="accion" value="Actualizar" title="Actualizar">
                                     <img src="img/Actualizar.png" alt="Actualizar">
                                 </button>
-                                <button type="submit"class="btn-icon Agregar" name="accion" value="ConfirmarAgregar" title="Agregar">
+                                <button type="submit"class="btn-icon Agregar" name="accion" value="Agregar" title="Agregar">
                                     <img src="img/Agregar.png" alt="Agregar">
                                 </button>
                             </div>
@@ -161,10 +161,10 @@
                                 </div>
                             </div>
                             <div class="flex-column">
-                                <button type="submit" class="btn-icon Actualizar" name="accion" value="ConfirmarActualizar" title="Actualizar">
+                                <button type="submit" class="btn-icon Actualizar" name="accion" value="Actualizar" title="Actualizar">
                                     <img src="img/Actualizar.png" alt="Actualizar">
                                 </button>
-                                <button type="submit"class="btn-icon Agregar" name="accion" value="ConfirmarAgregar" title="Agregar">
+                                <button type="submit"class="btn-icon Agregar" name="accion" value="Agregar" title="Agregar">
                                     <img src="img/Agregar.png" alt="Agregar">
                                 </button>
                             </div>

@@ -42,7 +42,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Resena&accion=Editar&codigoResena=${resena.getCodigoResena()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Resena&accion=Eliminar&codigoResena=${resena.getCodigoResena()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Resena&accion=ConfirmarEliminar&codigoResena=${resena.getCodigoResena()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -94,7 +94,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Nombre">
                                     <label><strong>Estado: </strong></label>
-                                    <input type="text" value="${resena.getEstado()}" name="txtEstado">
+                                    <input type="text" value="${resena.getEstado()}" name="txtEstado" disabled>
                                 </div>
                             </div>
                             <div class="flex-column">

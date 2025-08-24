@@ -2,11 +2,7 @@ package controlador;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 
 import java.sql.Date;
@@ -15,7 +11,6 @@ import java.time.LocalTime;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,11 +22,8 @@ import modelo.Empleado;
 import modelo.EmpleadoDAO;
 import modelo.Factura;
 import modelo.FacturaDAO;
-import modelo.Combo;
-import modelo.ComboDAO;
 import modelo.DetalleCombo;
 import modelo.DetalleComboDAO;
-import javax.servlet.http.HttpSession;
 import modelo.Combo;
 import modelo.ComboDAO;
 import modelo.DetallePedido;
@@ -40,14 +32,10 @@ import modelo.Pedido;
 import modelo.PedidoDAO;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import modelo.Cliente;
-import modelo.ClienteDAO;
 import modelo.Bitacora;
 import modelo.BitacoraDAO;
 import modelo.Resena;
 import modelo.ResenaDAO;
-import modelo.Sucursal;
-import modelo.SucursalDAO;
 import modelo.Usuario;
 import modelo.UsuarioDAO;
 import modelo.Cliente;
@@ -55,6 +43,8 @@ import modelo.ClienteDAO;
 
 import modelo.Producto;
 import modelo.ProductoDAO;
+import modelo.Sucursal;
+import modelo.SucursalDAO;
 
 @MultipartConfig
 public class Controlador extends HttpServlet {
@@ -69,14 +59,13 @@ public class Controlador extends HttpServlet {
     PromocionDAO promocionDao = new PromocionDAO();
     DetallePromocion detallePromocion = new DetallePromocion();
     DetallePromocionDAO detallePromocionDao = new DetallePromocionDAO();
-    Sucursal sucursal = new Sucursal();
     SucursalDAO sucursalDao = new SucursalDAO();
     Bitacora bitacora = new Bitacora();
     BitacoraDAO bitacoraDao = new BitacoraDAO();
     int codResena;
-    int codSucursal;
     int codCliente;
     int codPromocion;
+    int codSucursal;
     int codDetallePromocion;
     Empleado empleado = new Empleado();
     EmpleadoDAO empleadoDao = new EmpleadoDAO();
@@ -102,6 +91,10 @@ public class Controlador extends HttpServlet {
     int codDetallePedido;
     int codUsuario;
     int codBitacora;
+    int codUsuarioOperaciones = 0;
+    String cargo;
+    Sucursal sucursal = new Sucursal();
+    String sucursalP = "1";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -114,6 +107,7 @@ public class Controlador extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
         Usuario usuarioActual = new Usuario();
@@ -127,10 +121,35 @@ public class Controlador extends HttpServlet {
             session.setAttribute("carrito", carrito);
         }
 
+        if (request.getParameter("accion") != null) {
+
+            if (accion.equals("SeleccionarS")) {
+                sucursalP = request.getParameter("txtSucursal");
+                request.getRequestDispatcher("Controlador?menu=HacerPedido&accion=Listar").forward(request, response);
+                return;
+            } else if (accion.equals("ConfirmarEliminar")) {
+                String entidad = menu;
+
+                String parametro = "codigo" + entidad;
+                int codigo = Integer.parseInt(request.getParameter(parametro));
+                request.setAttribute("codigo", parametro);
+
+                request.setAttribute("accionReal", "Eliminar");
+                request.setAttribute("menu", menu);
+                request.setAttribute("codigoPromocion", codigo);
+                request.setAttribute("entidad", entidad);
+
+                request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
+                return;
+            }
+        }
+
         if (menu.equals("Principal")) {
             usuarioActual = (Usuario) request.getAttribute("usuario");
+            codUsuarioOperaciones = usuarioActual.getCodigoUsuario();
             HttpSession usuarioSesion = request.getSession();
             Cliente cl = clienteDao.buscarUsuario(usuarioActual.getCodigoUsuario());
+            cargo = usuarioActual.getCargo().toString();
             if (usuarioActual.getCargo().toString().equalsIgnoreCase("Consumidor")) {
                 nombres = cl.getPrimerNombreCliente();
                 apellidos = cl.getPrimerApellidoCliente();
@@ -193,7 +212,7 @@ public class Controlador extends HttpServlet {
                                 "Se agregó un nuevo usuario con correo: " + correo,
                                 "Usuario",
                                 "Crear",
-                                usuarioActual.getCodigoUsuario(),
+                                codUsuarioOperaciones,
                                 null,
                                 correo
                         );
@@ -217,7 +236,7 @@ public class Controlador extends HttpServlet {
                             "Se agregó usuario CRUD con correo: " + correoCrud,
                             "Usuario",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             correoCrud
                     );
@@ -253,7 +272,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó el usuario con código: " + codUsuario,
                             "Usuario",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             correoUsu
                     );
@@ -267,7 +286,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó el usuario con código: " + codUsuario,
                             "Usuario",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codUsuario),
                             null
                     );
@@ -294,7 +313,7 @@ public class Controlador extends HttpServlet {
                     String titulo = request.getParameter("txtTitulo");
                     String comentario = request.getParameter("txtComentario");
                     int calificacion = Integer.parseInt(request.getParameter("txtCalificacion"));
-                    Resena.Estado estado = Resena.Estado.valueOf(request.getParameter("txtEstado"));
+                    Resena.Estado estado = Resena.Estado.valueOf("Activo");
                     int sucursal = Integer.parseInt(request.getParameter("txtSucursal"));
                     int usuario = Integer.parseInt(request.getParameter("txtUsuario"));
 
@@ -310,7 +329,7 @@ public class Controlador extends HttpServlet {
                             "Se agregó una nueva reseña con título: " + titulo,
                             "Resena",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             titulo
                     );
@@ -328,7 +347,7 @@ public class Controlador extends HttpServlet {
                     String comentarioA = request.getParameter("txtComentario");
 
                     int calificacionA = Integer.parseInt(request.getParameter("txtCalificacion"));
-                    Resena.Estado estadoA = Resena.Estado.valueOf(request.getParameter("txtEstado"));
+                    Resena.Estado estadoA = Resena.Estado.valueOf("Activo");
                     int sucursalA = Integer.parseInt(request.getParameter("txtSucursal"));
                     int usuarioA = Integer.parseInt(request.getParameter("txtUsuario"));
 
@@ -345,7 +364,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó la reseña con código: " + codResena,
                             "Resena",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             tituloA
                     );
@@ -358,7 +377,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó la reseña con código: " + codResena,
                             "Resena",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codResena),
                             null
                     );
@@ -384,18 +403,17 @@ public class Controlador extends HttpServlet {
                     String descripcion = request.getParameter("txtDescripcionProducto");
                     Double precio = Double.parseDouble(request.getParameter("txtPrecioUnitario"));
                     int existencia = Integer.parseInt(request.getParameter("txtExistencias"));
-                    String est = request.getParameter("txtEstado");
                     producto.setNombreProducto(nombre);
                     producto.setDescripcionProducto(descripcion);
                     producto.setPrecioUnitario(precio);
                     producto.setExistencias(existencia);
-                    producto.setEstado(Producto.Estado.valueOf(est));
+                    producto.setEstado(Producto.Estado.valueOf("Activo"));
                     productoDao.agregar(producto);
                     bitacoraDao.agregarBitacora(
                             "Se agregó un nuevo producto con nombre: " + nombre,
                             "Producto",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             nombre
                     );
@@ -412,7 +430,7 @@ public class Controlador extends HttpServlet {
                     String descripcionPro = request.getParameter("txtDescripcionProducto");
                     Double precioUn = Double.parseDouble(request.getParameter("txtPrecioUnitario"));
                     int existencias = Integer.parseInt(request.getParameter("txtExistencias"));
-                    String esta = request.getParameter("txtEstado");
+                    String esta = "Activo";
                     producto.setNombreProducto(nombrePro);
                     producto.setDescripcionProducto(descripcionPro);
                     producto.setPrecioUnitario(precioUn);
@@ -424,7 +442,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó el producto con código: " + codProducto,
                             "Producto",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             nombrePro
                     );
@@ -437,7 +455,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó el producto con código: " + codProducto,
                             "Producto",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codProducto),
                             null
                     );
@@ -451,17 +469,7 @@ public class Controlador extends HttpServlet {
             } else if (accion.equals("Listar")) {
                 request.getRequestDispatcher("Producto.jsp").forward(request, response);
             }
-            if (accion.equals("Mover")) {
-                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-                request.setAttribute("jspFinal", "Controlador?menu=Producto&accion=Listar");
-                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
-            } else if (accion.equals("Listar")) {
-                request.getRequestDispatcher("Producto.jsp").forward(request, response);
-            }
         } else if (menu.equals("Bitacora")) {
-            HttpSession usuarioSesion = request.getSession();
-            usuarioActual = (Usuario) usuarioSesion.getAttribute("UsuarioActual");
-            String cargo = usuarioActual.getCargo().name();
             if (cargo == null || !"Administrativo".equalsIgnoreCase(cargo)) {
                 request.getRequestDispatcher("PrincipalContenido.jsp").forward(request, response);
                 return;
@@ -578,7 +586,7 @@ public class Controlador extends HttpServlet {
                     String direccion = request.getParameter("txtdireccionCliente");
                     Cliente.SexoCliente sexoCliente = Cliente.SexoCliente.valueOf(request.getParameter("txtSexoCliente"));
                     String nitCliente = request.getParameter("txtnitCliente");
-                    Cliente.EstadoCliente estadoCliente = Cliente.EstadoCliente.valueOf(request.getParameter("txtEstadoCliente"));
+                    Cliente.EstadoCliente estadoCliente = Cliente.EstadoCliente.valueOf("Activo");
                     int usuario = Integer.parseInt(request.getParameter("txtcodigoUsuario"));
 
                     cliente.setPrimerNombreCliente(primerNombre);
@@ -596,7 +604,7 @@ public class Controlador extends HttpServlet {
                             "Se agregó un nuevo cliente con NIT: " + nitCliente,
                             "Cliente",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             nitCliente
                     );
@@ -622,7 +630,7 @@ public class Controlador extends HttpServlet {
                     String direccionA = request.getParameter("txtdireccionCliente");
                     Cliente.SexoCliente sexoClienteA = Cliente.SexoCliente.valueOf(request.getParameter("txtSexoCliente"));
                     String nitClienteA = request.getParameter("txtnitCliente");
-                    Cliente.EstadoCliente estadoClienteA = Cliente.EstadoCliente.valueOf(request.getParameter("txtEstadoCliente"));
+                    Cliente.EstadoCliente estadoClienteA = Cliente.EstadoCliente.valueOf("Activo");
                     int usuarioA = Integer.parseInt(request.getParameter("txtcodigoUsuario"));
 
                     cliente.setPrimerNombreCliente(primerNombreA);
@@ -641,7 +649,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó el cliente con código: " + codCliente,
                             "Cliente",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             nitClienteA
                     );
@@ -655,7 +663,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó el cliente con código: " + codCliente,
                             "Cliente",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codCliente),
                             null
                     );
@@ -698,7 +706,7 @@ public class Controlador extends HttpServlet {
                     Time horaProgramado = Time.valueOf(request.getParameter("txtHoraProgramado"));
                     String ubicacion = request.getParameter("txtUbicacionPedido");
                     Pedido.TipoPedido tipoPedido = Pedido.TipoPedido.valueOf(request.getParameter("txtTipoPedido"));
-                    Pedido.Estado estado = Pedido.Estado.valueOf(request.getParameter("txtEstado"));
+                    Pedido.Estado estado = Pedido.Estado.valueOf("Activo");
                     int sucursal = Integer.parseInt(request.getParameter("txtCodigoSucursal"));
                     int cliente = Integer.parseInt(request.getParameter("txtCodigoCliente"));
 
@@ -716,7 +724,7 @@ public class Controlador extends HttpServlet {
                             "Se agregó un nuevo pedido con ubicación: " + ubicacion,
                             "Pedido",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             ubicacion
                     );
@@ -736,7 +744,7 @@ public class Controlador extends HttpServlet {
                     Time horaProgramado2 = Time.valueOf(request.getParameter("txtHoraProgramado"));
                     String ubicacion2 = request.getParameter("txtUbicacionPedido");
                     Pedido.TipoPedido tipoPedido2 = Pedido.TipoPedido.valueOf(request.getParameter("txtTipoPedido"));
-                    Pedido.Estado estado2 = Pedido.Estado.valueOf(request.getParameter("txtEstado"));
+                    Pedido.Estado estado2 = Pedido.Estado.valueOf("Activo");
 
                     pedido.setFechaCreacion(fechaCreacion2);
                     pedido.setHoraCreacion(horaCreacion2);
@@ -751,7 +759,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó el pedido con código: " + codPedido,
                             "Pedido",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             ubicacion2
                     );
@@ -764,7 +772,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó el pedido con código: " + codPedido,
                             "Pedido",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codPedido),
                             null
                     );
@@ -789,7 +797,7 @@ public class Controlador extends HttpServlet {
                             "Se agregó detalle del pedido con instrucciones: " + instrucciones,
                             "DetallePedido",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             instrucciones
                     );
@@ -815,7 +823,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó detalle del pedido con código: " + codDetallePedido,
                             "DetallePedido",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             instrucciones2
                     );
@@ -828,7 +836,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó detalle del pedido con código: " + codDetallePedido,
                             "DetallePedido",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codDetallePedido),
                             null
                     );
@@ -873,7 +881,7 @@ public class Controlador extends HttpServlet {
                     String telefono = request.getParameter("txtTelefonoEmpleado");
                     String correo = request.getParameter("txtCorreoEmpleado");
                     String direccion = request.getParameter("txtDireccionEmpleado");
-                    Empleado.Estado estado = Empleado.Estado.valueOf(request.getParameter("txtEstado"));
+                    Empleado.Estado estado = Empleado.Estado.valueOf("Activo");
                     Empleado.SexoEmpleado sexo = Empleado.SexoEmpleado.valueOf(request.getParameter("txtSexo"));
                     int codigoSucursal = Integer.parseInt(request.getParameter("txtCodigoSucursal"));
                     int codigoUsuario = Integer.parseInt(request.getParameter("txtCodigoUsuario"));
@@ -893,7 +901,7 @@ public class Controlador extends HttpServlet {
                             "Se agregó un nuevo empleado con correo: " + correo,
                             "Empleado",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             correo
                     );
@@ -915,7 +923,7 @@ public class Controlador extends HttpServlet {
                     String tel = request.getParameter("txtTelefonoEmpleado");
                     String cor = request.getParameter("txtCorreoEmpleado");
                     String dir = request.getParameter("txtDireccionEmpleado");
-                    Empleado.Estado est = Empleado.Estado.valueOf(request.getParameter("txtEstado"));
+                    Empleado.Estado est = Empleado.Estado.valueOf("Activo");
                     Empleado.SexoEmpleado sex = Empleado.SexoEmpleado.valueOf(request.getParameter("txtSexo"));
                     int suc = Integer.parseInt(request.getParameter("txtCodigoSucursal"));
                     int usu = Integer.parseInt(request.getParameter("txtCodigoUsuario"));
@@ -937,7 +945,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó el empleado con código: " + codEmpleado,
                             "Empleado",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             cor
                     );
@@ -951,7 +959,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó el empleado con código: " + codEmpleado,
                             "Empleado",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codEmpleado),
                             null
                     );
@@ -966,30 +974,53 @@ public class Controlador extends HttpServlet {
             } else if (accion.equals("Listar")) {
                 request.getRequestDispatcher("Empleado.jsp").forward(request, response);
             }
-            if (accion.equals("Mover")) {
-                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-                request.setAttribute("jspFinal", "Controlador?menu=Empleado&accion=Listar");
-                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
-            } else if (accion.equals("Listar")) {
-                request.getRequestDispatcher("Empleado.jsp").forward(request, response);
-            }
-            if (accion.equals("Mover")) {
-
-                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-                request.setAttribute("jspFinal", "Controlador?menu=Empleado&accion=Listar");
-                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
-            } else if (accion.equals("Listar")) {
-                request.getRequestDispatcher("Empleado.jsp").forward(request, response);
-            }
 
         } else if (menu.equals("Sucursal")) {
-
-            if (accion.equals("Mover")) {
-                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-                request.setAttribute("jspFinal", "Controlador?menu=Sucursal&accion=Listar");
-                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
-            } else if (accion.equals("Listar")) {
-                request.getRequestDispatcher("Sucursal.jsp").forward(request, response);
+            switch (accion) {
+                case "Listar":
+                    List listaSucursal = sucursalDao.listar();
+                    request.setAttribute("sucursales", listaSucursal);
+                    break;
+                case "Agregar":
+                    String ubicacion = request.getParameter("txtUbicacionSucursal");
+                    String telefono = request.getParameter("txtTelefonoSucursal");
+                    String nombre = request.getParameter("txtNombreSucursal");
+                    Sucursal.Funcionamiento funcionamiento = Sucursal.Funcionamiento.valueOf(request.getParameter("txtFuncionamiento"));
+                    Sucursal.Estado estado = Sucursal.Estado.valueOf(request.getParameter("txtEstado"));
+                    sucursal.setUbicacionSucursal(ubicacion);
+                    sucursal.setTelefonoSucursal(telefono);
+                    sucursal.setNombreSucursal(nombre);
+                    sucursal.setFuncionamiento(funcionamiento);
+                    sucursal.setEstado(estado);
+                    sucursalDao.Agregar(sucursal);
+                    request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    codSucursal = Integer.parseInt(request.getParameter("codigoSucursal"));
+                    Sucursal s = sucursalDao.Buscar(codSucursal);
+                    request.setAttribute("sucursal", s);
+                    request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    String ubicacionSu = request.getParameter("txtUbicacionSucursal");
+                    String telefonoSu = request.getParameter("txtTelefonoSucursal");
+                    String nombreSu = request.getParameter("txtNombreSucursal");
+                    Sucursal.Funcionamiento funcionamientoSu = Sucursal.Funcionamiento.valueOf(request.getParameter("txtFuncionamiento"));
+                    Sucursal.Estado estadoSu = Sucursal.Estado.valueOf(request.getParameter("txtEstado"));
+                    sucursal.setCodigoSucursal(codSucursal);
+                    sucursal.setUbicacionSucursal(ubicacionSu);
+                    sucursal.setTelefonoSucursal(telefonoSu);
+                    sucursal.setNombreSucursal(nombreSu);
+                    sucursal.setFuncionamiento(funcionamientoSu);
+                    sucursal.setEstado(estadoSu);
+                    sucursalDao.Actualizar(sucursal);
+                    request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codSucursal = Integer.parseInt(request.getParameter("codigoSucursal"));
+                    sucursalDao.Eliminar(codSucursal);
+                    request.getRequestDispatcher("Controlador?menu=Sucursal&accion=Listar").forward(request, response);
+                    break;
             }
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
@@ -1030,7 +1061,7 @@ public class Controlador extends HttpServlet {
                     String horaFactura = java.time.LocalTime.now().toString().substring(0, 5);
 
                     String metodo = request.getParameter("txtMetodo");
-                    String estado = request.getParameter("txtEstado");
+                    String estado = "Activo";
 
                     factura.setCodigoPedido(codigoPedido);
                     factura.setCodigoEmpleado(codigoEmpleado);
@@ -1046,7 +1077,7 @@ public class Controlador extends HttpServlet {
                             "Se agregó una nueva factura con total: " + totalFactura,
                             "Factura",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             String.valueOf(totalFactura)
                     );
@@ -1069,7 +1100,7 @@ public class Controlador extends HttpServlet {
                     String horaFactura2 = java.time.LocalTime.now().toString().substring(0, 5);
 
                     String metodo2 = request.getParameter("txtMetodo");
-                    String estado2 = request.getParameter("txtEstado");
+                    String estado2 = "Activo";
 
                     factura.setCodigoPedido(codigoPedido2);
                     factura.setCodigoEmpleado(codigoEmpleado2);
@@ -1085,7 +1116,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó la factura con código: " + codFactura,
                             "Factura",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             String.valueOf(totalFactura2)
                     );
@@ -1100,7 +1131,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó la factura con código: " + codFactura,
                             "Factura",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codFactura),
                             null
                     );
@@ -1115,13 +1146,6 @@ public class Controlador extends HttpServlet {
             } else if (accion.equals("Listar")) {
                 request.getRequestDispatcher("Factura.jsp").forward(request, response);
             }
-            if (accion.equals("Mover")) {
-                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-                request.setAttribute("jspFinal", "Controlador?menu=Factura&accion=Listar");
-                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
-            } else if (accion.equals("Listar")) {
-                request.getRequestDispatcher("Factura.jsp").forward(request, response);
-            }
 
         } else if (menu.equals("DetalleCombo")) {
 
@@ -1129,6 +1153,8 @@ public class Controlador extends HttpServlet {
                 case "Listar":
                     List listaDetalleCombos = detalleComboDao.listar();
                     request.setAttribute("detalleCombos", listaDetalleCombos);
+                    List listaCombos = comboDao.listar();
+                    request.setAttribute("combos", listaCombos);
                     break;
                 case "Agregar":
                     int cantidad = Integer.parseInt(request.getParameter("txtCantidad"));
@@ -1142,16 +1168,18 @@ public class Controlador extends HttpServlet {
                             "Se agregó un detalle de combo con cantidad: " + cantidad,
                             "DetalleCombo",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             String.valueOf(cantidad)
                     );
+                    detalleComboDao.agregar(detalleCombo);
                     request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
                     codDetalleCombo = Integer.parseInt(request.getParameter("codigoDetalleCombo"));
                     DetalleCombo dc = detalleComboDao.listarCodigoDetalleCombo(codDetalleCombo);
                     request.setAttribute("detalleCombo", dc);
+                    detalleComboDao.actualizar(detalleCombo);
                     request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
                     break;
                 case "Actualizar":
@@ -1163,7 +1191,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó el detalle de combo con código: " + codDetalleCombo,
                             "DetalleCombo",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             String.valueOf(cantidadA)
                     );
@@ -1176,19 +1204,16 @@ public class Controlador extends HttpServlet {
                             "Se eliminó el detalle de combo con código: " + codDetalleCombo,
                             "DetalleCombo",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codDetalleCombo),
                             null
                     );
                     request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
                     break;
             }
-            if (accion.equals("Mover")) {
-                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-                request.setAttribute("jspFinal", "Controlador?menu=Resena&accion=Listar");
-                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
-            } else if (accion.equals("Listar")) {
-                request.getRequestDispatcher("Resena.jsp").forward(request, response);
+
+            if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Combo.jsp").forward(request, response);
             }
 
         } else if (menu.equals("Combo")) {
@@ -1197,27 +1222,30 @@ public class Controlador extends HttpServlet {
                 case "Listar":
                     List listaCombos = comboDao.listar();
                     request.setAttribute("combos", listaCombos);
+                    List listaDetalleCombos = detalleComboDao.listar();
+                    request.setAttribute("detalleCombos", listaDetalleCombos);
                     break;
                 case "Agregar":
                     String nombreCombo = request.getParameter("txtNombreCombo");
                     String descripcionCombo = request.getParameter("txtDescripcion");
                     Float precioCombo = Float.valueOf(request.getParameter("txtPrecioCombo"));
                     Combo.Categoria categoria = Combo.Categoria.valueOf(request.getParameter("txtCategoria"));
-                    Combo.Estado estado = Combo.Estado.valueOf(request.getParameter("txtEstado"));
-                    InputStream foto = (InputStream) request.getPart("foto");
+                    Combo.Estado estado = Combo.Estado.valueOf("Activo");
+                    Part archivo = request.getPart("txtFoto");
+                    InputStream is = archivo.getInputStream();
 
                     combo.setNombreCombo(nombreCombo);
                     combo.setDescripcionCombo(descripcionCombo);
                     combo.setPrecioCombo(precioCombo);
                     combo.setCategoria(categoria);
                     combo.setEstado(estado);
-                    combo.setFoto(foto);
+                    combo.setFoto(is);
                     comboDao.agregar(combo);
                     bitacoraDao.agregarBitacora(
                             "Se agregó un nuevo combo: " + nombreCombo,
                             "Combo",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             nombreCombo
                     );
@@ -1234,22 +1262,23 @@ public class Controlador extends HttpServlet {
                     String descripcionA = request.getParameter("txtDescripcion");
                     Float precioA = Float.valueOf(request.getParameter("txtPrecioCombo"));
                     Combo.Categoria categoriaA = Combo.Categoria.valueOf(request.getParameter("txtCategoria"));
-                    Combo.Estado estadoA = Combo.Estado.valueOf(request.getParameter("txtEstado"));
-                    InputStream fotoA = (InputStream) request.getPart("foto");
+                    Combo.Estado estadoA = Combo.Estado.valueOf("Activo");
+                    Part archivo2 = request.getPart("txtFoto");
+                    InputStream is2 = archivo2.getInputStream();
 
                     combo.setNombreCombo(nombreA);
                     combo.setDescripcionCombo(descripcionA);
                     combo.setPrecioCombo(precioA);
                     combo.setCategoria(categoriaA);
                     combo.setEstado(estadoA);
-                    combo.setFoto(fotoA);
+                    combo.setFoto(is2);
                     combo.setCodigoCombo(codCombo);
                     comboDao.actualizar(combo);
                     bitacoraDao.agregarBitacora(
                             "Se actualizó el combo con código: " + codCombo,
                             "Combo",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             nombreA
                     );
@@ -1262,7 +1291,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó el combo con código: " + codCombo,
                             "Combo",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codCombo),
                             null
                     );
@@ -1285,17 +1314,6 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("DetallesPromociones", detallePromocionDao.listar());
                     request.getRequestDispatcher("Promocion.jsp").forward(request, response);
                     break;
-                //Solo tienen que añadir estas tres acciones al controlador con los datos que les corresponde a cada uno: Solamente cambian "Promocion" por su entidad.            
-                case "ConfirmarAgregar":
-                    request.setAttribute("accionReal", "Agregar");
-                    request.setAttribute("menu", "Promocion");
-                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
-                    break;
-                case "ConfirmarActualizar":
-                    request.setAttribute("accionReal", "Actualizar");
-                    request.setAttribute("menu", "Promocion");
-                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
-                    break;
                 case "ConfirmarEliminar":
                     codPromocion = Integer.parseInt(request.getParameter("codigoPromocion"));
                     request.setAttribute("accionReal", "Eliminar");
@@ -1316,7 +1334,7 @@ public class Controlador extends HttpServlet {
                     double descuento = Double.parseDouble(request.getParameter("txtDescuentoPromocion"));
                     Date inicio = Date.valueOf(request.getParameter("txtFechaInicio"));
                     Date fin = Date.valueOf(request.getParameter("txtFechaFin"));
-                    String estado = request.getParameter("txtEstado");
+                    String estado = "Activo";
                     promocion.setNombrePromocion(nombre);
                     promocion.setDescripcionPromocion(descripcion);
                     promocion.setDescuentoPromocion(descuento);
@@ -1328,7 +1346,7 @@ public class Controlador extends HttpServlet {
                             "Se agregó la promoción: " + nombre,
                             "Promocion",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             nombre
                     );
@@ -1346,7 +1364,7 @@ public class Controlador extends HttpServlet {
                     double descuento2 = Double.parseDouble(request.getParameter("txtDescuentoPromocion"));
                     Date inicio2 = Date.valueOf(request.getParameter("txtFechaInicio"));
                     Date fin2 = Date.valueOf(request.getParameter("txtFechaFin"));
-                    String estado2 = request.getParameter("txtEstado");
+                    String estado2 = "Activo";
                     promocion.setNombrePromocion(nombre2);
                     promocion.setDescripcionPromocion(descripcion2);
                     promocion.setDescuentoPromocion(descuento2);
@@ -1359,7 +1377,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó la promoción con código: " + codPromocion,
                             "Promocion",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             nombre2
                     );
@@ -1372,7 +1390,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó la promoción con código: " + codPromocion,
                             "Promocion",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codPromocion),
                             null
                     );
@@ -1390,7 +1408,7 @@ public class Controlador extends HttpServlet {
                             "Se agregó detalle de promoción con código promoción: " + codigoPromocion,
                             "DetallePromocion",
                             "Crear",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             observaciones
                     );
@@ -1415,7 +1433,7 @@ public class Controlador extends HttpServlet {
                             "Se actualizó detalle de promoción con código detalle: " + codDetallePromocion,
                             "DetallePromocion",
                             "Actualizar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             null,
                             observaciones2
                     );
@@ -1428,7 +1446,7 @@ public class Controlador extends HttpServlet {
                             "Se eliminó detalle de promoción con código detalle: " + codDetallePromocion,
                             "DetallePromocion",
                             "Eliminar",
-                            usuarioActual.getCodigoUsuario(),
+                            codUsuarioOperaciones,
                             String.valueOf(codDetallePromocion),
                             null
                     );
@@ -1445,13 +1463,16 @@ public class Controlador extends HttpServlet {
 
         } else if (menu.equals("HacerPedido")) {
             List listaCombos = comboDao.listar();
+            List listaS = sucursalDao.listar();
             request.setAttribute("combos", listaCombos);
+            request.setAttribute("sucursales", listaS);
 
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
                 request.setAttribute("jspFinal", "Controlador?menu=HacerPedido&accion=Listar");
                 request.getRequestDispatcher("Transicion.jsp").forward(request, response);
             } else if (accion.equals("Listar")) {
+                request.setAttribute("sucursalP", Integer.parseInt(sucursalP));
                 request.getRequestDispatcher("HacerPedido.jsp").forward(request, response);
             }
         } else if (menu.equals("Carrito")) {
@@ -1557,8 +1578,13 @@ public class Controlador extends HttpServlet {
                         pedido.setEstado(Pedido.Estado.Activo);
                         pedido.setTipoPedido(Pedido.TipoPedido.Recoger);
                         pedido.setUbicacionPedido("Sucursal Central");
-                        pedido.setCodigoSucursal(1);
-                        pedido.setCodigoCliente(1);
+                        pedido.setCodigoSucursal(Integer.parseInt(sucursalP));
+
+                        if (cargo.equals("Consumidor")) {
+                            pedido.setCodigoCliente(clienteDao.buscarUsuario(codUsuarioOperaciones).getCodigoCliente());
+                        } else {
+                            pedido.setCodigoCliente(12);
+                        }
 
                         pedidoDao.agregar(pedido);
 
@@ -1596,6 +1622,58 @@ public class Controlador extends HttpServlet {
                         response.sendRedirect("Principal.jsp");
                         return;
                     }
+            }
+        } else if (menu.equals("Menu")) {
+            List listaCombosMenu = comboDao.listar();
+            request.setAttribute("combos", listaCombosMenu);
+            request.setAttribute("jspFinal", "Controlador?menu=Menu&accion=Listar");
+
+            if (accion.equals("Mover")) {
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("Menu.jsp").forward(request, response);
+            }
+        } else if (menu.equals("ResenaCliente")) {
+
+            if (accion.equals("Agregar")) {
+                Resena.Tipo tipo = Resena.Tipo.valueOf(request.getParameter("txtTipo"));
+                String titulo = request.getParameter("txtTitulo");
+                String comentario = request.getParameter("txtComentario");
+                int calificacion = Integer.parseInt(request.getParameter("txtCalificacion"));
+                Resena.Estado estado = Resena.Estado.Activo;
+                int sucursal = Integer.parseInt(request.getParameter("txtSucursal"));
+
+                resena.setTipo(tipo);
+                resena.setTituloResena(titulo);
+                resena.setComentarioResena(comentario);
+                resena.setCalificacionResena(calificacion);
+                resena.setEstado(estado);
+                resena.setCodigoSucursal(sucursal);
+                resena.setCodigoUsuario(codUsuarioOperaciones);
+                resenaDao.agregar(resena);
+
+                bitacoraDao.agregarBitacora(
+                        "Se agregó una nueva reseña con título: " + titulo,
+                        "Resena",
+                        "Crear",
+                        codUsuarioOperaciones,
+                        null,
+                        titulo
+                );
+            }
+
+            request.setAttribute("jspFinal", "Controlador?menu=ResenaCliente&accion=Listar");
+            if (accion.equals("Mover")) {
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else {
+                List listaSucursalCliente = sucursalDao.listar();
+                List historialU = resenaDao.listarHistorial(codUsuarioOperaciones);
+                List listaSucursalOtros = resenaDao.listarHistorialOtros(codUsuarioOperaciones);
+
+                request.setAttribute("sucursales", listaSucursalCliente);
+                request.setAttribute("resenasUsuarios", historialU);
+                request.setAttribute("resenasOtros", listaSucursalOtros);
+                request.getRequestDispatcher("ResenaCliente.jsp").forward(request, response);
             }
         }
 

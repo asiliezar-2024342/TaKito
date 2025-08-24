@@ -54,7 +54,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Cliente&accion=Editar&codigoCliente=${cliente.getCodigoCliente()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar" href="Controlador?menu=Cliente&accion=Eliminar&codigoCliente=${cliente.getCodigoCliente()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar" href="Controlador?menu=Cliente&accion=ConfirmarEliminar&codigoCliente=${cliente.getCodigoCliente()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -120,7 +120,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Estado">
                                     <label><strong>Estado: </strong></label>
-                                    <select name="txtEstadoCliente" class="select">
+                                    <select name="txtEstadoCliente" class="select" disabled>
                                         <option value="Activo" ${cliente.getEstado() == 'Activo' ? 'selected' : ''}>Activo</option>
                                         <option value="Inactivo" ${cliente.getEstado() == 'Inactivo' ? 'selected' : ''}>Inactivo</option>
                                     </select>

@@ -10,7 +10,7 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
-        <title>Ta'Kabrón</title>
+        <title>Ta'Kito</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="styles/Principal.css"/> 
     </head>
@@ -41,7 +41,7 @@
 
 
                             <form action="Validar" method="POST">
-                                <button name="accion" name="Salir" class="header-buttons__exitbtn">Salir</button>
+                                <button name="accion" name="Salir" class="header-buttons__exitbtn" onclick="return confirm('¿Desea cerrar sesión?')">Salir</button>
                             </form>
                             <a href="#"></a>
                         </div>
@@ -74,7 +74,7 @@
                     </label>
 
                     <div class="main-title">
-                        <h1 class="main-title__text">Ta'Kabrón</h1>
+                        <h1 class="main-title__text">Ta'Kito</h1>
                     </div>
 
                     <ul class="menu__box">
@@ -101,11 +101,11 @@
                                 <a href="Controlador?menu=Factura&accion=Mover" target="myFrame" >Factura</a>
                                 <a href="Controlador?menu=Promocion&accion=Mover" target="myFrame" >Promoción</a>
                                 <a href="Controlador?menu=Resena&accion=Mover" target="myFrame">Reseña</a>
-                                <a href="Controlador?menu=Bitacora&accion=Mover" target="myFrame">Bitácora</a>
+                                <a href="Controlador?menu=Bitacora&accion=Mover" target="myFrame">Bitácora (admin)</a>
                             </div>
                         </li>
                         <li>
-                            <a class="menu__item" href="#">
+                            <a class="menu__item" href="Controlador?menu=Menu&accion=Mover" target="myFrame">
                                 <img class="icono" src="./img/Menu.png" alt="Inicio"/>
                                 Menú
                             </a>
@@ -120,6 +120,12 @@
                             <a class="menu__item" href="Controlador?menu=Ubicacion&accion=Mover" target="myFrame">
                                 <img class="icono" src="./img/Ubicacion.png" alt="Inicio"/>
                                 Ubicaciones
+                            </a>
+                        </li>
+                        <li>
+                            <a class="menu__item" href="Controlador?menu=ResenaCliente&accion=Mover" target="myFrame">
+                                <img class="icono" src="./img/comentario.png" alt="Comentario"/>
+                                Reseñas
                             </a>
                         </li>
                         <li>
@@ -219,8 +225,8 @@
         <footer class="site-footer">
             <div class="footer-container">
                 <div class="footer-logo">
-                    <img src="img/Logo.png" alt="Logo Ta'Kabron">
-                    <span class="site-name">Ta'Kabron</span>
+                    <img src="img/Logo.png" alt="Logo Ta'Kito">
+                    <span class="site-name">Ta'Kito</span>
                 </div>
                 <nav class="footer-links">
                     <a href="#">Acerca de</a>
@@ -230,7 +236,7 @@
                 </nav>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Ta'Kabron. Todos los derechos reservados.</p>
+                <p>&copy; 2025 Ta'Kito. Todos los derechos reservados.</p>
             </div>
         </footer>
     </body>

@@ -48,7 +48,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Usuario&accion=Editar&codigoUsuario=${usuario.getCodigoUsuario()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Usuario&accion=Eliminar&codigoUsuario=${usuario.getCodigoUsuario()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Usuario&accion=ConfirmarEliminar&codigoUsuario=${usuario.getCodigoUsuario()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>

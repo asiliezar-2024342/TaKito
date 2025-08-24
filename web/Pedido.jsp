@@ -62,7 +62,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Pedido&accion=Editar&codigoPedido=${pedido.getCodigoPedido()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Pedido&accion=Eliminar&codigoPedido=${pedido.getCodigoPedido()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Pedido&accion=ConfirmarEliminar&codigoPedido=${pedido.getCodigoPedido()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -115,7 +115,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Estado">
                                     <label><strong>Estado: </strong></label>
-                                    <select name="txtEstado" class="select">
+                                    <select name="txtEstado" class="select" disabled>
                                         <option value="Activo" ${pedido.estado == 'Activo' ? 'selected' : ''}>Activo</option>
                                         <option value="Inactivo" ${pedido.estado == 'Inactivo' ? 'selected' : ''}>Inactivo</option>
                                     </select>
@@ -175,7 +175,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Pedido&accion=Editar2&codigoDetallePedido=${DetallePedido.getCodigoDetallePedido()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Pedido&accion=Eliminar2&codigoDetallePedido=${DetallePedido.getCodigoDetallePedido()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Pedido&accion=ConfirmarEliminar2&codigoDetallePedido=${DetallePedido.getCodigoDetallePedido()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>

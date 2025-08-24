@@ -1,0 +1,248 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+body{
+    display: grid;
+    margin-top: 6em;
+    grid-template-areas:
+        "historial resena"
+        "comentarios comentarios";
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 75dvh 100dvh;
+    align-content: center;
+    gap: 5em 0;
+    justify-items: stretch;
+    padding: 2em;
+}
+
+h2{
+    font-size: 2em;
+    color: #7D1B12;
+}
+
+.resena__title-container{
+    font-size: 1em;
+    text-align: center;
+}
+
+.resena{
+    grid-area: resena;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+
+.resena__form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    padding: 2em;
+    border-radius: 15px;
+    background: #fff;
+    width: 60%;
+    gap: 2em;
+}
+
+.resena__input-container, .resena__input-label{
+    display: flex;
+    flex-direction: column;
+    margin: 1em 0;
+}
+
+.resena__input-label input,
+.resena__input-label textarea,
+.resena__input-container select {
+    width: 100%;
+    padding: 0.75em 1em;
+    margin-top: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1em;
+    transition: border 0.2s, box-shadow 0.2s;
+    outline: none;
+    background-color: #fff;
+}
+
+
+.resena__rating {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+}
+
+.resena__rating input {
+    display: none;
+}
+
+.resena__rating label, .comment__star {
+    font-size: 2em;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.resena__rating input:checked ~ label,
+.resena__rating label:hover,
+.resena__rating label:hover ~ label, .comment__star-filled{
+    color: #FEA124;
+    transform: scale(1.2);
+}
+
+.resena__input-container button{
+    background-color: #FEA124;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 4em;
+    cursor: pointer;
+}
+
+.resena__input-container button strong{
+    font-size: 1.5em;
+    padding: 1em;
+}
+
+.resena__input-container button:hover{
+    background-color: #FEC201;
+}
+
+.resena__input-container button img{
+    height: 100%;
+    width: 60px;
+    object-fit: contain;
+}
+
+.comment__star-filled{
+    transform: none;
+}
+
+.history{
+    grid-area: historial;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 1em;
+}
+
+.history img{
+    height: 8em;
+    object-fit: contain;
+}
+.history__content{
+    display: flex;
+    flex-direction: column;
+}
+.comments{
+    grid-area: comentarios;
+    width: 80%;
+}
+
+.comments img{
+    height: 5em;
+    object-fit: contain;
+}
+
+.comments__comment{
+    display: flex;
+    gap: 1em;
+    margin: 1em 0;
+    padding: 0 1em;
+    border-bottom: 1px solid #ddd;
+}
+.comments__content{
+    display: flex;
+    gap: 0.1em;
+    flex-direction: column;
+}
+
+.comment__stars{
+    display: flex;
+}
+
+.history__content > div {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 1em;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.history table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+    text-align: left;
+}
+
+.history thead {
+    position: sticky;
+    top: 0;
+    background-color: #FEA124;
+    color: white;
+    z-index: 2;
+}
+
+.history th,
+.history td {
+    padding: 0.75em 1em;
+    border-bottom: 1px solid #ddd;
+}
+
+.history tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.history tbody tr:hover {
+    background-color: #ffe9c6;
+    cursor: pointer;
+}
+
+@media (max-width: 950px) {
+    body{
+        grid-template-areas:
+            "resena"
+            "historial"
+            "comentarios";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        padding: 1em;
+    }
+
+    .resena__form,
+    .history,
+    .comments {
+        width: 100%;
+    }
+
+    .resena__rating label {
+        font-size: 1.6em;
+        margin-left: 0.1em;
+    }
+
+    .resena__input-label input,
+    .resena__input-label textarea,
+    .resena__input-container select {
+        font-size: 0.95em;
+        padding: 0.6em 0.8em;
+    }
+
+    table {
+        font-size: 0.9em;
+    }
+
+    .comments__comment {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+}

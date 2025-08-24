@@ -38,7 +38,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Sucursal&accion=Editar&codigoSucursal=${sucursal.getCodigoSucursal()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Sucursal&accion=Eliminar&codigoSucursal=${sucursal.getCodigoSucursal()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Sucursal&accion=ConfirmarEliminar&codigoSucursal=${sucursal.getCodigoSucursal()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -80,7 +80,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Nombre">
                                     <label><strong>Estado: </strong></label>
-                                    <select name="txtEstado" class="select">
+                                    <select name="txtEstado" class="select" disabled>
                                         <option value="Activo">Activo</option>
                                         <option value="Inactivo">Inactivo</option>
                                     </select>

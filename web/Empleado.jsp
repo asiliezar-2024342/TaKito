@@ -80,7 +80,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Empleado&accion=Editar&codigoEmpleado=${empleado.getCodigoEmpleado()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Empleado&accion=Eliminar&codigoEmpleado=${empleado.getCodigoEmpleado()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Empleado&accion=ConfirmarEliminar&codigoEmpleado=${empleado.getCodigoEmpleado()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -133,7 +133,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Estado">
                                     <label><strong>Estado: </strong></label>
-                                    <select name="txtEstado" class="select">
+                                    <select name="txtEstado" class="select" disabled>
                                         <option value="Activo" ${empleado.estado == 'Activo' ? 'selected' : ''}>Activo</option>
                                         <option value="Inactivo" ${empleado.estado == 'Inactivo' ? 'selected' : ''}>Inactivo</option>
                                     </select>

@@ -38,7 +38,7 @@
                                     <a class="btn-icon Editar" title="Editar" href="Controlador?menu=Producto&accion=Editar&codigoProducto=${producto.getCodigoProducto()}">
                                         <img src="img/Actualizar.png" alt="Editar">
                                     </a>
-                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Producto&accion=Eliminar&codigoProducto=${producto.getCodigoProducto()}">
+                                    <a class="btn-icon Eliminar" title="Eliminar"  href="Controlador?menu=Producto&accion=ConfirmarEliminar&codigoProducto=${producto.getCodigoProducto()}">
                                         <img src="img/Eliminar.png" alt="Eliminar">
                                     </a>
                                 </td>
@@ -76,7 +76,7 @@
                                 <div class="form-row">
                                     <img src="img/icon-estado.jpg" alt="Estado">
                                     <label><strong>Estado: </strong></label>
-                                    <select name="txtEstado" class="select">
+                                    <select name="txtEstado" class="select" disabled>
                                         <option value="Activo" ${producto.estado == 'Activo' ? 'selected' : ''}>Activo</option>
                                         <option value="Inactivo" ${producto.estado == 'Inactivo' ? 'selected' : ''}>Inactivo</option>
                                     </select>

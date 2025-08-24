@@ -23,7 +23,7 @@
                     <input type="hidden" name="accion" value="${accionReal}">
                     <%-- Nota jovenes: Esta accion se debe repetir para cada uno de las entidades solamente cambiando las variables por las suyas.--%>
                     <c:if test="${not empty codigoPromocion}">
-                        <input type="hidden" name="codigoPromocion" value="${codigoPromocion}">
+                        <input type="hidden" name="${codigo}" value="${codigoPromocion}">
                     </c:if>
                     <button type="submit" class="btn-confirmar">Confirmar</button>
                     
