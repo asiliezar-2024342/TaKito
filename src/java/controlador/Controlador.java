@@ -83,10 +83,6 @@ public class Controlador extends HttpServlet {
     DetallePedidoDAO detallePedidoDao = new DetallePedidoDAO();
     int codDetallePedido;
 
-    Combo combo = new Combo();
-    ComboDAO comboDao = new ComboDAO();
-    int codCombo;
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
