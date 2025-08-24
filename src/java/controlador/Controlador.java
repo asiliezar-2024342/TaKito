@@ -215,9 +215,6 @@ public class Controlador extends HttpServlet {
                     request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
                     break;
             }
-        }
-
-
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
                 request.setAttribute("jspFinal", "Controlador?menu=Producto&accion=Listar");
@@ -232,8 +229,7 @@ public class Controlador extends HttpServlet {
             } else if (accion.equals("Listar")) {
                 request.getRequestDispatcher("Producto.jsp").forward(request, response);
             }
-
-        else if (menu.equals("Bitacora")) {
+        } else if (menu.equals("Bitacora")) {
 
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
@@ -370,27 +366,27 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Empleado")) {
-            switch(accion){
+            switch (accion) {
                 case "Listar":
                     List listaEmpleados = empleadoDao.listar();
                     request.setAttribute("empleados", listaEmpleados);
                     break;
-                    
+
                 case "Buscar":
                     int codSucursal = Integer.parseInt(request.getParameter("txtCodigoSucursalBuscar"));
                     List empleadosS = empleadoDao.buscarEmpleadosPorSucursal(codSucursal);
                     request.setAttribute("empleados", empleadosS);
                     request.getRequestDispatcher("Empleado.jsp").forward(request, response);
                     break;
-                    
+
                 case "BuscarFactura":
-                   int codigoSucur = Integer.parseInt(request.getParameter("txtCodigoSucursalBuscar"));
-                   List empleadoFac = empleadoDao.facturacionEmpleadoPorSucursal(codigoSucur);
-                   request.setAttribute("empleadosFacturacion", empleadoFac);
-                   request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
-                   request.getRequestDispatcher("Empleado.jsp").forward(request, response);
-                   break;
-                    
+                    int codigoSucur = Integer.parseInt(request.getParameter("txtCodigoSucursalBuscar"));
+                    List empleadoFac = empleadoDao.facturacionEmpleadoPorSucursal(codigoSucur);
+                    request.setAttribute("empleadosFacturacion", empleadoFac);
+                    request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
+                    request.getRequestDispatcher("Empleado.jsp").forward(request, response);
+                    break;
+
                 case "Agregar":
                     String priNombre = request.getParameter("txtPrimerNombreEmpleado");
                     String segNombre = request.getParameter("txtSegundoNombreEmpleado");
@@ -417,14 +413,14 @@ public class Controlador extends HttpServlet {
                     empleadoDao.agregar(empleado);
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
-                
+
                 case "Editar":
                     codEmpleado = Integer.parseInt(request.getParameter("codigoEmpleado"));
                     Empleado e = empleadoDao.buscar(codEmpleado);
                     request.setAttribute("empleado", e);
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
-                    
+
                 case "Actualizar":
                     String priN = request.getParameter("txtPrimerNombreEmpleado");
                     String secN = request.getParameter("txtSegundoNombreEmpleado");
@@ -437,7 +433,7 @@ public class Controlador extends HttpServlet {
                     Empleado.SexoEmpleado sex = Empleado.SexoEmpleado.valueOf(request.getParameter("txtSexo"));
                     int suc = Integer.parseInt(request.getParameter("txtCodigoSucursal"));
                     int usu = Integer.parseInt(request.getParameter("txtCodigoUsuario"));
-                    
+
                     empleado.setPrimerNombreEmpleado(priN);
                     empleado.setSegundoNombreEmpleado(secN);
                     empleado.setPrimerApellidoEmpleado(priA);
@@ -453,7 +449,7 @@ public class Controlador extends HttpServlet {
                     empleadoDao.actualizar(empleado);
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
-                    
+
                 case "Eliminar":
                     codEmpleado = Integer.parseInt(request.getParameter("codigoEmpleado"));
                     empleadoDao.eliminar(codEmpleado);
@@ -476,7 +472,7 @@ public class Controlador extends HttpServlet {
                 request.getRequestDispatcher("Empleado.jsp").forward(request, response);
             }
             if (accion.equals("Mover")) {
-                
+
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
                 request.setAttribute("jspFinal", "Controlador?menu=Empleado&accion=Listar");
                 request.getRequestDispatcher("Transicion.jsp").forward(request, response);
@@ -513,8 +509,8 @@ public class Controlador extends HttpServlet {
                     int codigoEmpleado = Integer.parseInt(request.getParameter("txtCodigoEmpleado"));
                     float totalFactura = Float.parseFloat(request.getParameter("txtTotalFactura"));
                     float donacion = Float.parseFloat(request.getParameter("txtDonacion"));
-                    Date fechaFactura = new Date(System.currentTimeMillis()); 
-                    String horaFactura = java.time.LocalTime.now().toString().substring(0, 5); 
+                    Date fechaFactura = new Date(System.currentTimeMillis());
+                    String horaFactura = java.time.LocalTime.now().toString().substring(0, 5);
 
                     String metodo = request.getParameter("txtMetodo");
                     String estado = request.getParameter("txtEstado");
@@ -544,8 +540,8 @@ public class Controlador extends HttpServlet {
                     int codigoEmpleado2 = Integer.parseInt(request.getParameter("txtCodigoEmpleado"));
                     float totalFactura2 = Float.parseFloat(request.getParameter("txtTotalFactura"));
                     float donacion2 = Float.parseFloat(request.getParameter("txtDonacion"));
-                    Date fechaFactura2 = new Date(System.currentTimeMillis()); 
-                    String horaFactura2 = java.time.LocalTime.now().toString().substring(0, 5); 
+                    Date fechaFactura2 = new Date(System.currentTimeMillis());
+                    String horaFactura2 = java.time.LocalTime.now().toString().substring(0, 5);
 
                     String metodo2 = request.getParameter("txtMetodo");
                     String estado2 = request.getParameter("txtEstado");
@@ -603,7 +599,7 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Promocion")) {
-            
+
             switch (accion) {
                 case "Listar":
                     request.setAttribute("Promociones", promocionDao.listar());
@@ -711,7 +707,7 @@ public class Controlador extends HttpServlet {
                     detallePromocionDao.eliminar(codDetallePromocion);
                     request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
                     break;
-            } 
+            }
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
                 request.setAttribute("jspFinal", "Controlador?menu=Promocion&accion=Listar");
@@ -721,7 +717,7 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Promociones")) {
-            
+
             switch (accion) {
                 case "Listar":
                     List<Promocion> promocionesMasUsadas = promocionDao.listarPromocionesMasUsadas();
