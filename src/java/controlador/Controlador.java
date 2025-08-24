@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -39,6 +42,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import modelo.Cliente;
 import modelo.ClienteDAO;
+import modelo.Bitacora;
+import modelo.BitacoraDAO;
 import modelo.Resena;
 import modelo.ResenaDAO;
 import modelo.Sucursal;
@@ -66,6 +71,8 @@ public class Controlador extends HttpServlet {
     DetallePromocionDAO detallePromocionDao = new DetallePromocionDAO();
     Sucursal sucursal = new Sucursal();
     SucursalDAO sucursalDao = new SucursalDAO();
+    Bitacora bitacora = new Bitacora();
+    BitacoraDAO bitacoraDao = new BitacoraDAO();
     int codResena;
     int codSucursal;
     int codCliente;
@@ -94,6 +101,7 @@ public class Controlador extends HttpServlet {
     DetallePedidoDAO detallePedidoDao = new DetallePedidoDAO();
     int codDetallePedido;
     int codUsuario;
+    int codBitacora;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -366,13 +374,92 @@ public class Controlador extends HttpServlet {
                 request.getRequestDispatcher("Producto.jsp").forward(request, response);
             }
         } else if (menu.equals("Bitacora")) {
+            switch (accion) {
+                case "Listar":
+                    List listaBitacora = bitacoraDao.listar();
+                    request.setAttribute("bitacoras", listaBitacora);
+                    break;
+                case "Agregar":
+                    String mensaje = request.getParameter("txtMensaje");
+                    String tablaModificada = request.getParameter("txtTablaModificada");
+                    Date fecha = Date.valueOf(request.getParameter("txtFecha"));
+                    String hora = request.getParameter("txtHora");
+                    LocalTime localTime = LocalTime.parse(hora);
+                    Time horaSql = Time.valueOf(localTime);
+                    String datoAnterior = request.getParameter("txtDatoAnterior");
+                    String datoNuevo = request.getParameter("txtDatoNuevo");
+                    String accionBitacora = request.getParameter("txtAccion");
+                    int codigoUsuario = Integer.parseInt(request.getParameter("txtCodigoUsuario"));
+                    bitacora.setMensaje(mensaje);
+                    bitacora.setTablaModificada(tablaModificada);
+                    bitacora.setFecha(fecha);
+                    bitacora.setHora(horaSql);
+                    bitacora.setDatoAnterior(datoAnterior);
+                    bitacora.setDatoNuevo(datoNuevo);
+                    bitacora.setAccion(accionBitacora);
+                    bitacora.setCodigoUsuario(codigoUsuario);
+                    bitacoraDao.agregar(bitacora);
+                    request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    codBitacora = Integer.parseInt(request.getParameter("codigoBitacora"));
+                    Bitacora bi = bitacoraDao.listarCodigoBitacora(codBitacora);
+                    request.setAttribute("bitacora", bi);
+                    request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    String mensajeBi = request.getParameter("txtMensaje");
+                    String tablaModificadaBi = request.getParameter("txtTablaModificada");
+                    Date fechaBi = Date.valueOf(request.getParameter("txtFecha"));
+                    String horaBi = request.getParameter("txtHora");
+                    LocalTime localTimeBI = LocalTime.parse(horaBi);
+                    Time horaSqlBi = Time.valueOf(localTimeBI);
+                    String datoAnteriorBi = request.getParameter("txtDatoAnterior");
+                    String datoNuevoBi = request.getParameter("txtDatoNuevo");
+                    String accionBi = request.getParameter("txtAccion");
+                    bitacora.setMensaje(mensajeBi);
+                    bitacora.setTablaModificada(tablaModificadaBi);
+                    bitacora.setFecha(fechaBi);
+                    bitacora.setHora(horaSqlBi);
+                    bitacora.setDatoAnterior(datoAnteriorBi);
+                    bitacora.setDatoNuevo(datoNuevoBi);
+                    bitacora.setAccion(accionBi);
+                    bitacora.setCodigoBitacora(codBitacora);
+                    bitacoraDao.actualizar(bitacora);
+                    request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codBitacora = Integer.parseInt(request.getParameter("codigoBitacora"));
+                    bitacoraDao.eliminar(codBitacora);
+                    request.getRequestDispatcher("Controlador?menu=Bitacora&accion=Listar").forward(request, response);
+                    break;
+                case "Filtrar":
+                    String accionFiltro = request.getParameter("txtAccion");
+                    String tablaFiltro = request.getParameter("txtTablaModificada");
+                    List<Bitacora> listaFiltrada;
 
-            if (accion.equals("Mover")) {
-                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-                request.setAttribute("jspFinal", "Controlador?menu=Bitacora&accion=Listar");
-                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
-            } else if (accion.equals("Listar")) {
-                request.getRequestDispatcher("Bitacora.jsp").forward(request, response);
+                    // Si ambos filtros están seleccionados
+                    if ((accionFiltro != null && !accionFiltro.isEmpty()) && 
+                        (tablaFiltro != null && !tablaFiltro.isEmpty())) {
+                        listaFiltrada = bitacoraDao.filtrarPorAccionYTabla(accionFiltro, tablaFiltro);
+                    }
+                    // Si solo acción está seleccionada
+                    else if (accionFiltro != null && !accionFiltro.isEmpty()) {
+                        listaFiltrada = bitacoraDao.listarPorAccion(accionFiltro);
+                        // Removed duplicate line
+                    } 
+                    // Si solo tabla está seleccionada
+                    else if (tablaFiltro != null && !tablaFiltro.isEmpty()) {
+                        listaFiltrada = bitacoraDao.listarPorTabla(tablaFiltro);
+                    } 
+                    // Si ningún filtro está seleccionado, mostrar todos
+                    else {
+                        listaFiltrada = bitacoraDao.listar();
+                    }
+
+                    request.setAttribute("bitacoras", listaFiltrada);
+                    request.getRequestDispatcher("Bitacora.jsp").forward(request, response);
+                    break;
             }
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
