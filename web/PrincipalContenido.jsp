@@ -12,6 +12,7 @@
         <title>Ta'Kabron</title>
         <link rel="stylesheet" href="styles/Principal.css"/> 
         <link rel="stylesheet" href="styles/contactanos.css"/> 
+        <link rel="stylesheet" href="styles/visionMision.css"/> 
     </head>
     <body>
 
