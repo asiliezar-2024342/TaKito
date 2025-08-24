@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Ta'Kabron</title>
         <link rel="stylesheet" href="styles/Principal.css"/> 
+        <link rel="stylesheet" href="styles/contactanos.css"/> 
     </head>
     <body>
 
@@ -71,15 +72,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- FOOTER -->
-        <footer>
-            <div>
-                <p>&copy; 2025 Ta'Kabrón</p>
-            </div>
-        </footer>
-
-
 
     </body>
 </html>
