@@ -300,3 +300,285 @@ input, .select {
         height: 80px;
     }
 }
+
+/* Este es el css del carrito. */
+
+.menu-container {
+    padding: 2rem;
+    margin-top: 5dvh;
+    height: 90dvh;
+    overflow-y: auto;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    justify-items: center;
+    align-items: start;
+}
+
+.combo_card {
+    background-color: #fff;
+    border: 2px solid #c1121f;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(193, 18, 31, 0.4);
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.combo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(193, 18, 31, 0.6);
+}
+
+.combo-image {
+    width: 6rem;
+    height: 6rem;
+    margin: 0 auto 0.9375rem auto; 
+    display: block;
+}
+
+.combo-code {
+    background-color: rgba(193, 18, 31, 0.1);
+    color: #c1121f;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.combo-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.combo-price {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #c1121f;
+    margin-bottom: 20px;
+}
+
+.add-btn {
+    background: linear-gradient(45deg, #c1121f, #e63946);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(193, 18, 31, 0.3);
+}
+
+.add-btn:hover {
+    background: linear-gradient(45deg, #e63946, #c1121f);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(193, 18, 31, 0.5);
+}
+
+.add-btn:active {
+    transform: scale(0.98);
+}
+
+.menu-title {
+    text-align: center;
+    font-size: 2.5em;
+    color: #c1121f;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+
+.carrito-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.carrito-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.carrito-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    gap: 15px;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.item-emoji {
+    font-size: 30px;
+}
+
+.item-details h4 {
+    margin: 0 0 5px 0;
+    color: #333;
+}
+
+.item-precio {
+    color: #666;
+    font-size: 14px;
+}
+
+.item-controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cantidad-input {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-eliminar {
+    background: #dc3545;
+    color: white;
+}
+
+.instrucciones {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.subtotal {
+    font-weight: bold;
+    font-size: 16px;
+    color: #28a745;
+}
+
+.carrito-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #333;
+    text-align: center;
+}
+
+.total {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.acciones {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-grande {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn-vaciar {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-procesar {
+    background: #28a745;
+    color: white;
+}
+
+.carrito-vacio {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+}
+
+.volver {
+    margin-bottom: 20px;
+}
+
+.volver a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.carrito-resumen {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.mensaje-exito {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.carrito-resumen {
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+.instruccion-recarga {
+    background-color: #cce7ff;
+    color: #004085;
+    padding: 10px;
+    border: 1px solid #b3d7ff;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 14px;
+}
