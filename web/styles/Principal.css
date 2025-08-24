@@ -602,3 +602,101 @@ body {
     width: 100dvw;
 }
 /* -*-*-*-*-*-*-*-*-*- FRAME FINAL SECTION -*-*-*-*-*-*-*-*-*-  */
+/*CONTACTANOS*/
+.contact__container{
+    text-align: center;
+    border-radius: 18%
+}
+    
+.contact__container h1{
+    font-size: 50px;
+}
+    
+.contact__container h2{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+    
+.contact__row {
+    display: flex;
+    justify-content: center; 
+    gap: 50px;
+    margin-bottom: 15px; 
+}
+    
+.contact__row img {
+    height: 100px;
+    width: 100px;
+    transition: all 0.5s ease;
+    border-radius: 50%;
+}
+    
+.contact__1, .contact__2, .contact__3{
+    padding-left: 40px;
+    padding-right: 40px;
+    transition: all 0.7s ease; 
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+}
+    
+.contact__1 img:hover{
+    background: #f77f00;    
+}
+
+.contact__2 img:hover{
+    background: #0077b6;
+}
+    
+.contact__3 img:hover{
+    background: #c1121f;
+}
+    
+.contact__1:hover , .contact__2:hover , .contact__3:hover{
+    border-right: 3px solid #000;
+    border-left: 3px solid #000;
+}
+    
+.contact__horario {
+    background: #fff7e6;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: inline-block;
+}
+
+.contact__horario h3 {
+    margin: 0;
+    font-size: 30px;
+    color: #333;
+}
+
+.contact__horario p {
+    margin: 5px 0 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #f77f00;
+}
+
+.contact__direccion{
+    background: #fff7e6;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: inline-block;
+}
+
+.contact__direccion h3{
+    font-size: 30px;
+    color: #333;
+}
+
+.contact__direccion p{
+    font-size: 20px;
+    margin: 5px 0 0;
+    font-weight: bold;
+    color: #c1121f;
+}
+
+.contact__horario:hover , .contact__direccion:hover{
+    transform: translateY(-5px);
+}

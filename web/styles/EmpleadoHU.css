@@ -1,0 +1,76 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 23/08/2025, 12:37:02
+    Author     : Cambiar Nombre
+*/
+
+.btn-Buscar img{
+    height: 60px;
+    width: 60px;
+}
+
+.btn-Buscar{
+    height: 40px;
+    width: 30px;
+    background: none;
+    border: none;
+    color: transparent;
+}
+
+.form__suc{
+    display: flex;
+}
+
+.form__emp input{
+    margin-bottom: 20px;
+}
+
+.label-1{
+    margin-left: 100px;
+}
+
+.btn-Listar{
+    height: 40px;
+    width: 30px;
+    background: none;
+    border: none;
+    color: transparent;
+}
+
+.btn-Listar img{
+    height: 60px;
+    width: 60px;
+    margin-left: 10px;
+}
+
+.btn-Listar:hover{
+    transform: scale(1.05);
+}
+
+.btn-Buscar:hover{
+    transform: scale(1.05);
+}
+
+.form-row2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-row2 img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.form__emp img{
+    width: 70px;
+    height: 70px;
+}
+
+.form__emp button{
+    margin-left: 30px;
+}

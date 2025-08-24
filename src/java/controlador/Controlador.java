@@ -11,6 +11,8 @@ import modelo.DetallePromocion;
 import modelo.DetallePromocionDAO;
 import modelo.Promocion;
 import modelo.PromocionDAO;
+import modelo.Empleado;
+import modelo.EmpleadoDAO;
 import modelo.Resena;
 import modelo.ResenaDAO;
 import modelo.Usuario;
@@ -35,6 +37,9 @@ public class Controlador extends HttpServlet {
     int codCliente;
     int codPromocion;
     int codDetallePromocion;
+    Empleado empleado = new Empleado();
+    EmpleadoDAO empleadoDao = new EmpleadoDAO();
+    int codEmpleado;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -306,6 +311,96 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Empleado")) {
+            switch(accion){
+                case "Listar":
+                    List listaEmpleados = empleadoDao.listar();
+                    request.setAttribute("empleados", listaEmpleados);
+                    break;
+                    
+                case "Buscar":
+                    int codSucursal = Integer.parseInt(request.getParameter("txtCodigoSucursalBuscar"));
+                    List empleadosS = empleadoDao.buscarEmpleadosPorSucursal(codSucursal);
+                    request.setAttribute("empleados", empleadosS);
+                    request.getRequestDispatcher("Empleado.jsp").forward(request, response);
+                    break;
+                    
+                case "BuscarFactura":
+                   int codigoSucur = Integer.parseInt(request.getParameter("txtCodigoSucursalBuscar"));
+                   List empleadoFac = empleadoDao.facturacionEmpleadoPorSucursal(codigoSucur);
+                   request.setAttribute("empleadosFacturacion", empleadoFac);
+                   request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
+                   request.getRequestDispatcher("Empleado.jsp").forward(request, response);
+                   break;
+                    
+                case "Agregar":
+                    String priNombre = request.getParameter("txtPrimerNombreEmpleado");
+                    String segNombre = request.getParameter("txtSegundoNombreEmpleado");
+                    String priApellido = request.getParameter("txtPrimerApellidoEmpleado");
+                    String segApellido = request.getParameter("txtSegundoApellidoEmpleado");
+                    String telefono = request.getParameter("txtTelefonoEmpleado");
+                    String correo = request.getParameter("txtCorreoEmpleado");
+                    String direccion = request.getParameter("txtDireccionEmpleado");
+                    Empleado.Estado estado = Empleado.Estado.valueOf(request.getParameter("txtEstado"));
+                    Empleado.SexoEmpleado sexo = Empleado.SexoEmpleado.valueOf(request.getParameter("txtSexo"));
+                    int codigoSucursal = Integer.parseInt(request.getParameter("txtCodigoSucursal"));
+                    int codigoUsuario = Integer.parseInt(request.getParameter("txtCodigoUsuario"));
+                    empleado.setPrimerNombreEmpleado(priNombre);
+                    empleado.setSegundoNombreEmpleado(segNombre);
+                    empleado.setPrimerApellidoEmpleado(priApellido);
+                    empleado.setSegundoApellidoEmpleado(segApellido);
+                    empleado.setTelefonoEmpleado(telefono);
+                    empleado.setCorreoEmpleado(correo);
+                    empleado.setDireccionEmpleado(direccion);
+                    empleado.setEstado(estado);
+                    empleado.setSexoEmpleado(sexo);
+                    empleado.setCodigoSucursal(codigoSucursal);
+                    empleado.setCodigoUsuario(codigoUsuario);
+                    empleadoDao.agregar(empleado);
+                    request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
+                    break;
+                
+                case "Editar":
+                    codEmpleado = Integer.parseInt(request.getParameter("codigoEmpleado"));
+                    Empleado e = empleadoDao.buscar(codEmpleado);
+                    request.setAttribute("empleado", e);
+                    request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
+                    break;
+                    
+                case "Actualizar":
+                    String priN = request.getParameter("txtPrimerNombreEmpleado");
+                    String secN = request.getParameter("txtSegundoNombreEmpleado");
+                    String priA = request.getParameter("txtPrimerApellidoEmpleado");
+                    String secA = request.getParameter("txtSegundoApellidoEmpleado");
+                    String tel = request.getParameter("txtTelefonoEmpleado");
+                    String cor = request.getParameter("txtCorreoEmpleado");
+                    String dir = request.getParameter("txtDireccionEmpleado");
+                    Empleado.Estado est = Empleado.Estado.valueOf(request.getParameter("txtEstado"));
+                    Empleado.SexoEmpleado sex = Empleado.SexoEmpleado.valueOf(request.getParameter("txtSexo"));
+                    int suc = Integer.parseInt(request.getParameter("txtCodigoSucursal"));
+                    int usu = Integer.parseInt(request.getParameter("txtCodigoUsuario"));
+                    
+                    empleado.setPrimerNombreEmpleado(priN);
+                    empleado.setSegundoNombreEmpleado(secN);
+                    empleado.setPrimerApellidoEmpleado(priA);
+                    empleado.setSegundoApellidoEmpleado(secA);
+                    empleado.setTelefonoEmpleado(tel);
+                    empleado.setCorreoEmpleado(cor);
+                    empleado.setDireccionEmpleado(dir);
+                    empleado.setEstado(est);
+                    empleado.setSexoEmpleado(sex);
+                    empleado.setCodigoSucursal(suc);
+                    empleado.setCodigoUsuario(usu);
+                    empleado.setCodigoEmpleado(codEmpleado);
+                    empleadoDao.actualizar(empleado);
+                    request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
+                    break;
+                    
+                case "Eliminar":
+                    codEmpleado = Integer.parseInt(request.getParameter("codigoEmpleado"));
+                    empleadoDao.eliminar(codEmpleado);
+                    request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
+                    break;
+            }
 
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
@@ -315,6 +410,14 @@ public class Controlador extends HttpServlet {
                 request.getRequestDispatcher("Empleado.jsp").forward(request, response);
             }
             if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Empleado&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Empleado.jsp").forward(request, response);
+            }
+            if (accion.equals("Mover")) {
+                
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
                 request.setAttribute("jspFinal", "Controlador?menu=Empleado&accion=Listar");
                 request.getRequestDispatcher("Transicion.jsp").forward(request, response);
