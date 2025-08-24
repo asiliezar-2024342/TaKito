@@ -20,6 +20,8 @@ import modelo.UsuarioDAO;
 import modelo.Cliente;
 import modelo.ClienteDAO;
 
+import modelo.Producto;
+import modelo.ProductoDAO;
 
 public class Controlador extends HttpServlet {
 
@@ -40,6 +42,9 @@ public class Controlador extends HttpServlet {
     Empleado empleado = new Empleado();
     EmpleadoDAO empleadoDao = new EmpleadoDAO();
     int codEmpleado;
+    Producto producto = new Producto();
+    ProductoDAO productoDao = new ProductoDAO();
+    int codProducto;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -158,6 +163,54 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Producto")) {
+            switch (accion) {
+                case "Listar":
+                    List listaProductos = productoDao.listar();
+                    request.setAttribute("productos", listaProductos);
+                    break;
+                case "Agregar":
+                    String nombre = request.getParameter("txtNombreProducto");
+                    String descripcion = request.getParameter("txtDescripcionProducto");
+                    Double precio = Double.parseDouble(request.getParameter("txtPrecioUnitario"));
+                    int existencia = Integer.parseInt(request.getParameter("txtExistencias"));
+                    String est = request.getParameter("txtEstado");
+                    producto.setNombreProducto(nombre);
+                    producto.setDescripcionProducto(descripcion);
+                    producto.setPrecioUnitario(precio);
+                    producto.setExistencias(existencia);
+                    producto.setEstado(Producto.Estado.valueOf(est));
+                    productoDao.agregar(producto);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    codProducto = Integer.parseInt(request.getParameter("codigoProducto"));
+                    Producto pro = productoDao.listaCodigoProducto(codProducto);
+                    request.setAttribute("producto", pro);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    String nombrePro = request.getParameter("txtNombreProducto");
+                    String descripcionPro = request.getParameter("txtDescripcionProducto");
+                    Double precioUn = Double.parseDouble(request.getParameter("txtPrecioUnitario"));
+                    int existencias = Integer.parseInt(request.getParameter("txtExistencias"));
+                    String esta = request.getParameter("txtEstado");
+                    producto.setNombreProducto(nombrePro);
+                    producto.setDescripcionProducto(descripcionPro);
+                    producto.setPrecioUnitario(precioUn);
+                    producto.setExistencias(existencias);
+                    producto.setEstado(Producto.Estado.valueOf(esta));
+                    producto.setCodigoProducto(codProducto);
+                    productoDao.actualizar(producto);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codProducto = Integer.parseInt(request.getParameter("codigoProducto"));
+                    productoDao.eliminar(codProducto);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                    break;
+            }
+        }
+
 
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
@@ -174,7 +227,7 @@ public class Controlador extends HttpServlet {
                 request.getRequestDispatcher("Producto.jsp").forward(request, response);
             }
 
-        } else if (menu.equals("Bitacora")) {
+        else if (menu.equals("Bitacora")) {
 
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
