@@ -591,10 +591,10 @@ public class Controlador extends HttpServlet {
             } else if (accion.equals("Listar")) {
                 request.getRequestDispatcher("Factura.jsp").forward(request, response);
             }
-            
-        }else if (menu.equals("DetalleCombo")){
-            
-            switch (accion){
+
+        } else if (menu.equals("DetalleCombo")) {
+
+            switch (accion) {
                 case "Listar":
                     List listaDetalleCombos = detalleComboDao.listar();
                     request.setAttribute("detalleCombos", listaDetalleCombos);
@@ -603,7 +603,7 @@ public class Controlador extends HttpServlet {
                     int cantidad = Integer.parseInt(request.getParameter("txtCantidad"));
                     int combo = Integer.parseInt(request.getParameter("txtCombo"));
                     int producto = Integer.parseInt(request.getParameter("txtProducto"));
-                    
+
                     detalleCombo.setCantidad(cantidad);
                     detalleCombo.setCodigoCombo(combo);
                     detalleCombo.setCodigoProducto(producto);
@@ -637,8 +637,8 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Combo")) {
-            
-            switch (accion){
+
+            switch (accion) {
                 case "Listar":
                     List listaCombos = comboDao.listar();
                     request.setAttribute("combos", listaCombos);
@@ -650,7 +650,7 @@ public class Controlador extends HttpServlet {
                     Combo.Categoria categoria = Combo.Categoria.valueOf(request.getParameter("txtCategoria"));
                     Combo.Estado estado = Combo.Estado.valueOf(request.getParameter("txtEstado"));
                     InputStream foto = (InputStream) request.getPart("foto");
-                    
+
                     combo.setNombreCombo(nombreCombo);
                     combo.setDescripcionCombo(descripcionCombo);
                     combo.setPrecioCombo(precioCombo);
@@ -673,7 +673,7 @@ public class Controlador extends HttpServlet {
                     Combo.Categoria categoriaA = Combo.Categoria.valueOf(request.getParameter("txtCategoria"));
                     Combo.Estado estadoA = Combo.Estado.valueOf(request.getParameter("txtEstado"));
                     InputStream fotoA = (InputStream) request.getPart("foto");
-                    
+
                     combo.setNombreCombo(nombreA);
                     combo.setDescripcionCombo(descripcionA);
                     combo.setPrecioCombo(precioA);
@@ -689,13 +689,6 @@ public class Controlador extends HttpServlet {
                     comboDao.eliminar(codCombo);
                     request.getRequestDispatcher("Controlador?menu&accion=Listar").forward(request, response);
                     break;
-            }
-            if (accion.equals("Mover")) {
-                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-                request.setAttribute("jspFinal", "Controlador?menu=Combo&accion=Listar");
-                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
-            } else if (accion.equals("Listar")) {
-                request.getRequestDispatcher("Combo.jsp").forward(request, response);
             }
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
