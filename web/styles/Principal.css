@@ -666,5 +666,11 @@ body {
     width: 100dvw;
 }
 
-
+.carrusel{
+    margin-left: 85px;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100dvh;
+    width: 85dvw;
+}
 /* -*-*-*-*-*-*-*-*-*- FRAME FINAL SECTION -*-*-*-*-*-*-*-*-*-  */

@@ -1,0 +1,127 @@
+.carrusel {
+    width: 85%;          /* Ocupa todo el ancho de la pantalla */
+    height: 400px;        /* Altura fija */
+    margin-left: 85px;
+    overflow: hidden;
+    position: relative;
+    border: 3px solid #ff6600;
+    border-radius: 12px;
+
+}
+/* Ocultar radios */
+.carrusel input {
+    display: none;
+}
+
+/* Contenedor imágenes */
+.carrusel-container {
+    display: flex;
+    width: 600%; /* 6 imágenes → 100% * 6 */
+    transition: transform 0.6s ease-in-out;
+    animation: autoplay 30s infinite;
+    border-radius: 12px;
+}
+
+@keyframes autoplay {
+    0%   {
+        transform: translateX(0);
+    }
+    13%  {
+        transform: translateX(0);
+    }
+
+    16%  {
+        transform: translateX(-100%);
+    }
+    29%  {
+        transform: translateX(-100%);
+    }
+
+    32%  {
+        transform: translateX(-200%);
+    }
+    45%  {
+        transform: translateX(-200%);
+    }
+
+    48%  {
+        transform: translateX(-300%);
+    }
+    61%  {
+        transform: translateX(-300%);
+    }
+
+    64%  {
+        transform: translateX(-400%);
+    }
+    77%  {
+        transform: translateX(-400%);
+    }
+
+    80%  {
+        transform: translateX(-500%);
+    }
+    100% {
+        transform: translateX(-500%);
+    }
+
+    101% {
+        transform: translateX(0);
+    }
+
+}
+
+
+.carrusel-item {
+    flex: 0 0 100%;  /* Cada imagen ocupa 100% del ancho del carrusel */
+}
+
+.carrusel-item img {
+    width: 17%;        /* Se adapta al ancho del contenedor */
+    height: 100%;       /* Ocupa la altura del carrusel */
+    object-fit: cover;  /* Mantiene proporción y recorta sin deformar */
+}
+
+/* Posición según radio */
+#slide1:checked ~ .carrusel-container {
+    transform: translateX(0);
+}
+#slide2:checked ~ .carrusel-container {
+    transform: translateX(-100%);
+}
+#slide3:checked ~ .carrusel-container {
+    transform: translateX(-200%);
+}
+#slide4:checked ~ .carrusel-container {
+    transform: translateX(-300%);
+}
+#slide5:checked ~ .carrusel-container {
+    transform: translateX(-400%);
+}
+#slide6:checked ~ .carrusel-container {
+    transform: translateX(-500%);
+}
+
+/* Puntos de navegación */
+.navegacion {
+    position: absolute;
+    width: 100%;
+    bottom: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.navegacion label {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.navegacion label:hover {
+    background: #ff6600;
+}
