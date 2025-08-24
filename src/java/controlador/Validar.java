@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import modelo.Usuario;
 import modelo.UsuarioDAO;
 
+@WebServlet(name = "Validar", urlPatterns = {"/Validar"})
 public class Validar extends HttpServlet {
-    Usuario usuario  = new Usuario();
+
+    Usuario usuario = new Usuario();
     UsuarioDAO usuarioDao = new UsuarioDAO();
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,7 +34,7 @@ public class Validar extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Validar</title>");            
+            out.println("<title>Servlet Validar</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Validar at " + request.getContextPath() + "</h1>");
@@ -65,19 +67,18 @@ public class Validar extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String accion = request.getParameter("accion");
-        
-        if(accion.equalsIgnoreCase("Ingresar")){
+
+        if (accion.equalsIgnoreCase("Ingresar")) {
             String user = request.getParameter("txtUser");
             String pass = request.getParameter("txtPass");
-            
+
             usuario = usuarioDao.validar(user, pass);
-            
-            if(usuario.getCorreoUsuario() != null){
+
+            if (usuario.getCorreoUsuario() != null) {
                 request.setAttribute("usuario", usuario);
                 request.getRequestDispatcher("Controlador?menu=Principal").forward(request, response);
             } else {

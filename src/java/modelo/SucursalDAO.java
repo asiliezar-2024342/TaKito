@@ -12,6 +12,7 @@ public class SucursalDAO {
     Connection cn = Conexion.getInstance().getConexion();
     PreparedStatement ps;
     ResultSet rs;
+    int resp;
 
     private void createSucursal(Sucursal sucursal) throws Exception {
         sucursal.setCodigoSucursal(rs.getInt("codigoSucursal"));
@@ -31,8 +32,7 @@ public class SucursalDAO {
         ps.setString(5, sucursal.getEstado().name());
     }
 
-     
-    public int agregar(Sucursal sucursal) {
+    public int Agregar(Sucursal sucursal) {
         int resultado = 0;
         String sql = "INSERT INTO Sucursal (ubicacionSucursal, telefonoSucursal, nombreSucursal, funcionamiento, estado) "
                 + "VALUES (?, ?, ?, ?, ?)";
@@ -47,10 +47,9 @@ public class SucursalDAO {
         return resultado;
     }
 
-
     public List<Sucursal> listar() {
         String sql = "SELECT * FROM Sucursal WHERE estado = 'Activo'";
-        List<Sucursal> lista = new ArrayList<>();
+        List<Sucursal> listaSucursal = new ArrayList<>();
 
         try {
             ps = cn.prepareStatement(sql);
@@ -59,19 +58,18 @@ public class SucursalDAO {
             while (rs.next()) {
                 Sucursal sucursal = new Sucursal();
                 createSucursal(sucursal);
-                lista.add(sucursal);
+                listaSucursal.add(sucursal);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return lista;
+        return listaSucursal;
     }
 
-    
-    public Sucursal buscar(int codigoSucursal) {
-        Sucursal sucursal = null;
+    public Sucursal Buscar(int codigoSucursal) {
+        Sucursal sucursal = new Sucursal();
         String sql = "SELECT * FROM Sucursal WHERE codigoSucursal = ? AND estado = 'Activo'";
 
         try {
@@ -91,20 +89,34 @@ public class SucursalDAO {
         return sucursal;
     }
 
-   
-    public int eliminar(int codigoSucursal) {
-        int resultado = 0;
-        String sql = "UPDATE Sucursal SET estado = 'Inactivo' WHERE codigoSucursal = ? AND estado = 'Activo'";
+    public int Actualizar(Sucursal sucursal) {
+        String sql = "update Sucursal set ubicacionSucursal = ?,"
+                + "telefonoSucursal = ?, nombreSucursal = ?,"
+                + "funcionamiento = ?, estado = ? where codigoSucursal = ?";
+
+        try {
+            preparedSQL(sucursal, sql);
+            ps.setInt(6, sucursal.getCodigoSucursal());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resp;
+    }
+
+    public void Eliminar(int codigoSucursal) {
+        String sql = "UPDATE Sucursal SET estado = 'Inactivo' WHERE codigoSucursal = ?";
 
         try {
             ps = cn.prepareStatement(sql);
             ps.setInt(1, codigoSucursal);
-            resultado = ps.executeUpdate();
+            ps.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return resultado;
     }
+
+
 }

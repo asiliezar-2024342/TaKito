@@ -170,7 +170,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="menu__item" href="#">
+                            <a class="menu__item" href="Controlador?menu=Ubicacion&accion=Mover" target="myFrame">
                                 <img class="icono" src="./img/Ubicacion.png" alt="Inicio"/>
                                 Ubicaciones
                             </a>

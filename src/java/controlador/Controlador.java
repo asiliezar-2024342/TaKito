@@ -41,6 +41,8 @@ import modelo.Cliente;
 import modelo.ClienteDAO;
 import modelo.Resena;
 import modelo.ResenaDAO;
+import modelo.Sucursal;
+import modelo.SucursalDAO;
 import modelo.Usuario;
 import modelo.UsuarioDAO;
 import modelo.Cliente;
@@ -62,7 +64,10 @@ public class Controlador extends HttpServlet {
     PromocionDAO promocionDao = new PromocionDAO();
     DetallePromocion detallePromocion = new DetallePromocion();
     DetallePromocionDAO detallePromocionDao = new DetallePromocionDAO();
+    Sucursal sucursal = new Sucursal();
+    SucursalDAO sucursalDao = new SucursalDAO();
     int codResena;
+    int codSucursal;
     int codCliente;
     int codPromocion;
     int codDetallePromocion;
@@ -721,6 +726,20 @@ public class Controlador extends HttpServlet {
                 request.getRequestDispatcher("Transicion.jsp").forward(request, response);
             } else if (accion.equals("Listar")) {
                 request.getRequestDispatcher("Sucursal.jsp").forward(request, response);
+            }
+
+        } else if (menu.equals("Ubicacion")) {
+            switch (accion) {
+                case "Listar":
+                    List listaSucursal = sucursalDao.listar();
+                    request.setAttribute("sucursales", listaSucursal);
+                    break;
+            }if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Ubicacion&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Ubicacion.jsp").forward(request, response);
             }
 
         } else if (menu.equals("Factura")) {
