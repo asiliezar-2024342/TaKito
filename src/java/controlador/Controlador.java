@@ -1675,6 +1675,26 @@ public class Controlador extends HttpServlet {
                 request.setAttribute("resenasOtros", listaSucursalOtros);
                 request.getRequestDispatcher("ResenaCliente.jsp").forward(request, response);
             }
+        } else if (menu.equals("Promociones")) {
+
+            switch (accion) {
+                case "Listar":
+                    List<Promocion> promocionesMasUsadas = promocionDao.listarPromocionesMasUsadas();
+                    request.setAttribute("PromocionesMasUsadas", promocionesMasUsadas);
+                    List<Promocion> promocionesActivas = promocionDao.listarPromocionesActivas();
+                    request.setAttribute("PromocionesActivas", promocionesActivas);
+                    List<Promocion> promocionesFuturas = promocionDao.listarPromocionesFuturas();
+                    request.setAttribute("PromocionesFuturas", promocionesFuturas);
+                    request.getRequestDispatcher("Promociones.jsp").forward(request, response);
+                    break;
+            }
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Promociones&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Promociones.jsp").forward(request, response);
+            }
         }
 
     }
