@@ -41,6 +41,6 @@
                     <img src="img/Ubicacion.png" >
                 </a>
             </div>
-        </section>
+        </section>  
     </body>
 </html>
