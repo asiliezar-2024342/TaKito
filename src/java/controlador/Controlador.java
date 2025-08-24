@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Date;
-import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -89,6 +88,7 @@ public class Controlador extends HttpServlet {
     DetallePedido detallePedido = new DetallePedido();
     DetallePedidoDAO detallePedidoDao = new DetallePedidoDAO();
     int codDetallePedido;
+    int codUsuario;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -106,7 +106,7 @@ public class Controlador extends HttpServlet {
         Usuario usuarioActual = new Usuario();
         String nombres;
         String apellidos;
-                HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
 
         HashMap<Integer, DetallePedido> carrito = (HashMap<Integer, DetallePedido>) session.getAttribute("carrito");
         if (carrito == null) {
@@ -115,26 +115,26 @@ public class Controlador extends HttpServlet {
         }
 
         if (menu.equals("Principal")) {
-            usuarioActual = (Usuario)request.getAttribute("usuario");
+            usuarioActual = (Usuario) request.getAttribute("usuario");
             HttpSession usuarioSesion = request.getSession();
-            
-            if(usuarioActual.getCargo().toString().equalsIgnoreCase("Consumidor")){
+
+            if (usuarioActual.getCargo().toString().equalsIgnoreCase("Consumidor")) {
                 nombres = clienteDao.buscarUsuario(usuarioActual.getCodigoUsuario()).getPrimerNombreCliente();
                 apellidos = clienteDao.buscarUsuario(usuarioActual.getCodigoUsuario()).getPrimerApellidoCliente();
-                
+
                 usuarioSesion.setAttribute("usuarioActual", usuarioActual);
                 usuarioSesion.setAttribute("nombreCliente", nombres);
                 usuarioSesion.setAttribute("apellidoCliente", apellidos);
             } else {
                 usuarioSesion.setAttribute("usuarioActual", usuarioActual);
             }
-            
+
             // ANIMACIÓN DE TRANSICIÓN NO TOCAR
             request.setAttribute("jspFinal", "Principal.jsp");
             request.getRequestDispatcher("Inicial.jsp").forward(request, response);
-            
+
             response.sendRedirect("Principal.jsp");
- 
+
         } else if (menu.equals("PrincipalContenido")) {
             // ANIMACIÓN DE TRANSICIÓN NO TOCAR
             request.setAttribute("jspFinal", "PrincipalContenido.jsp");
@@ -158,7 +158,7 @@ public class Controlador extends HttpServlet {
                         usuario.setContrasenaUsuario(contrasena);
 
                         usuarioDao.agregar(usuario);
-                        
+
                         cliente.setPrimerNombreCliente("---");
                         cliente.setSegundoNombreCliente("---");
                         cliente.setPrimerApellidoCliente("---");
@@ -169,62 +169,62 @@ public class Controlador extends HttpServlet {
                         cliente.setNitCliente("---");
                         cliente.setEstado(Cliente.EstadoCliente.Activo);
                         cliente.setCodigoUsuario(usuarioDao.obtenerCodigo(correo).getCodigoUsuario());
-                        
+
                         clienteDao.agregar(cliente);
 
                         request.getRequestDispatcher("index.jsp").forward(request, response);
                     }
-                break;
-                
+                    break;
+
                 case "AgregarCrud":
                     String correoCrud = request.getParameter("txtCorreoUsuario");
                     String contrasenaCrud = request.getParameter("txtPasswordUsuario");
                     Part archivo = request.getPart("txtFoto");
                     InputStream is = archivo.getInputStream();
-                    
+
                     usuario.setCorreoUsuario(correoCrud);
                     usuario.setContrasenaUsuario(contrasenaCrud);
                     usuario.setFoto(is);
-                    
+
                     usuarioDao.agregar(usuario);
                     request.getRequestDispatcher("Controlador?menu=Usuario&accion=Listar").forward(request, response);
-                break;
-                    
+                    break;
+
                 case "Editar":
                     codUsuario = Integer.parseInt(request.getParameter("codigoUsuario"));
                     Usuario us = usuarioDao.listarCodigoUsuario(codUsuario);
                     request.setAttribute("usuarioEdit", us);
                     request.getRequestDispatcher("Controlador?menu=Usuario&accion=Listar").forward(request, response);
-                break;
-                
+                    break;
+
                 case "Actualizar":
                     String correoUsu = request.getParameter("txtCorreoUsuario");
                     String contrasenaUsu = request.getParameter("txtPasswordUsuario");
                     String fechaRegistro = request.getParameter("txtFechaRegistro");
-                    
+
                     Part archivoAct = request.getPart("txtFoto");
                     InputStream ist = archivoAct.getInputStream();
-                    
+
                     Usuario.Cargo cargo = Usuario.Cargo.valueOf(request.getParameter("txtCargo"));
-                    
+
                     usuario.setCorreoUsuario(correoUsu);
                     usuario.setContrasenaUsuario(contrasenaUsu);
                     usuario.setFechaRegistro(Date.valueOf(fechaRegistro));
                     usuario.setFoto(ist);
                     usuario.setCargo(cargo);
                     usuario.setCodigoUsuario(codUsuario);
-                    
+
                     usuarioDao.actualizar(usuario);
                     request.getRequestDispatcher("Controlador?menu=Usuario&accion=Listar").forward(request, response);
-                break;
-                
+                    break;
+
                 case "Eliminar":
                     codUsuario = Integer.parseInt(request.getParameter("codigoUsuario"));
                     usuarioDao.eliminar(codUsuario);
                     request.getRequestDispatcher("Controlador?menu=Usuario&accion=Listar").forward(request, response);
-                break;
+                    break;
             }
-            
+
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR
                 request.setAttribute("jspFinal", "Controlador?menu=Usuario&accion=Listar");
@@ -410,7 +410,7 @@ public class Controlador extends HttpServlet {
                     cliente.setNitCliente(nitCliente);
                     cliente.setEstado(estadoCliente);
                     cliente.setCodigoUsuario(usuario);
-                    clienteDao.Agregar(cliente);
+                    clienteDao.agregar(cliente);
                     request.getRequestDispatcher("Controlador?menu=Cliente&accion=Listar").forward(request, response);
 
                     break;
@@ -480,7 +480,7 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Pedido")) {
-            
+
             switch (accion) {
                 case "Listar":
                     request.setAttribute("pedidos", pedidoDao.listar());
@@ -496,8 +496,8 @@ public class Controlador extends HttpServlet {
                     Pedido.Estado estado = Pedido.Estado.valueOf(request.getParameter("txtEstado"));
                     int sucursal = Integer.parseInt(request.getParameter("txtCodigoSucursal"));
                     int cliente = Integer.parseInt(request.getParameter("txtCodigoCliente"));
-                    
-                    pedido.setFechaCreacion(fechaCreacion); 
+
+                    pedido.setFechaCreacion(fechaCreacion);
                     pedido.setHoraCreacion(horaCreacion);
                     pedido.setFechaProgramado(fechaProgramado);
                     pedido.setHoraProgramado(horaProgramado);
@@ -525,7 +525,7 @@ public class Controlador extends HttpServlet {
                     Pedido.TipoPedido tipoPedido2 = Pedido.TipoPedido.valueOf(request.getParameter("txtTipoPedido"));
                     Pedido.Estado estado2 = Pedido.Estado.valueOf(request.getParameter("txtEstado"));
 
-                    pedido.setFechaCreacion(fechaCreacion2); 
+                    pedido.setFechaCreacion(fechaCreacion2);
                     pedido.setHoraCreacion(horaCreacion2);
                     pedido.setFechaProgramado(fechaProgramado2);
                     pedido.setHoraProgramado(horaProgramado2);
@@ -548,7 +548,7 @@ public class Controlador extends HttpServlet {
                     int codigoPedido = Integer.parseInt(request.getParameter("txtCodigoPedido"));
                     int codigoCombo = Integer.parseInt(request.getParameter("txtCodigoCombo"));
                     int codigoPromocion = Integer.parseInt(request.getParameter("txtCodigoPromocion"));
-                    
+
                     detallePedido.setInstrucciones(instrucciones);
                     detallePedido.setCantidad(cantidad);
                     detallePedido.setSubTotal(subTotal);
@@ -556,7 +556,7 @@ public class Controlador extends HttpServlet {
                     detallePedido.setCodigoCombo(codigoCombo);
                     detallePedido.setCodigoPromocion(codigoPromocion);
                     detallePedidoDao.agregar(detallePedido);
-                    
+
                     request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
                     break;
                 case "Editar2":
@@ -569,7 +569,7 @@ public class Controlador extends HttpServlet {
                     String instrucciones2 = request.getParameter("txtInstrucciones");
                     int cantidad2 = Integer.parseInt(request.getParameter("txtCantidad"));
                     Double subTotal2 = Double.parseDouble(request.getParameter("txtSubTotal"));
-                    
+
                     detallePedido.setInstrucciones(instrucciones2);
                     detallePedido.setCantidad(cantidad2);
                     detallePedido.setSubTotal(subTotal2);

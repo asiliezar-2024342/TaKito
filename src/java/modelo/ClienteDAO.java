@@ -48,7 +48,7 @@ public class ClienteDAO {
 
 
     /* Agregar Cliente*/
-    public int Agregar(Cliente cliente) {
+    public int agregar(Cliente cliente) {
         String sql = "Insert Into cliente (primerNombreCliente, segundoNombreCliente, "
                 + "primerApellidoCliente, segundoApellidoCliente, telefonoCliente, "
                 + "direccionCliente, sexoCliente, nitCliente, estado, "
@@ -165,8 +165,7 @@ public class ClienteDAO {
         String sql = "select * from cliente where codigoUsuario = ? and estado = 'Activo'";
         Cliente cl = null;
         try {
-            con = cn.getConexion();
-            ps = con.prepareStatement(sql);
+            ps = cn.prepareStatement(sql);
             ps.setInt(1, codigoUsuario);
             rs = ps.executeQuery();
             if (rs.next()) {
