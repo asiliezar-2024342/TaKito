@@ -184,6 +184,14 @@ public class Controlador extends HttpServlet {
                         cliente.setCodigoUsuario(usuarioDao.obtenerCodigo(correo).getCodigoUsuario());
 
                         clienteDao.agregar(cliente);
+                        bitacoraDao.agregarBitacora(
+                            "Se agregó un nuevo usuario con correo: " + correo, 
+                                "Usuario",                                        
+                                "Crear",                                           
+                                usuarioActual.getCodigoUsuario(),                         
+                                null,                                              
+                                correo                                           
+                            );
 
                         request.getRequestDispatcher("index.jsp").forward(request, response);
                     }
@@ -200,6 +208,14 @@ public class Controlador extends HttpServlet {
                     usuario.setFoto(is);
 
                     usuarioDao.agregar(usuario);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó usuario CRUD con correo: " + correoCrud,
+                        "Usuario",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        correoCrud
+                    );
                     request.getRequestDispatcher("Controlador?menu=Usuario&accion=Listar").forward(request, response);
                     break;
 
@@ -228,12 +244,28 @@ public class Controlador extends HttpServlet {
                     usuario.setCodigoUsuario(codUsuario);
 
                     usuarioDao.actualizar(usuario);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó el usuario con código: " + codUsuario,
+                        "Usuario",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        correoUsu
+                    );
                     request.getRequestDispatcher("Controlador?menu=Usuario&accion=Listar").forward(request, response);
                     break;
 
                 case "Eliminar":
                     codUsuario = Integer.parseInt(request.getParameter("codigoUsuario"));
                     usuarioDao.eliminar(codUsuario);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó el usuario con código: " + codUsuario,
+                        "Usuario",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codUsuario),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Usuario&accion=Listar").forward(request, response);
                     break;
             }
@@ -269,6 +301,14 @@ public class Controlador extends HttpServlet {
                     resena.setCodigoSucursal(sucursal);
                     resena.setCodigoUsuario(usuario);
                     resenaDao.agregar(resena);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó una nueva reseña con título: " + titulo,
+                        "Resena",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        titulo
+                    );
                     request.getRequestDispatcher("Controlador?menu=Resena&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
@@ -296,11 +336,27 @@ public class Controlador extends HttpServlet {
                     resena.setCodigoUsuario(usuarioA);
                     resena.setCodigoResena(codResena);
                     resenaDao.actualizar(resena);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó la reseña con código: " + codResena,
+                        "Resena",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        tituloA
+                    );
                     request.getRequestDispatcher("Controlador?menu=Resena&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
                     codResena = Integer.parseInt(request.getParameter("codigoResena"));
                     resenaDao.eliminar(codResena);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó la reseña con código: " + codResena,
+                        "Resena",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codResena),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Resena&accion=Listar").forward(request, response);
                     break;
             }
@@ -330,6 +386,14 @@ public class Controlador extends HttpServlet {
                     producto.setExistencias(existencia);
                     producto.setEstado(Producto.Estado.valueOf(est));
                     productoDao.agregar(producto);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó un nuevo producto con nombre: " + nombre,
+                        "Producto",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        nombre
+                    );
                     request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
@@ -351,11 +415,27 @@ public class Controlador extends HttpServlet {
                     producto.setEstado(Producto.Estado.valueOf(esta));
                     producto.setCodigoProducto(codProducto);
                     productoDao.actualizar(producto);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó el producto con código: " + codProducto,
+                        "Producto",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        nombrePro
+                    );
                     request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
                     codProducto = Integer.parseInt(request.getParameter("codigoProducto"));
                     productoDao.eliminar(codProducto);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó el producto con código: " + codProducto,
+                        "Producto",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codProducto),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
                     break;
             }
@@ -510,6 +590,14 @@ public class Controlador extends HttpServlet {
                     cliente.setEstado(estadoCliente);
                     cliente.setCodigoUsuario(usuario);
                     clienteDao.agregar(cliente);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó un nuevo cliente con NIT: " + nitCliente,
+                        "Cliente",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        nitCliente
+                    );
                     request.getRequestDispatcher("Controlador?menu=Cliente&accion=Listar").forward(request, response);
 
                     break;
@@ -547,12 +635,28 @@ public class Controlador extends HttpServlet {
                     cliente.setCodigoUsuario(usuarioA);
                     cliente.setCodigoCliente(codCliente);
                     clienteDao.actualizar(cliente);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó el cliente con código: " + codCliente,
+                        "Cliente",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        nitClienteA
+                    );
                     request.getRequestDispatcher("Controlador?menu=Cliente&accion=Listar").forward(request, response);
 
                     break;
                 case "Eliminar":
                     codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
                     clienteDao.eleminar(codCliente);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó el cliente con código: " + codCliente,
+                        "Cliente",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codCliente),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Cliente&accion=Listar").forward(request, response);
                     break;
 
@@ -606,6 +710,14 @@ public class Controlador extends HttpServlet {
                     pedido.setCodigoSucursal(sucursal);
                     pedido.setCodigoCliente(cliente);
                     pedidoDao.agregar(pedido);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó un nuevo pedido con ubicación: " + ubicacion,
+                        "Pedido",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        ubicacion
+                    );
                     request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
                     break;
 
@@ -633,11 +745,27 @@ public class Controlador extends HttpServlet {
                     pedido.setEstado(estado2);
                     pedido.setCodigoPedido(codPedido);
                     pedidoDao.actualizar(pedido);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó el pedido con código: " + codPedido,
+                        "Pedido",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        ubicacion2
+                    );
                     request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
                     codPedido = Integer.parseInt(request.getParameter("codigoPedido"));
                     pedidoDao.eliminar(codPedido);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó el pedido con código: " + codPedido,
+                        "Pedido",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codPedido),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
                     break;
                 case "Agregar2":
@@ -655,7 +783,14 @@ public class Controlador extends HttpServlet {
                     detallePedido.setCodigoCombo(codigoCombo);
                     detallePedido.setCodigoPromocion(codigoPromocion);
                     detallePedidoDao.agregar(detallePedido);
-
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó detalle del pedido con instrucciones: " + instrucciones,
+                        "DetallePedido",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        instrucciones
+                    );
                     request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
                     break;
                 case "Editar2":
@@ -674,11 +809,27 @@ public class Controlador extends HttpServlet {
                     detallePedido.setSubTotal(subTotal2);
                     detallePedido.setCodigoDetallePedido(codDetallePedido);
                     detallePedidoDao.actualizar(detallePedido);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó detalle del pedido con código: " + codDetallePedido,
+                        "DetallePedido",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        instrucciones2
+                    );
                     request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar2":
                     codDetallePedido = Integer.parseInt(request.getParameter("codigoDetallePedido"));
                     detallePedidoDao.eliminar(codDetallePedido);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó detalle del pedido con código: " + codDetallePedido,
+                        "DetallePedido",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codDetallePedido),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Pedido&accion=Listar").forward(request, response);
                     break;
             }
@@ -736,6 +887,14 @@ public class Controlador extends HttpServlet {
                     empleado.setCodigoSucursal(codigoSucursal);
                     empleado.setCodigoUsuario(codigoUsuario);
                     empleadoDao.agregar(empleado);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó un nuevo empleado con correo: " + correo,
+                        "Empleado",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        correo
+                    );
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
 
@@ -772,12 +931,28 @@ public class Controlador extends HttpServlet {
                     empleado.setCodigoUsuario(usu);
                     empleado.setCodigoEmpleado(codEmpleado);
                     empleadoDao.actualizar(empleado);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó el empleado con código: " + codEmpleado,
+                        "Empleado",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        cor
+                    );
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
 
                 case "Eliminar":
                     codEmpleado = Integer.parseInt(request.getParameter("codigoEmpleado"));
                     empleadoDao.eliminar(codEmpleado);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó el empleado con código: " + codEmpleado,
+                        "Empleado",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codEmpleado),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
             }
@@ -864,6 +1039,14 @@ public class Controlador extends HttpServlet {
                     factura.setEstado(estado);
 
                     facturaDao.agregar(factura);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó una nueva factura con total: " + totalFactura,
+                        "Factura",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        String.valueOf(totalFactura)
+                    );
                     request.getRequestDispatcher("Controlador?menu=Factura&accion=Listar").forward(request, response);
                     break;
 
@@ -895,12 +1078,29 @@ public class Controlador extends HttpServlet {
                     factura.setEstado(estado2);
 
                     facturaDao.agregar(factura);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó la factura con código: " + codFactura,
+                        "Factura",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        String.valueOf(totalFactura2)
+                    );
+
                     request.getRequestDispatcher("Controlador?menu=Factura&accion=Listar").forward(request, response);
                     break;
 
                 case "Eliminar":
                     codFactura = Integer.parseInt(request.getParameter("codigoFactura"));
                     facturaDao.eliminar(codFactura);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó la factura con código: " + codFactura,
+                        "Factura",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codFactura),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Factura&accion=Listar").forward(request, response);
                     break;
             }
@@ -935,6 +1135,14 @@ public class Controlador extends HttpServlet {
                     detalleCombo.setCantidad(cantidad);
                     detalleCombo.setCodigoCombo(combo);
                     detalleCombo.setCodigoProducto(producto);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó un detalle de combo con cantidad: " + cantidad,
+                        "DetalleCombo",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        String.valueOf(cantidad)
+                    );
                     request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
@@ -948,11 +1156,27 @@ public class Controlador extends HttpServlet {
                     detalleCombo.setCantidad(cantidadA);
                     detalleCombo.setCodigoDetalleCombo(codDetalleCombo);
                     detalleComboDao.actualizar(detalleCombo);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó el detalle de combo con código: " + codDetalleCombo,
+                        "DetalleCombo",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        String.valueOf(cantidadA)
+                    );
                     request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
                     codDetalleCombo = Integer.parseInt(request.getParameter("codigoDetalleCombo"));
                     detalleComboDao.eliminar(codDetalleCombo);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó el detalle de combo con código: " + codDetalleCombo,
+                        "DetalleCombo",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codDetalleCombo),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=DetalleCombo&accion=Listar").forward(request, response);
                     break;
             }
@@ -986,6 +1210,14 @@ public class Controlador extends HttpServlet {
                     combo.setEstado(estado);
                     combo.setFoto(foto);
                     comboDao.agregar(combo);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó un nuevo combo: " + nombreCombo,
+                        "Combo",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        nombreCombo
+                    );
                     request.getRequestDispatcher("Controlador?menu=Combo&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
@@ -1010,11 +1242,27 @@ public class Controlador extends HttpServlet {
                     combo.setFoto(fotoA);
                     combo.setCodigoCombo(codCombo);
                     comboDao.actualizar(combo);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó el combo con código: " + codCombo,
+                        "Combo",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        nombreA
+                    );
                     request.getRequestDispatcher("Controlador?menu=Combo&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
                     codCombo = Integer.parseInt(request.getParameter("codigoCombo"));
                     comboDao.eliminar(codCombo);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó el combo con código: " + codCombo,
+                        "Combo",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codCombo),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu&accion=Listar").forward(request, response);
                     break;
             }
@@ -1073,6 +1321,14 @@ public class Controlador extends HttpServlet {
                     promocion.setFechaFin(fin);
                     promocion.setEstado(Promocion.Estado.valueOf(estado));
                     promocionDao.agregar(promocion);
+                      bitacoraDao.agregarBitacora(
+                        "Se agregó la promoción: " + nombre,
+                        "Promocion",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        nombre
+                    );
                     request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
@@ -1096,11 +1352,27 @@ public class Controlador extends HttpServlet {
                     promocion.setEstado(Promocion.Estado.valueOf(estado2));
                     promocion.setCodigoPromocion(codPromocion);
                     promocionDao.actualizar(promocion);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó la promoción con código: " + codPromocion,
+                        "Promocion",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        nombre2
+                    );
                     request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar":
                     codPromocion = Integer.parseInt(request.getParameter("codigoPromocion"));
                     promocionDao.eliminar(codPromocion);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó la promoción con código: " + codPromocion,
+                        "Promocion",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codPromocion),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
                     break;
                 case "Agregar2":
@@ -1111,6 +1383,14 @@ public class Controlador extends HttpServlet {
                     detallePromocion.setCodigoPromocion(codigoPromocion);
                     detallePromocion.setCodigoCombo(codigoCombo);
                     detallePromocionDao.agregar(detallePromocion);
+                    bitacoraDao.agregarBitacora(
+                        "Se agregó detalle de promoción con código promoción: " + codigoPromocion,
+                        "DetallePromocion",
+                        "Crear",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        observaciones
+                    );
                     request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
                     break;
                 case "Editar2":
@@ -1128,11 +1408,27 @@ public class Controlador extends HttpServlet {
                     detallePromocion.setCodigoCombo(codigoCombo2);
                     detallePromocion.setCodigoDetallePromocion(codDetallePromocion);
                     detallePromocionDao.actualizar(detallePromocion);
+                    bitacoraDao.agregarBitacora(
+                        "Se actualizó detalle de promoción con código detalle: " + codDetallePromocion,
+                        "DetallePromocion",
+                        "Actualizar",
+                        usuarioActual.getCodigoUsuario(),
+                        null,
+                        observaciones2
+                    );
                     request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
                     break;
                 case "Eliminar2":
                     codDetallePromocion = Integer.parseInt(request.getParameter("codigoDetallePromocion"));
                     detallePromocionDao.eliminar(codDetallePromocion);
+                    bitacoraDao.agregarBitacora(
+                        "Se eliminó detalle de promoción con código detalle: " + codDetallePromocion,
+                        "DetallePromocion",
+                        "Eliminar",
+                        usuarioActual.getCodigoUsuario(),
+                        String.valueOf(codDetallePromocion),
+                        null
+                    );
                     request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
                     break;
             }
