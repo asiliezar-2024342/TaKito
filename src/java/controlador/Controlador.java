@@ -374,6 +374,13 @@ public class Controlador extends HttpServlet {
                 request.getRequestDispatcher("Producto.jsp").forward(request, response);
             }
         } else if (menu.equals("Bitacora")) {
+            HttpSession usuarioSesion = request.getSession();
+            usuarioActual = (Usuario) usuarioSesion.getAttribute("UsuarioActual");
+            String cargo = usuarioActual.getCargo().name();
+            if (cargo == null || !"Administrativo".equalsIgnoreCase(cargo)) {
+                request.getRequestDispatcher("PrincipalContenido.jsp").forward(request, response);
+                return;
+            }
             switch (accion) {
                 case "Listar":
                     List listaBitacora = bitacoraDao.listar();
