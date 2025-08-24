@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="styles/Principal.css"/> 
     </head>
     <body>
+        <input class="cart__toggle" type="checkbox" id="cart-toggle" />
         <!-- HEADER -->
         <header>
             <section>
@@ -45,29 +46,6 @@
                             <a href="#"></a>
                         </div>
                     </div>
-                    
-                    <button class="header-buttons__btn header-buttons__btn--cart" title="Carrito">
-                        <img class="header-buttons__icon" src="./img/carrito.png" alt="Carrito" />
-                        <span class="header-buttons__badge">1</span>
-                    </button>
-                </div>
-    <head>
-        <meta charset="UTF-8" />
-        <title>Ta'Kabrón</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="styles/Principal.css"/> 
-    </head>
-    <body>
-        <input class="cart__toggle" type="checkbox" id="cart-toggle" />
-        
-        <!-- HEADER -->
-        <header>
-            <section>
-                <div class="header-buttons">
-                    <button class="header-buttons__btn" title="Usuario">
-                        <img class="header-buttons__icon" src="./img/usuario.png" alt="Usuario" />
-                        <span class="header-buttons__user">juan@example.com</span>
-                    </button>
 
                     <label for="cart-toggle" class="header-buttons__btn header-buttons__btn--cart" title="Carrito">
                         <img class="header-buttons__icon" src="./img/carrito.png" alt="Carrito" />
@@ -84,41 +62,10 @@
                             </c:choose>
                         </span>
                     </label>
-                </div>
-    <head>
-        <meta charset="UTF-8" />
-        <title>Ta'Kabrón</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="styles/Principal.css"/> 
-    </head>
-    <body>
-        <input class="cart__toggle" type="checkbox" id="cart-toggle" />
-        
-        <!-- HEADER -->
-        <header>
-            <section>
-                <div class="header-buttons">
-                    <button class="header-buttons__btn" title="Usuario">
-                        <img class="header-buttons__icon" src="./img/usuario.png" alt="Usuario" />
-                        <span class="header-buttons__user">juan@example.com</span>
-                    </button>
 
-                    <label for="cart-toggle" class="header-buttons__btn header-buttons__btn--cart" title="Carrito">
-                        <img class="header-buttons__icon" src="./img/carrito.png" alt="Carrito" />
-                        <span class="header-buttons__badge">
-                            <c:choose>
-                                <c:when test="${sessionScope.carrito != null}">
-                                    <c:set var="totalItems" value="0" />
-                                    <c:forEach var="item" items="${sessionScope.carrito}">
-                                        <c:set var="totalItems" value="${totalItems + item.value.cantidad}" />
-                                    </c:forEach>
-                                    ${totalItems}
-                                </c:when>
-                                <c:otherwise>0</c:otherwise>
-                            </c:choose>
-                        </span>
-                    </label>
                 </div>
+
+
 
                 <div class="menu">
                     <input class="menu__toggle" type="checkbox" id="menu-toggle" />
@@ -268,7 +215,7 @@
         <div class="frame" style="height: 100dvh; width: 100dvw;">
             <iframe style="height: 100%; width: 100%; box-sizing: border-box; border:none;" src="PrincipalContenido.jsp" class="frame__iframe" name="myFrame"></iframe>
         </div>
-        
+
         <footer class="site-footer">
             <div class="footer-container">
                 <div class="footer-logo">
@@ -276,10 +223,10 @@
                     <span class="site-name">Ta'Kabron</span>
                 </div>
                 <nav class="footer-links">
-                  <a href="#">Acerca de</a>
-                  <a href="#">Menú</a>
-                  <a href="#">Contacto</a>
-                  <a href="#">FAQ</a>
+                    <a href="#">Acerca de</a>
+                    <a href="#">Menú</a>
+                    <a href="#">Contacto</a>
+                    <a href="#">FAQ</a>
                 </nav>
             </div>
             <div class="footer-bottom">

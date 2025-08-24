@@ -16,21 +16,21 @@ import java.util.List;
  * @author informatica
  */
 public class EmpleadoDAO {
-    
+
     Conexion cn = Conexion.getInstance();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
     int resp;
 
-    public List listar(){
+    public List listar() {
         String sql = "select * from Empleado where estado = 'Activo'";
         List<Empleado> listaEmpleado = new ArrayList<>();
         try {
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Empleado emp = new Empleado();
                 emp.setCodigoEmpleado(rs.getInt("codigoEmpleado"));
                 emp.setPrimerNombreEmpleado(rs.getString("primerNombreEmpleado"));
@@ -45,13 +45,14 @@ public class EmpleadoDAO {
                 emp.setCodigoSucursal(rs.getInt("codigoSucursal"));
                 emp.setCodigoUsuario(rs.getInt("codigoUsuario"));
                 listaEmpleado.add(emp);
-            } 
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return listaEmpleado;
     }
-    public int agregar(Empleado emp){
+
+    public int agregar(Empleado emp) {
         String sql = "insert into Empleado (primerNombreEmpleado, segundoNombreEmpleado, "
                 + "primerApellidoEmpleado, segundoApellidoEmpleado, telefonoEmpleado, "
                 + "correoEmpleado, direccionEmpleado, estado, sexoEmpleado, codigoSucursal, "
@@ -76,7 +77,8 @@ public class EmpleadoDAO {
         }
         return resp;
     }
-    public Empleado buscar(int codigo){
+
+    public Empleado buscar(int codigo) {
         Empleado emp = new Empleado();
         String sql = "Select * from Empleado where codigoEmpleado = ? and estado = 'Activo'";
         try {
@@ -103,7 +105,7 @@ public class EmpleadoDAO {
         }
         return emp;
     }
-    
+
     public List<Empleado> buscarEmpleadosPorSucursal(int codigoS) {
         List<Empleado> empleados = new ArrayList<>();
         String sql = "select * from Empleado where codigoSucursal = ?";
@@ -112,7 +114,7 @@ public class EmpleadoDAO {
             ps = con.prepareStatement(sql);
             ps.setInt(1, codigoS);
             rs = ps.executeQuery();
-            while (rs.next()) { 
+            while (rs.next()) {
                 Empleado emp = new Empleado();
                 emp.setCodigoEmpleado(rs.getInt("codigoEmpleado"));
                 emp.setPrimerNombreEmpleado(rs.getString("primerNombreEmpleado"));
@@ -133,35 +135,35 @@ public class EmpleadoDAO {
         }
         return empleados;
     }
-    
-    public List<Empleado.Facturacion> facturacionEmpleadoPorSucursal(int codigoS){
+
+    public List<Empleado.Facturacion> facturacionEmpleadoPorSucursal(int codigoS) {
         List<Empleado.Facturacion> empleadoFacturacion = new ArrayList<>();
         String sql = "select e.codigoEmpleado, concat(e.primerNombreEmpleado, ' ', e.primerApellidoEmpleado)"
-        + " as nombreCompleto, sum(f.totalFactura) as totalFacturado from Empleado e"
-        + " left join Factura f on e.codigoEmpleado = f.codigoEmpleado where"
-        + " e.codigoSucursal = ? group by e.codigoEmpleado order by totalFacturado desc";
+                + " as nombreCompleto, sum(f.totalFactura) as totalFacturado from Empleado e"
+                + " left join Factura f on e.codigoEmpleado = f.codigoEmpleado where"
+                + " e.codigoSucursal = ? group by e.codigoEmpleado order by totalFacturado desc";
         try {
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
             ps.setInt(1, codigoS);
             rs = ps.executeQuery();
-            while(rs.next()){
-            Empleado.Facturacion fac = new Empleado.Facturacion();
-            fac.setCodigoEmpleado(rs.getInt("codigoEmpleado"));
-            fac.setNombreCompleto(rs.getString("nombreCompleto"));
-            fac.setTotalFacturado(rs.getDouble("totalFacturado"));
-            empleadoFacturacion.add(fac);
+            while (rs.next()) {
+                Empleado.Facturacion fac = new Empleado.Facturacion();
+                fac.setCodigoEmpleado(rs.getInt("codigoEmpleado"));
+                fac.setNombreCompleto(rs.getString("nombreCompleto"));
+                fac.setTotalFacturado(rs.getDouble("totalFacturado"));
+                empleadoFacturacion.add(fac);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return empleadoFacturacion;
     }
-    
-    public int actualizar(Empleado emp){
+
+    public int actualizar(Empleado emp) {
         String sql = "update empleado set primerNombreEmpleado = ?, segundoNombreEmpleado = ?, primerApellidoEmpleado = ?, "
-        + "segundoApellidoEmpleado = ?, telefonoEmpleado = ?, correoEmpleado = ?, direccionEmpleado = ?, "
-        + "estado = ?, sexoEmpleado = ?, codigoSucursal = ?, codigoUsuario = ? where codigoEmpleado = ?";
+                + "segundoApellidoEmpleado = ?, telefonoEmpleado = ?, correoEmpleado = ?, direccionEmpleado = ?, "
+                + "estado = ?, sexoEmpleado = ?, codigoSucursal = ?, codigoUsuario = ? where codigoEmpleado = ?";
         try {
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
@@ -183,7 +185,8 @@ public class EmpleadoDAO {
         }
         return resp;
     }
-    public void eliminar(int codigo){
+
+    public void eliminar(int codigo) {
         String sql = "update empleado set estado = 'Inactivo' where codigoEmpleado = ?";
         try {
             con = cn.getConexion();
@@ -194,5 +197,34 @@ public class EmpleadoDAO {
             e.printStackTrace();
         }
     }
-    
+
+    /* Buscar nombre del cliente usando codigoUsuario */
+    public Empleado buscarUsuario(int codigoUsuario) {
+        Empleado emp = new Empleado();
+        String sql = "Select * from Empleado where codigoUsuario = ? and estado = 'Activo'";
+        try {
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, codigoUsuario);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                emp.setCodigoEmpleado(rs.getInt("codigoEmpleado"));
+                emp.setPrimerNombreEmpleado(rs.getString("primerNombreEmpleado"));
+                emp.setSegundoNombreEmpleado(rs.getString("segundoNombreEmpleado"));
+                emp.setPrimerApellidoEmpleado(rs.getString("primerApellidoEmpleado"));
+                emp.setSegundoApellidoEmpleado(rs.getString("segundoApellidoEmpleado"));
+                emp.setTelefonoEmpleado(rs.getString("telefonoEmpleado"));
+                emp.setCorreoEmpleado(rs.getString("correoEmpleado"));
+                emp.setDireccionEmpleado(rs.getString("direccionEmpleado"));
+                emp.setEstado(Empleado.Estado.valueOf(rs.getString("estado")));
+                emp.setSexoEmpleado(Empleado.SexoEmpleado.valueOf(rs.getString("sexoEmpleado")));
+                emp.setCodigoSucursal(rs.getInt("codigoSucursal"));
+                emp.setCodigoUsuario(rs.getInt("codigoUsuario"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return emp;
+    }
+
 }
