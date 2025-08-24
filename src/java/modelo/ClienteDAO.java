@@ -159,4 +159,33 @@ public class ClienteDAO {
         return lista;
     }
 
+    
+    /* Buscar nombre del cliente usando codigoUsuario */
+    public Cliente buscarUsuario(int codigoUsuario) {
+        String sql = "select * from cliente where codigoUsuario = ? and estado = 'Activo'";
+        Cliente cl = null;
+        try {
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, codigoUsuario);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                cl = new Cliente();
+                cl.setCodigoCliente(rs.getInt("codigoCliente"));
+                cl.setPrimerNombreCliente(rs.getString("primerNombreCliente"));
+                cl.setSegundoNombreCliente(rs.getString("segundoNombreCliente"));
+                cl.setPrimerApellidoCliente(rs.getString("primerApellidoCliente"));
+                cl.setSegundoApellidoCliente(rs.getString("segundoApellidoCliente"));
+                cl.setTelefonoCliente(rs.getString("telefonoCliente"));
+                cl.setDireccionCliente(rs.getString("direccionCliente"));
+                cl.setSexoCliente(Cliente.SexoCliente.valueOf(rs.getString("sexoCliente")));
+                cl.setNitCliente(rs.getString("nitCliente"));
+                cl.setEstado(Cliente.EstadoCliente.valueOf(rs.getString("estado")));
+                cl.setCodigoUsuario(rs.getInt("codigoUsuario"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cl;
+    }
 }
