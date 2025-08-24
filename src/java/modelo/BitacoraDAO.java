@@ -275,4 +275,26 @@ public class BitacoraDAO {
 
         return listaBitacora;
     }
+    public void agregarBitacora(String mensaje, String tablaModificada, String accion, int codigoUsuario, String datoAnterior, String datoNuevo) {
+        String sql = "INSERT INTO Bitacora (mensaje, tablaModificada, fecha, hora, datoAnterior, datoNuevo, accion, codigoUsuario) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            con = cn.getConexion();
+            ps = con.prepareStatement(sql);
+
+            ps.setString(1, mensaje);
+            ps.setString(2, tablaModificada);
+            ps.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+            ps.setTime(4, new java.sql.Time(System.currentTimeMillis()));
+            ps.setString(5, datoAnterior);
+            ps.setString(6, datoNuevo);
+            ps.setString(7, accion);
+            ps.setInt(8, codigoUsuario);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
