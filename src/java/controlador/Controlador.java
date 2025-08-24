@@ -1,11 +1,16 @@
 package controlador;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.DetallePromocion;
+import modelo.DetallePromocionDAO;
+import modelo.Promocion;
+import modelo.PromocionDAO;
 import modelo.Resena;
 import modelo.ResenaDAO;
 import modelo.Usuario;
@@ -17,7 +22,13 @@ public class Controlador extends HttpServlet {
     UsuarioDAO usuarioDao = new UsuarioDAO();
     Resena resena = new Resena();
     ResenaDAO resenaDao = new ResenaDAO();
+    Promocion promocion = new Promocion();
+    PromocionDAO promocionDao = new PromocionDAO();
+    DetallePromocion detallePromocion = new DetallePromocion();
+    DetallePromocionDAO detallePromocionDao = new DetallePromocionDAO();
     int codResena;
+    int codPromocion;
+    int codDetallePromocion;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -104,7 +115,7 @@ public class Controlador extends HttpServlet {
                     Resena.Tipo tipoA = Resena.Tipo.valueOf(request.getParameter("txtTipo"));
                     String tituloA = request.getParameter("txtTitulo");
                     String comentarioA = request.getParameter("txtComentario");
-                    
+
                     int calificacionA = Integer.parseInt(request.getParameter("txtCalificacion"));
                     Resena.Estado estadoA = Resena.Estado.valueOf(request.getParameter("txtEstado"));
                     int sucursalA = Integer.parseInt(request.getParameter("txtSucursal"));
@@ -137,58 +148,222 @@ public class Controlador extends HttpServlet {
 
         } else if (menu.equals("Producto")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Producto.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Producto&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Producto.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Bitacora")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Bitacora.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Bitacora&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Bitacora.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Cliente")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Cliente.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Cliente&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Cliente.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Pedido")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Pedido.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Pedido&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Pedido.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Empleado")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Empleado.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Empleado&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Empleado.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Sucursal")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Sucursal.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Sucursal&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Sucursal.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Factura")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Factura.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Factura&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Factura.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Combo")) {
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Combo.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Combo&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Combo.jsp").forward(request, response);
+            }
 
         } else if (menu.equals("Promocion")) {
+            
+            switch (accion) {
+                case "Listar":
+                    request.setAttribute("Promociones", promocionDao.listar());
+                    request.setAttribute("DetallesPromociones", detallePromocionDao.listar());
+                    request.getRequestDispatcher("Promocion.jsp").forward(request, response);
+                    break;
+                //Solo tienen que añadir estas tres acciones al controlador con los datos que les corresponde a cada uno: Solamente cambian "Promocion" por su entidad.            
+                case "ConfirmarAgregar":
+                    request.setAttribute("accionReal", "Agregar");
+                    request.setAttribute("menu", "Promocion");
+                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
+                    break;
+                case "ConfirmarActualizar":
+                    request.setAttribute("accionReal", "Actualizar");
+                    request.setAttribute("menu", "Promocion");
+                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
+                    break;
+                case "ConfirmarEliminar":
+                    codPromocion = Integer.parseInt(request.getParameter("codigoPromocion"));
+                    request.setAttribute("accionReal", "Eliminar");
+                    request.setAttribute("codigoPromocion", codPromocion);
+                    request.setAttribute("menu", "Promocion");
+                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
+                    break;
+                case "ConfirmarEliminar2":
+                    codDetallePromocion = Integer.parseInt(request.getParameter("codigoDetallePromocion"));
+                    request.setAttribute("accionReal", "Eliminar");
+                    request.setAttribute("codigoDetallePromocion", codDetallePromocion);
+                    request.setAttribute("menu", "Promocion");
+                    request.getRequestDispatcher("ConfirmarAccion.jsp").forward(request, response);
+                    break;
+                case "Agregar":
+                    String nombre = request.getParameter("txtNombrePromocion");
+                    String descripcion = request.getParameter("txtDescripcionPromocion");
+                    double descuento = Double.parseDouble(request.getParameter("txtDescuentoPromocion"));
+                    Date inicio = Date.valueOf(request.getParameter("txtFechaInicio"));
+                    Date fin = Date.valueOf(request.getParameter("txtFechaFin"));
+                    String estado = request.getParameter("txtEstado");
+                    promocion.setNombrePromocion(nombre);
+                    promocion.setDescripcionPromocion(descripcion);
+                    promocion.setDescuentoPromocion(descuento);
+                    promocion.setFechaInicio(inicio);
+                    promocion.setFechaFin(fin);
+                    promocion.setEstado(Promocion.Estado.valueOf(estado));
+                    promocionDao.agregar(promocion);
+                    request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    codPromocion = Integer.parseInt(request.getParameter("codigoPromocion"));
+                    Promocion p = promocionDao.buscar(codPromocion);
+                    request.setAttribute("Promocion", p);
+                    request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    String nombre2 = request.getParameter("txtNombrePromocion");
+                    String descripcion2 = request.getParameter("txtDescripcionPromocion");
+                    double descuento2 = Double.parseDouble(request.getParameter("txtDescuentoPromocion"));
+                    Date inicio2 = Date.valueOf(request.getParameter("txtFechaInicio"));
+                    Date fin2 = Date.valueOf(request.getParameter("txtFechaFin"));
+                    String estado2 = request.getParameter("txtEstado");
+                    promocion.setNombrePromocion(nombre2);
+                    promocion.setDescripcionPromocion(descripcion2);
+                    promocion.setDescuentoPromocion(descuento2);
+                    promocion.setFechaInicio(inicio2);
+                    promocion.setFechaFin(fin2);
+                    promocion.setEstado(Promocion.Estado.valueOf(estado2));
+                    promocion.setCodigoPromocion(codPromocion);
+                    promocionDao.actualizar(promocion);
+                    request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codPromocion = Integer.parseInt(request.getParameter("codigoPromocion"));
+                    promocionDao.eliminar(codPromocion);
+                    request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
+                    break;
+                case "Agregar2":
+                    String observaciones = request.getParameter("txtObservaciones");
+                    int codigoPromocion = Integer.parseInt(request.getParameter("txtCodigoPromocion"));
+                    int codigoCombo = Integer.parseInt(request.getParameter("txtCodigoCombo"));
+                    detallePromocion.setObservaciones(observaciones);
+                    detallePromocion.setCodigoPromocion(codigoPromocion);
+                    detallePromocion.setCodigoCombo(codigoCombo);
+                    detallePromocionDao.agregar(detallePromocion);
+                    request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
+                    break;
+                case "Editar2":
+                    codDetallePromocion = Integer.parseInt(request.getParameter("codigoDetallePromocion"));
+                    DetallePromocion dp = detallePromocionDao.buscar(codDetallePromocion);
+                    request.setAttribute("DetallePromocion", dp);
+                    request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar2":
+                    String observaciones2 = request.getParameter("txtObservaciones");
+                    int codigoPromocion2 = Integer.parseInt(request.getParameter("txtCodigoPromocion"));
+                    int codigoCombo2 = Integer.parseInt(request.getParameter("txtCodigoCombo"));
+                    detallePromocion.setObservaciones(observaciones2);
+                    detallePromocion.setCodigoPromocion(codigoPromocion2);
+                    detallePromocion.setCodigoCombo(codigoCombo2);
+                    detallePromocion.setCodigoDetallePromocion(codDetallePromocion);
+                    detallePromocionDao.actualizar(detallePromocion);
+                    request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar2":
+                    codDetallePromocion = Integer.parseInt(request.getParameter("codigoDetallePromocion"));
+                    detallePromocionDao.eliminar(codDetallePromocion);
+                    request.getRequestDispatcher("Controlador?menu=Promocion&accion=Listar").forward(request, response);
+                    break;
+            } 
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Promocion&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Promocion.jsp").forward(request, response);
+            }
 
-            // ANIMACIÓN DE TRANSICIÓN NO TOCAR
-            request.setAttribute("jspFinal", "Promocion.jsp");
-            request.getRequestDispatcher("Transicion.jsp").forward(request, response);
-
+        } else if (menu.equals("Promociones")) {
+            
+            switch (accion) {
+                case "Listar":
+                    List<Promocion> promocionesMasUsadas = promocionDao.listarPromocionesMasUsadas();
+                    request.setAttribute("PromocionesMasUsadas", promocionesMasUsadas);
+                    List<Promocion> promocionesActivas = promocionDao.listarPromocionesActivas();
+                    request.setAttribute("PromocionesActivas", promocionesActivas);
+                    List<Promocion> promocionesFuturas = promocionDao.listarPromocionesFuturas();
+                    request.setAttribute("PromocionesFuturas", promocionesFuturas);
+                    request.getRequestDispatcher("Promociones.jsp").forward(request, response);
+                    break;
+            }
+            if (accion.equals("Mover")) {
+                // ANIMACIÓN DE TRANSICIÓN NO TOCAR
+                request.setAttribute("jspFinal", "Controlador?menu=Promociones&accion=Listar");
+                request.getRequestDispatcher("Transicion.jsp").forward(request, response);
+            } else if (accion.equals("Listar")) {
+                request.getRequestDispatcher("Promociones.jsp").forward(request, response);
+            }
         }
     }
 
