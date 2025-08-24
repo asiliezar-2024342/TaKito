@@ -2,6 +2,7 @@ package controlador;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import modelo.Promocion;
 import modelo.PromocionDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
+import modelo.Factura;
+import modelo.FacturaDAO;
 import modelo.Resena;
 import modelo.ResenaDAO;
 import modelo.Usuario;
@@ -45,6 +48,9 @@ public class Controlador extends HttpServlet {
     Producto producto = new Producto();
     ProductoDAO productoDao = new ProductoDAO();
     int codProducto;
+    Factura factura = new Factura();
+    FacturaDAO facturaDao = new FacturaDAO();
+    int codFactura;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -496,6 +502,73 @@ public class Controlador extends HttpServlet {
             }
 
         } else if (menu.equals("Factura")) {
+            switch (accion) {
+                case "Listar":
+                    List listaFacturas = facturaDao.listar();
+                    request.setAttribute("facturas", listaFacturas);
+                    break;
+
+                case "Agregar":
+                    int codigoPedido = Integer.parseInt(request.getParameter("txtCodigoPedido"));
+                    int codigoEmpleado = Integer.parseInt(request.getParameter("txtCodigoEmpleado"));
+                    float totalFactura = Float.parseFloat(request.getParameter("txtTotalFactura"));
+                    float donacion = Float.parseFloat(request.getParameter("txtDonacion"));
+                    Date fechaFactura = new Date(System.currentTimeMillis()); 
+                    String horaFactura = java.time.LocalTime.now().toString().substring(0, 5); 
+
+                    String metodo = request.getParameter("txtMetodo");
+                    String estado = request.getParameter("txtEstado");
+
+                    factura.setCodigoPedido(codigoPedido);
+                    factura.setCodigoEmpleado(codigoEmpleado);
+                    factura.setTotalFactura(totalFactura);
+                    factura.setDonacion(donacion);
+                    factura.setFechaFactura(fechaFactura);
+                    factura.setHoraFactura(horaFactura);
+                    factura.setMetodo(metodo);
+                    factura.setEstado(estado);
+
+                    facturaDao.agregar(factura);
+                    request.getRequestDispatcher("Controlador?menu=Factura&accion=Listar").forward(request, response);
+                    break;
+
+                case "Editar":
+                    codFactura = Integer.parseInt(request.getParameter("codigoFactura"));
+                    Factura f = facturaDao.listarCodigoFactura(codFactura);
+                    request.setAttribute("factura", f);
+                    request.getRequestDispatcher("Controlador?menu=Factura&accion=Listar").forward(request, response);
+                    break;
+
+                case "Actualizar":
+                    int codigoPedido2 = Integer.parseInt(request.getParameter("txtCodigoPedido"));
+                    int codigoEmpleado2 = Integer.parseInt(request.getParameter("txtCodigoEmpleado"));
+                    float totalFactura2 = Float.parseFloat(request.getParameter("txtTotalFactura"));
+                    float donacion2 = Float.parseFloat(request.getParameter("txtDonacion"));
+                    Date fechaFactura2 = new Date(System.currentTimeMillis()); 
+                    String horaFactura2 = java.time.LocalTime.now().toString().substring(0, 5); 
+
+                    String metodo2 = request.getParameter("txtMetodo");
+                    String estado2 = request.getParameter("txtEstado");
+
+                    factura.setCodigoPedido(codigoPedido2);
+                    factura.setCodigoEmpleado(codigoEmpleado2);
+                    factura.setTotalFactura(totalFactura2);
+                    factura.setDonacion(donacion2);
+                    factura.setFechaFactura(fechaFactura2);
+                    factura.setHoraFactura(horaFactura2);
+                    factura.setMetodo(metodo2);
+                    factura.setEstado(estado2);
+
+                    facturaDao.agregar(factura);
+                    request.getRequestDispatcher("Controlador?menu=Factura&accion=Listar").forward(request, response);
+                    break;
+
+                case "Eliminar":
+                    codFactura = Integer.parseInt(request.getParameter("codigoFactura"));
+                    facturaDao.eliminar(codFactura);
+                    request.getRequestDispatcher("Controlador?menu=Factura&accion=Listar").forward(request, response);
+                    break;
+            }
 
             if (accion.equals("Mover")) {
                 // ANIMACIÓN DE TRANSICIÓN NO TOCAR

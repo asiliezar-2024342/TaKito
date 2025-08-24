@@ -16,6 +16,70 @@ body {
     overflow-x: hidden; 
 }
 
+/* Sección general */
+.quienes-somos {
+  background-color: #fff3dc;
+  padding: 60px 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Contenedor principal con dos columnas */
+.qs-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Imagen */
+.qs-imagen {
+  flex: 1 1 40%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.qs-imagen img {
+  max-width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Texto */
+.qs-texto {
+  flex: 1 1 60%;
+  padding: 20px;
+}
+.qs-texto h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #b30000;
+}
+.qs-texto p {
+  text-align: justify;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+.qs-texto .icono {
+  font-size: 30px;
+  margin-right: 8px;
+}
+
+/* Cita */
+.qs-texto blockquote {
+  margin-top: 20px;
+  padding: 15px;
+  border-left: 4px solid #b30000;
+  background: #fff0e6;
+  font-style: italic;
+}
+.qs-texto blockquote footer {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  text-align: right;
+}
+
+
 /*Css del Header*/
 
 .menu {

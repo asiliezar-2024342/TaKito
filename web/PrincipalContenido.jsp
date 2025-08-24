@@ -24,11 +24,44 @@
         </section>
 
         <!-- QUIENES SOMOS -->
-        <section>
-            <div>
-                <h2>Quiénes Somos</h2>
+        <section id="quienes-somos" class="quienes-somos">
+          <div class="qs-container">
+
+            <!-- Imagen / logo -->
+            <div class="qs-imagen">
+              <img src="img/Logo.png" alt="Logo Ta'Kabrón">
             </div>
+
+            <!-- Texto -->
+            <div class="qs-texto">
+              <h2><span class="icono"></span> ¿Quiénes Somos?</h2>
+
+              <p>
+                En <strong>Ta’Kabrón</strong> somos más que un restaurante, somos una familia apasionada 
+                por compartir la auténtica esencia de la comida mexicana. Nuestro objetivo es ofrecerte 
+                una experiencia única llena de sabor, tradición y un ambiente acogedor.
+              </p>
+
+              <p>
+                Desde nuestros inicios hemos buscado innovar en cada platillo, respetando las recetas 
+                tradicionales pero agregando nuestro toque especial que nos hace 
+                <em>¡Inconfundibles!</em>
+              </p>
+
+              <p>
+                Para nosotros lo más importante eres tú, y por eso cada día trabajamos con dedicación y 
+                entusiasmo para brindarte calidad, sabor y alegría en cada visita.
+              </p>
+
+              <blockquote>
+                <p>"No vendemos solo comida, ofrecemos momentos felices."</p>
+                <footer>Restaurante Ta’Kabrón</footer>
+              </blockquote>
+            </div>
+
+          </div>
         </section>
+
 
         <!-- MISION Y VISION -->
         <section>
